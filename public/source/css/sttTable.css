@@ -1,0 +1,9 @@
+table {
+  counter-reset: row-num;
+}
+table tbody tr {
+  counter-increment: row-num;
+}
+table tr td:nth-child(2)::before {
+    content: counter(row-num);
+}

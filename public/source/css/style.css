@@ -1,0 +1,115 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+body{
+	background: #0099CC;
+}
+li:hover{
+	background-color: rgba(192,192,192,0.37);
+}
+a:hover{
+	text-decoration: none;
+	color: #FF6715;
+}
+/*body{
+	background: url('../img/bg.jpg') center no-repeat;
+}*/
+.panel .panel-heading{
+	background-color: #337ab7;
+	color: white;
+}
+.navbar-inverse-collapse{
+	font-size: 16px;
+	background-color: #337ab7;
+}
+.navbar-header{
+	background-color: #337ab7;
+}
+.navbar-header .navbar-brand{
+	font-size: 16px;
+	color: white;
+
+}
+.navbar-inverse-collapse .navbar-nav li a{
+	color: white;
+}
+#navTuyChon .dropdown .dropdown-menu li>a{
+	color: white;
+}
+.navbar-inverse .navbar-toggle {
+	background: white;
+}
+.navbar-inverse .navbar-toggle .icon-bar{
+	background: black;
+}
+.navbar-inverse .navbar-toggle:hover{
+	background: gray;
+}
+.footer{
+	border-top: 2px solid blue;
+	border-bottom: 1px solid;
+	text-align: center;
+	background: #104c96;
+	color: white;
+	font-weight: bold;
+	
+}
+.Chucnang .panel-body ul li:hover{
+	background: none;
+}
+.Chucnang .panel-body ul li{
+	width: 100%;
+	margin-right:  50px;
+}
+.es-input{
+	width: 100%;
+	border: 1px solid #ccc;
+	height: 34px;
+	border-radius: 3px;
+	padding: 6px 12px;
+}
+.table-striped tbody {
+	background-color: rgba(192,192,192,0.37);
+}
+.table-striped thead tr{
+	background-color:#337ab7;
+	color: white;
+	font-size: 12px;
+}
+.table-striped tbody tr td{
+	border: 2px solid rgba(192,192,192,0.8);
+}
+/*.table-striped tbody tr:hover {
+	background-color: rgba(113,149,203,1);
+}*/
+.navbar-inverse-collapse .navbar-nav .dropdown .dropdown-menu{
+	background-color: #337ab7;
+	width: 160%;
+}
+.navbar-inverse-collapse .navbar-nav .dropdown:hover .dropdown-menu{
+	top: 97%;
+	display: block;
+}
+.navbar-inverse-collapse .navbar-nav .dropdown .dropdown-menu a{
+	color: white;
+  	padding: 12px 16px;
+  	text-decoration: none;
+  	display: block;
+  	font-size: 16px;
+  	border-bottom: 1px solid;
+}
+.navbar-inverse-collapse .navbar-nav .dropdown .dropdown-menu a:hover{
+	color:hsl(243, 62%, 23%);
+}
+.navbar-inverse-collapse .navbar-nav .dropdown{
+	padding: 15px 15px 15px 15px;
+	position: relative;
+  	display: inline-block;
+}
+.navbar-inverse-collapse .navbar-nav .dropdown a{
+	text-decoration: none;
+	background: none;
+}
+
