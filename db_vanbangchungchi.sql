@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 22, 2021 lúc 06:48 PM
+-- Thời gian đã tạo: Th4 13, 2021 lúc 06:27 PM
 -- Phiên bản máy phục vụ: 10.4.11-MariaDB
 -- Phiên bản PHP: 7.4.4
 
@@ -179,43 +179,12 @@ INSERT INTO `danhmuc` (`ID`, `TenDanhMuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `dotcap`
---
-
-CREATE TABLE `dotcap` (
-  `ID` int(11) NOT NULL,
-  `ID_ChungChi` int(11) NOT NULL,
-  `TenDotCap` varchar(255) NOT NULL,
-  `TGBatDau` date DEFAULT NULL,
-  `TGKetThuc` date DEFAULT NULL,
-  `TrangThai` varchar(50) NOT NULL DEFAULT 'Đang Mở'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `dotcap`
---
-
-INSERT INTO `dotcap` (`ID`, `ID_ChungChi`, `TenDotCap`, `TGBatDau`, `TGKetThuc`, `TrangThai`) VALUES
-(1, 1, 'Cấp Chứng Chỉ Tháng 9', NULL, NULL, 'Đang Mở'),
-(2, 1, 'Cấp Chứng Chỉ Tháng 10', NULL, NULL, 'Đã Đóng'),
-(3, 4, 'Cấp Chứng Chỉ Tháng 9', NULL, NULL, 'Đang Mở'),
-(4, 4, 'Cấp Chứng Chỉ Tháng 10', NULL, NULL, 'Đang Mở'),
-(5, 5, 'Cấp Chứng Chỉ Tháng 11', NULL, NULL, 'Đang Mở'),
-(6, 4, 'Cấp Chứng Chỉ Tháng 11', NULL, NULL, 'Đang Mở'),
-(7, 5, 'Cấp Chứng Chỉ Tháng 9', NULL, NULL, 'Đã Đóng'),
-(8, 4, 'Cấp Chứng Chỉ Tháng 12', NULL, NULL, 'Đang Mở'),
-(9, 5, 'Cấp Chứng Chỉ Tháng 5', NULL, NULL, 'Đang Mở');
-
--- --------------------------------------------------------
-
---
 -- Cấu trúc bảng cho bảng `giangvien`
 --
 
 CREATE TABLE `giangvien` (
   `ID` int(11) NOT NULL,
   `ID_HocVi` int(11) NOT NULL,
-  `ID_Luong` int(11) NOT NULL,
   `HoTenGV` varchar(255) NOT NULL,
   `GioiTinh` varchar(20) NOT NULL,
   `NgaySinh` date NOT NULL,
@@ -228,8 +197,8 @@ CREATE TABLE `giangvien` (
 -- Đang đổ dữ liệu cho bảng `giangvien`
 --
 
-INSERT INTO `giangvien` (`ID`, `ID_HocVi`, `ID_Luong`, `HoTenGV`, `GioiTinh`, `NgaySinh`, `DiaChi`, `SDT`, `Email`) VALUES
-(1, 3, 4, 'Nguyễn Xuân Hà Giang', 'Nữ', '1983-01-01', 'Cần Thơ', '0985379919', 'nxhgiang@ctuet.edu.vn');
+INSERT INTO `giangvien` (`ID`, `ID_HocVi`, `HoTenGV`, `GioiTinh`, `NgaySinh`, `DiaChi`, `SDT`, `Email`) VALUES
+(1, 3, 'Nguyễn Xuân Hà Giang', 'Nữ', '1983-01-01', 'Cần Thơ', '0985379919', 'nxhgiang@ctuet.edu.vn');
 
 -- --------------------------------------------------------
 
@@ -294,6 +263,10 @@ CREATE TABLE `hocviendangky` (
   `ID` int(11) NOT NULL,
   `ID_HocVien` int(11) NOT NULL,
   `ID_Lop` int(11) NOT NULL,
+  `NgayKy` date DEFAULT NULL,
+  `SoHieu` varchar(25) DEFAULT NULL,
+  `SoVaoSo` varchar(25) DEFAULT NULL,
+  `XetDuyet` varchar(50) DEFAULT NULL,
   `TrangThai` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -301,18 +274,18 @@ CREATE TABLE `hocviendangky` (
 -- Đang đổ dữ liệu cho bảng `hocviendangky`
 --
 
-INSERT INTO `hocviendangky` (`ID`, `ID_HocVien`, `ID_Lop`, `TrangThai`) VALUES
-(1, 15, 1, 'Đã Đóng Học Phí'),
-(2, 16, 1, 'Đã Đóng Học Phí'),
-(3, 17, 1, 'Đã Đóng Học Phí'),
-(4, 18, 1, 'Đã Đóng Học Phí'),
-(6, 19, 1, 'Đã Đóng Học Phí'),
-(7, 20, 1, 'Đã Đóng Học Phí'),
-(8, 21, 1, 'Đã Đóng Học Phí'),
-(9, 22, 2, 'Đã Đóng Học Phí'),
-(11, 16, 2, 'Đã Đóng Học Phí'),
-(12, 22, 4, 'Chưa Đóng Học Phí'),
-(13, 15, 2, 'Đã Đóng Học Phí');
+INSERT INTO `hocviendangky` (`ID`, `ID_HocVien`, `ID_Lop`, `NgayKy`, `SoHieu`, `SoVaoSo`, `XetDuyet`, `TrangThai`) VALUES
+(1, 15, 1, '2021-03-30', '1234421', '4424241', 'Đã duyệt', 'Chờ duyệt'),
+(2, 16, 1, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(3, 17, 1, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(4, 18, 1, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(6, 19, 1, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(7, 20, 1, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(8, 21, 1, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(9, 22, 2, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí'),
+(11, 16, 2, NULL, NULL, NULL, 'Không duyệt', 'Đã Đóng Học Phí'),
+(12, 22, 4, NULL, NULL, NULL, NULL, 'Chưa Đóng Học Phí'),
+(13, 15, 2, NULL, NULL, NULL, 'Chờ duyệt', 'Đã Đóng Học Phí');
 
 -- --------------------------------------------------------
 
@@ -329,20 +302,25 @@ CREATE TABLE `ketquathi` (
   `DiemViet` float DEFAULT NULL,
   `DiemLyThuyet` float DEFAULT NULL,
   `DiemThucHanh` float DEFAULT NULL,
+  `XepLoai` varchar(20) NOT NULL,
   `KetQua` varchar(50) DEFAULT NULL,
-  `GhiChu` varchar(255) DEFAULT NULL
+  `GhiChu` varchar(255) DEFAULT NULL,
+  `ThoiGian` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `ketquathi`
 --
 
-INSERT INTO `ketquathi` (`ID`, `ID_LopHoc`, `DiemNghe`, `DiemNoi`, `DiemDoc`, `DiemViet`, `DiemLyThuyet`, `DiemThucHanh`, `KetQua`, `GhiChu`) VALUES
-(58, 3, 6.5, 7.2, 7.4, 5, NULL, NULL, 'Đạt', NULL),
-(59, 4, 4, 2, 4.5, 5, NULL, NULL, 'Không Đạt', NULL),
-(60, 5, 3, 2, 4, 6, NULL, NULL, 'Không Đạt', NULL),
-(61, 6, 6.4, 7, 8, 9.5, NULL, NULL, 'Đạt', NULL),
-(63, 10, NULL, NULL, NULL, NULL, 8, 10, 'Đạt', NULL);
+INSERT INTO `ketquathi` (`ID`, `ID_LopHoc`, `DiemNghe`, `DiemNoi`, `DiemDoc`, `DiemViet`, `DiemLyThuyet`, `DiemThucHanh`, `XepLoai`, `KetQua`, `GhiChu`, `ThoiGian`) VALUES
+(58, 3, 6.5, 7.2, 7.4, 5, NULL, NULL, '', 'Đạt', NULL, '2021-03-29'),
+(59, 4, 4, 2, 4.5, 5, NULL, NULL, '', 'Không Đạt', NULL, '2021-03-29'),
+(60, 5, 3, 2, 4, 6, NULL, NULL, '', 'Không Đạt', NULL, '2021-03-29'),
+(61, 6, 6.4, 7, 8, 9.5, NULL, NULL, '', 'Đạt', NULL, '2021-03-29'),
+(63, 10, NULL, NULL, NULL, NULL, 8, 10, 'Giỏi', 'Đạt', NULL, '2021-03-29'),
+(64, 8, 5, 6.4, 7.2, 4.5, NULL, NULL, 'Trung Bình', 'Đạt', NULL, '2021-03-29'),
+(65, 7, 5, 6.4, 7.2, 4.5, NULL, NULL, 'Trung Bình', 'Đạt', NULL, '2021-03-29'),
+(66, 1, 8, 6.4, 7.2, 4.5, NULL, NULL, 'Trung Bình', 'Đạt', NULL, '2021-03-29');
 
 -- --------------------------------------------------------
 
@@ -353,7 +331,6 @@ INSERT INTO `ketquathi` (`ID`, `ID_LopHoc`, `DiemNghe`, `DiemNoi`, `DiemDoc`, `D
 CREATE TABLE `lopchungchi` (
   `ID` int(11) NOT NULL,
   `ID_ChungChi` int(11) NOT NULL,
-  `ID_DotCap` int(11) NOT NULL,
   `TenLop` varchar(255) NOT NULL,
   `HocPhi` int(11) NOT NULL,
   `NgayKhaiGiang` date NOT NULL,
@@ -367,11 +344,11 @@ CREATE TABLE `lopchungchi` (
 -- Đang đổ dữ liệu cho bảng `lopchungchi`
 --
 
-INSERT INTO `lopchungchi` (`ID`, `ID_ChungChi`, `ID_DotCap`, `TenLop`, `HocPhi`, `NgayKhaiGiang`, `BuoiHoc`, `ThoiGianHoc`, `ThoiGianThi`, `TrangThai`) VALUES
-(1, 1, 1, 'Lớp Chứng Chỉ Anh Văn A Tháng 9', 1900000, '2020-12-18', 'Thứ 6 - 7 - CN', '9h - 10h30', '2020-09-30', 'Đang Mở'),
-(2, 5, 5, 'Lớp Chứng Chỉ Tin Học Tháng 11', 2000000, '2020-12-15', 'Thứ 3 - 5 - 7', '18h - 19h30', '2020-12-19', 'Đang Mở'),
-(3, 1, 1, 'Lớp Chứng Chỉ Anh Văn A Tháng 7', 1900000, '2020-07-01', 'Thứ 2 - 3 - 4', '7h - 8h30', '2020-12-17', 'Đang Mở'),
-(4, 5, 7, 'Lớp Chứng Chỉ Tin Học Tháng 9', 2000000, '2020-09-01', 'Thứ 6 - 7 - CN', '19h - 20h30', '2020-12-31', 'Đang Mở');
+INSERT INTO `lopchungchi` (`ID`, `ID_ChungChi`, `TenLop`, `HocPhi`, `NgayKhaiGiang`, `BuoiHoc`, `ThoiGianHoc`, `ThoiGianThi`, `TrangThai`) VALUES
+(1, 1, 'Lớp Chứng Chỉ Anh Văn A Tháng 9', 1900000, '2020-12-18', 'Thứ 6 - 7 - CN', '9h - 10h30', '2020-09-30', 'Đang Mở'),
+(2, 5, 'Lớp Chứng Chỉ Tin Học Tháng 11', 2000000, '2020-12-15', 'Thứ 3 - 5 - 7', '18h - 19h30', '2020-12-19', 'Đang Mở'),
+(3, 1, 'Lớp Chứng Chỉ Anh Văn A Tháng 7', 1900000, '2020-07-01', 'Thứ 2 - 3 - 4', '7h - 8h30', '2020-12-17', 'Đang Mở'),
+(4, 5, 'Lớp Chứng Chỉ Tin Học Tháng 9', 2000000, '2020-09-01', 'Thứ 6 - 7 - CN', '19h - 20h30', '2020-12-31', 'Đang Mở');
 
 -- --------------------------------------------------------
 
@@ -391,13 +368,13 @@ CREATE TABLE `lophoc` (
 --
 
 INSERT INTO `lophoc` (`ID`, `ID_LopHP`, `ID_HocVienDK`, `TrangThai`) VALUES
-(1, 18, 9, 'Chưa Nhập Điểm'),
+(1, 18, 9, 'Đã Nhập Điểm'),
 (3, 19, 4, 'Đã Nhập Điểm'),
 (4, 19, 6, 'Đã Nhập Điểm'),
 (5, 19, 7, 'Đã Nhập Điểm'),
 (6, 19, 8, 'Đã Nhập Điểm'),
-(7, 18, 1, 'Chưa Nhập Điểm'),
-(8, 18, 2, 'Chưa Nhập Điểm'),
+(7, 18, 1, 'Đã Nhập Điểm'),
+(8, 18, 2, 'Đã Nhập Điểm'),
 (9, 18, 3, 'Chưa Nhập Điểm'),
 (10, 20, 11, 'Đã Nhập Điểm'),
 (11, 20, 13, 'Chưa Nhập Điểm');
@@ -428,29 +405,6 @@ INSERT INTO `lophocphan` (`ID`, `ID_LopChungChi`, `ID_GiangVien`, `TenLop`, `Pho
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `luong`
---
-
-CREATE TABLE `luong` (
-  `ID` int(11) NOT NULL,
-  `MucLuong` int(11) NOT NULL,
-  `PhuCap` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `luong`
---
-
-INSERT INTO `luong` (`ID`, `MucLuong`, `PhuCap`) VALUES
-(1, 5000000, NULL),
-(2, 7000000, NULL),
-(3, 10000000, NULL),
-(4, 13000000, NULL),
-(5, 15000000, 0);
-
--- --------------------------------------------------------
-
---
 -- Cấu trúc bảng cho bảng `migrations`
 --
 
@@ -459,6 +413,19 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `nhatkyhoatdong`
+--
+
+CREATE TABLE `nhatkyhoatdong` (
+  `ID` int(11) NOT NULL,
+  `ID_User` int(11) NOT NULL,
+  `ThaoTac` varchar(255) NOT NULL,
+  `ThoiGian` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -516,44 +483,6 @@ INSERT INTO `users` (`ID`, `TaiKhoan`, `password`, `PhanQuyen`, `updated_at`, `c
 (8, '1700449', '$2y$10$/6Cii7qAR8mZ1ul0KLdI7OSu/d3a0qG/ASxA6kAF9DARgHRqBau5q', 0, '2020-12-18', '2020-12-18'),
 (9, 'admin', '$2y$10$NMJnJSUnu4PKT.SmJLSs/.xvg4sT42nkV.0aYC4vjsJiLkBTy/.ja', 1, '2020-12-24', '2020-12-24');
 
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `xetduyet`
---
-
-CREATE TABLE `xetduyet` (
-  `ID` int(11) NOT NULL,
-  `ID_ChungChi` int(11) NOT NULL,
-  `ID_DotCap` int(11) NOT NULL,
-  `HoTenHV` varchar(50) NOT NULL,
-  `GioiTinh` varchar(20) NOT NULL,
-  `NgaySinh` date NOT NULL,
-  `NoiSinh` varchar(50) NOT NULL,
-  `NgayKiemTra` date NOT NULL,
-  `XepLoai` varchar(30) NOT NULL,
-  `NamTotNghiep` int(11) NOT NULL,
-  `NgayKy` date NOT NULL,
-  `SoHieu` char(20) NOT NULL,
-  `SoVaoSo` char(20) NOT NULL,
-  `TrangThai` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `xetduyet`
---
-
-INSERT INTO `xetduyet` (`ID`, `ID_ChungChi`, `ID_DotCap`, `HoTenHV`, `GioiTinh`, `NgaySinh`, `NoiSinh`, `NgayKiemTra`, `XepLoai`, `NamTotNghiep`, `NgayKy`, `SoHieu`, `SoVaoSo`, `TrangThai`) VALUES
-(2, 1, 1, 'Nguyễn Văn A', 'Nam', '1999-05-03', 'Tiền Giang', '2020-09-21', 'Khá', 2020, '2020-09-25', 'AVCB0014', 'AV0134', 'Đã duyệt'),
-(3, 1, 2, 'Trần Thị B', 'Nữ', '2000-06-03', 'Bạc Liêu', '2020-09-21', 'Khá', 2020, '2020-09-25', 'AVCB0017', 'AV0135', 'Đã duyệt'),
-(4, 4, 4, 'Trần Văn Tèo Em', 'Nam', '2000-03-04', 'Đồng Tháp', '2020-09-21', 'Trung Bình', 2020, '2020-10-25', 'AVCB0014', 'AV0346', 'Đã duyệt'),
-(6, 1, 1, 'Phan Thành Việt', 'Nam', '1999-05-12', 'Tp.Cần Thơ', '2020-09-21', 'Xuất Sắc', 2020, '2020-09-25', 'AVCB0016', 'AV0346', 'Đã duyệt'),
-(8, 4, 4, 'Nguyễn Văn Bê Phở', 'Nam', '1996-03-02', 'Bạc Liêu', '2020-04-02', 'Giỏi', 2020, '2020-06-20', 'AVCB0014', 'AV0346', 'Chờ duyệt'),
-(11, 5, 7, 'Trần Thị Tèo Chị', 'Nữ', '2020-06-30', 'Bến Tre', '2020-06-25', 'Giỏi', 2020, '2020-06-30', 'AVCB0013', 'AV0137', 'Chờ duyệt'),
-(12, 1, 1, 'Nguyễn Văn Tý', 'Nam', '1999-06-16', 'Tp.Cần Thơ', '2020-06-25', 'Giỏi', 2020, '2020-06-25', 'AVCB0014', 'AV0137', 'Không duyệt'),
-(19, 5, 9, 'Tống Thanh Phú', 'Nam', '1999-02-05', 'Tiền Giang', '2020-05-12', 'Giỏi', 2020, '2020-12-12', 'ABCCC', 'DDDDD', 'Chờ duyệt'),
-(20, 5, 9, 'Nguyễn Văn B', 'Nữ', '1999-02-06', 'Tiền Giang', '2020-05-13', 'Giỏi', 2020, '2020-12-13', 'ABCCC', 'DDDDD', 'Chờ duyệt');
-
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -600,19 +529,11 @@ ALTER TABLE `danhmuc`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Chỉ mục cho bảng `dotcap`
---
-ALTER TABLE `dotcap`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `ID_ChungChi` (`ID_ChungChi`);
-
---
 -- Chỉ mục cho bảng `giangvien`
 --
 ALTER TABLE `giangvien`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `ID_HocVi` (`ID_HocVi`),
-  ADD KEY `ID_Luong` (`ID_Luong`);
+  ADD KEY `ID_HocVi` (`ID_HocVi`);
 
 --
 -- Chỉ mục cho bảng `hocvi`
@@ -647,8 +568,7 @@ ALTER TABLE `ketquathi`
 --
 ALTER TABLE `lopchungchi`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `ID_ChungChi` (`ID_ChungChi`),
-  ADD KEY `ID_DotCap` (`ID_DotCap`);
+  ADD KEY `ID_ChungChi` (`ID_ChungChi`);
 
 --
 -- Chỉ mục cho bảng `lophoc`
@@ -667,16 +587,17 @@ ALTER TABLE `lophocphan`
   ADD KEY `ID_LopChungChi` (`ID_LopChungChi`);
 
 --
--- Chỉ mục cho bảng `luong`
---
-ALTER TABLE `luong`
-  ADD PRIMARY KEY (`ID`);
-
---
 -- Chỉ mục cho bảng `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `nhatkyhoatdong`
+--
+ALTER TABLE `nhatkyhoatdong`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `ID_User` (`ID_User`);
 
 --
 -- Chỉ mục cho bảng `thongbao`
@@ -690,14 +611,6 @@ ALTER TABLE `thongbao`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`ID`);
-
---
--- Chỉ mục cho bảng `xetduyet`
---
-ALTER TABLE `xetduyet`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `ID_ChungChi` (`ID_ChungChi`),
-  ADD KEY `ID_DotCap` (`ID_DotCap`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -740,12 +653,6 @@ ALTER TABLE `danhmuc`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `dotcap`
---
-ALTER TABLE `dotcap`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
 -- AUTO_INCREMENT cho bảng `giangvien`
 --
 ALTER TABLE `giangvien`
@@ -767,13 +674,13 @@ ALTER TABLE `hocvien`
 -- AUTO_INCREMENT cho bảng `hocviendangky`
 --
 ALTER TABLE `hocviendangky`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `ketquathi`
 --
 ALTER TABLE `ketquathi`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT cho bảng `lopchungchi`
@@ -794,12 +701,6 @@ ALTER TABLE `lophocphan`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT cho bảng `luong`
---
-ALTER TABLE `luong`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
@@ -810,12 +711,6 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `thongbao`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT cho bảng `xetduyet`
---
-ALTER TABLE `xetduyet`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -842,17 +737,10 @@ ALTER TABLE `chungchi`
   ADD CONSTRAINT `chungchi_ibfk_1` FOREIGN KEY (`ID_DanhMuc`) REFERENCES `danhmuc` (`ID`);
 
 --
--- Các ràng buộc cho bảng `dotcap`
---
-ALTER TABLE `dotcap`
-  ADD CONSTRAINT `dotcap_ibfk_1` FOREIGN KEY (`ID_ChungChi`) REFERENCES `chungchi` (`ID`);
-
---
 -- Các ràng buộc cho bảng `giangvien`
 --
 ALTER TABLE `giangvien`
-  ADD CONSTRAINT `giangvien_ibfk_1` FOREIGN KEY (`ID_HocVi`) REFERENCES `hocvi` (`ID`),
-  ADD CONSTRAINT `giangvien_ibfk_2` FOREIGN KEY (`ID_Luong`) REFERENCES `luong` (`ID`);
+  ADD CONSTRAINT `giangvien_ibfk_1` FOREIGN KEY (`ID_HocVi`) REFERENCES `hocvi` (`ID`);
 
 --
 -- Các ràng buộc cho bảng `hocvien`
@@ -877,8 +765,7 @@ ALTER TABLE `ketquathi`
 -- Các ràng buộc cho bảng `lopchungchi`
 --
 ALTER TABLE `lopchungchi`
-  ADD CONSTRAINT `lopchungchi_ibfk_2` FOREIGN KEY (`ID_ChungChi`) REFERENCES `chungchi` (`ID`),
-  ADD CONSTRAINT `lopchungchi_ibfk_5` FOREIGN KEY (`ID_DotCap`) REFERENCES `dotcap` (`ID`);
+  ADD CONSTRAINT `lopchungchi_ibfk_2` FOREIGN KEY (`ID_ChungChi`) REFERENCES `chungchi` (`ID`);
 
 --
 -- Các ràng buộc cho bảng `lophoc`
@@ -895,17 +782,16 @@ ALTER TABLE `lophocphan`
   ADD CONSTRAINT `lophocphan_ibfk_2` FOREIGN KEY (`ID_LopChungChi`) REFERENCES `lopchungchi` (`ID`);
 
 --
+-- Các ràng buộc cho bảng `nhatkyhoatdong`
+--
+ALTER TABLE `nhatkyhoatdong`
+  ADD CONSTRAINT `nhatkyhoatdong_ibfk_1` FOREIGN KEY (`ID_User`) REFERENCES `users` (`ID`);
+
+--
 -- Các ràng buộc cho bảng `thongbao`
 --
 ALTER TABLE `thongbao`
   ADD CONSTRAINT `thongbao_ibfk_1` FOREIGN KEY (`ID_CM`) REFERENCES `chuyenmuc` (`ID`);
-
---
--- Các ràng buộc cho bảng `xetduyet`
---
-ALTER TABLE `xetduyet`
-  ADD CONSTRAINT `xetduyet_ibfk_1` FOREIGN KEY (`ID_ChungChi`) REFERENCES `chungchi` (`ID`),
-  ADD CONSTRAINT `xetduyet_ibfk_2` FOREIGN KEY (`ID_DotCap`) REFERENCES `dotcap` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
