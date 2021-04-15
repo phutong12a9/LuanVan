@@ -14,100 +14,99 @@
   font-weight: bold;
 }
 </style>
-
 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-                     <div class="panel panel-default">
-                     <div class="panel-heading"><center><h2>Thời Khóa Biểu</h2></center></div>
-                     @if(session()->has('users'))
-                     <div class="panel-body">
-                      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-14">
-                        <select style="margin-bottom: 20px;" class="form-control">
-                          <option>Lớp Tiếng Anh Trình Độ A</option>
-                          <option>Lớp Tiếng Anh Trình Độ B</option>
-                          <option>Lớp Tiếng Anh Trình Độ C</option>
-                        </select>
-                      </div>
-                       <table class="table table-striped ">
-                         <thead>
-                           <tr>
-                             <th>Thứ</th>
-                             <th>Lớp</th>
-                             <th>Phòng Học</th>
-                             <th>Giờ Học</th>
-                             <th>Giảng Viên</th>
-                             <th>Ngày Học</th>
-                           </tr>
-                         </thead>
-                         <tbody>
-                           <tr>
-                             <td>Thứ 2</td>
-                             <td id="tenlop1"></td>
-                             <td id="phong1"></td>
-                             <td id="gio1"></td>
-                             <td id="giangvien1"></td>
-                             <td id="ngayhoc1"></td>
-                           </tr>
-                           <tr>
-                             <td>Thứ 3</td>
-                             <td id="tenlop2"></td>
-                             <td id="phong2"></td>
-                             <td id="gio2"></td>
-                             <td id="giangvien2"></td>
-                             <td id="ngayhoc2"></td>
-                           </tr>
-                           <tr>
-                             <td>Thứ 4</td>
-                             <td id="tenlop3"></td>
-                             <td id="phong3"></td>
-                             <td id="gio3"></td>
-                             <td id="giangvien3"></td>
-                             <td id="ngayhoc3"></td>
-                           </tr>
-                           <tr>
-                             <td>Thứ 5</td>
-                             <td id="tenlop4"></td>
-                             <td id="phong4"></td>
-                             <td id="gio4"></td>
-                             <td id="giangvien4"></td>
-                             <td id="ngayhoc4"></td>
-                           </tr>
-                           <tr>
-                             <td>Thứ 6</td>
-                             <td id="tenlop5"></td>
-                             <td id="phong5"></td>
-                             <td id="gio5"></td>
-                             <td id="giangvien5"></td>
-                             <td id="ngayhoc5"><p></p></td>
-                           </tr>
-                           <tr>
-                             <td>Thứ 7</td>
-                             <td id="tenlop6"></td>
-                             <td id="phong6"></td>
-                             <td id="gio6"></td>
-                             <td id="giangvien6"></td>
-                             <td id="ngayhoc6"></td>
-                           </tr>
-                           <tr>
-                             <td>Chủ Nhật</td>
-                             <td id="tenlop0"></td>
-                             <td id="phong0"></td>
-                             <td id="gio0"></td>
-                             <td id="giangvien0"></td>
-                             <td id="ngayhoc0"></td>
-                           </tr>
-                         </tbody>
-                       </table>
-                     </div>
-                     @endif
-                   </div>
-                  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading"><center><h2>Thời Khóa Biểu</h2></center></div>
+    @if(session()->has('users'))
+    <div class="panel-body">
+      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-14">
+        <select style="margin-bottom: 20px;" class="form-control">
+          <option>Lớp Tiếng Anh Trình Độ A</option>
+          <option>Lớp Tiếng Anh Trình Độ B</option>
+          <option>Lớp Tiếng Anh Trình Độ C</option>
+        </select>
+      </div>
+      <table class="table table-striped ">
+        <thead>
+          <tr>
+            <th>Thứ</th>
+            <th>Lớp</th>
+            <th>Phòng Học</th>
+            <th>Giờ Học</th>
+            <th>Giảng Viên</th>
+            <th>Ngày Học</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Thứ 2</td>
+            <td id="tenlop1"></td>
+            <td id="phong1"></td>
+            <td id="gio1"></td>
+            <td id="giangvien1"></td>
+            <td id="ngayhoc1"></td>
+          </tr>
+          <tr>
+            <td>Thứ 3</td>
+            <td id="tenlop2"></td>
+            <td id="phong2"></td>
+            <td id="gio2"></td>
+            <td id="giangvien2"></td>
+            <td id="ngayhoc2"></td>
+          </tr>
+          <tr>
+            <td>Thứ 4</td>
+            <td id="tenlop3"></td>
+            <td id="phong3"></td>
+            <td id="gio3"></td>
+            <td id="giangvien3"></td>
+            <td id="ngayhoc3"></td>
+          </tr>
+          <tr>
+            <td>Thứ 5</td>
+            <td id="tenlop4"></td>
+            <td id="phong4"></td>
+            <td id="gio4"></td>
+            <td id="giangvien4"></td>
+            <td id="ngayhoc4"></td>
+          </tr>
+          <tr>
+            <td>Thứ 6</td>
+            <td id="tenlop5"></td>
+            <td id="phong5"></td>
+            <td id="gio5"></td>
+            <td id="giangvien5"></td>
+            <td id="ngayhoc5"><p></p></td>
+          </tr>
+          <tr>
+            <td>Thứ 7</td>
+            <td id="tenlop6"></td>
+            <td id="phong6"></td>
+            <td id="gio6"></td>
+            <td id="giangvien6"></td>
+            <td id="ngayhoc6"></td>
+          </tr>
+          <tr>
+            <td>Chủ Nhật</td>
+            <td id="tenlop0"></td>
+            <td id="phong0"></td>
+            <td id="gio0"></td>
+            <td id="giangvien0"></td>
+            <td id="ngayhoc0"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    @endif
+  </div>
+</div>
 <script type="text/javascript">
     // sắp thời khóa biểu
     $(document).ready(function(){
       var now = new Date();
       // mảng ngày tháng năm
       var arrBuoiHoc =[];
-      var arr = <?php echo json_encode($arr)?>;
+      var arr = <?php echo json_encode($arr) ?>;
       var arr2 ='{ '
   + ' "TenLop": "Tiếng Anh Trình Độ A", '
   + ' "PhongHoc" : "C.3.1", '
@@ -128,7 +127,7 @@
       else{
         var formatted_date = item.getDate() + "/" + (item.getMonth() + 1) + "/" + item.getFullYear();
       }
-     
+
         // xác định thứ trong tuần
         if (day == 1) {
           $("#tenlop1").text(obj.TenLop);
@@ -141,7 +140,7 @@
           else{
             $("#ngayhoc1").append("<p>"+formatted_date+ "</p>");
           }
-          
+
         }
         if (day == 2) {
           $("#tenlop2").text(obj.TenLop);
@@ -216,9 +215,9 @@
           }
         }
       });
-      
-      
+
+
   });
-    
+
   </script>
 @endsection

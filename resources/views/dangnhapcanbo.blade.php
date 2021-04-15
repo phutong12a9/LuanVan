@@ -27,7 +27,6 @@
               <li data-target="#slide" data-slide-to="0" class="active"></li>
               <li data-target="#slide" data-slide-to="1"></li>
             </ul>
-
             <!-- The slideshow -->
             <div class="carousel-inner">
               <div class="item active">
@@ -37,7 +36,6 @@
                 <img src="source/img/slide-login-2.png">
               </div>
             </div>
-
             <!-- Left and right controls -->
             <a class="left carousel-control" href="#slide" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left"></span>
@@ -48,40 +46,39 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 form-dangnhap">
-            <div class="img-logo">
-              <img src="source/img/Logo.png" width="130" height="130">
-            </div>
-            <form method="post" action="{{route('dang-nhap-can-bo-nhap-chung-chi')}}" name="" class="form-login" autocomplete="off">
-              <input type="hidden" name="_token" value="{{csrf_token()}}">
-              <h1 class="name-lg">Đăng Nhập Hệ Thống</h1>
-              <div class="form-group">
-                <input type="text" name="taikhoan" class="form-control" placeholder="Nhập Tài Khoản">
-              </div>
-              <div class="form-group">
-                <input type="password" name="matkhau" class="form-control" placeholder="Nhập Mật Khẩu">
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-100">Đăng Nhập</button>
-              </div>
-            </form>
+          <div class="img-logo">
+            <img src="source/img/Logo.png" width="130" height="130">
           </div>
-                        @if(Session::has('dangnhapthatbai'))
-                            <div class="alert pull-right" id="thongbao" role="alert" style="color: red;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white">
-                              <i class="glyphicon glyphicon-warning-sign"></i> &nbsp
-                            {{Session::get('dangnhapthatbai')}}
-
-                            </div>
-                        @endif
+          <form method="post" action="{{route('dang-nhap-can-bo-nhap-chung-chi')}}" name="" class="form-login" autocomplete="off">
+            <input type="hidden" name="_token" value="{{csrf_token()}}">
+            <h1 class="name-lg">Đăng Nhập Hệ Thống</h1>
+            <div class="form-group">
+              <input type="text" name="taikhoan" class="form-control" placeholder="Nhập Tài Khoản">
+            </div>
+            <div class="form-group">
+              <input type="password" name="matkhau" class="form-control" placeholder="Nhập Mật Khẩu">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-100">Đăng Nhập</button>
+            </div>
+          </form>
+        </div>
+        @if(Session::has('dangnhapthatbai'))
+        <div class="alert pull-right" id="thongbao" role="alert" style="color: red;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white">
+          <i class="glyphicon glyphicon-warning-sign"></i> &nbsp
+          {{Session::get('dangnhapthatbai')}}
+        </div>
+        @endif
       </div>
     </div>
-    
+
   </body>
   <script type="text/javascript">
-      let msg = '{{Session::get('dangnhapthatbai')}}';
-      let exist = '{{Session::has('dangnhapthatbai')}}';
-      if(exist){
-        alert(msg);
-      }
-      $("#thongbao").fadeOut(10000);
-    </script>
-  </html>
+    let msg = '{{Session::get('dangnhapthatbai')}}';
+    let exist = '{{Session::has('dangnhapthatbai')}}';
+    if(exist){
+    alert(msg);
+    }
+    $("#thongbao").fadeOut(10000);
+  </script>
+</html>

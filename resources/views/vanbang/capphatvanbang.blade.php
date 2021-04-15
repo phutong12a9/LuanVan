@@ -7,48 +7,48 @@
 @endif
 <title>Cấp phát văn bằng</title>
 <!-- Bắt đầu Body-->
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="pannel panel-default">
-                    <div class="panel-heading">
-                        <center><h3>Cấp Phát Văn Bằng</h3></center>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                  <div class="panel-body" style="line-height: 20px;">
-                    <form class="form-horizontal" action="" method="post" role="form" id="form_chondotcap">
-                      <input type="hidden" name="_token" value="{{csrf_token()}}">
-                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                      <div class="form-group">
-                        <select class="form-control" id="tenvb" style="width: 90%">
-                          <option>-- Chọn Tên Chứng Chỉ --</option>
-                          @foreach($chungchi as $chungchi)
-                          <option value="{{$chungchi->ID}}">{{$chungchi->TenChungChi}}</option> 
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                      <div class="form-group">
-                        <select id="dotvb" class="form-control" style="width: 90%">
-                          <option>-- Chọn Đợt Cấp --</option>
-                        </select>
-                      </div>
-                    </div>
-                    </form>
-                  </div>
-                </div>
-                </div>
-                  <div class="panel panel-default">
-                    <div class="panel-body table-responsive">
-                      <div id="body_banghocvien">
-                        
-                      </div>
-                    </div>
-                  </div>
-             </div>
-           </div>
-         </div>
-            <!--Kết thúc body-->
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="pannel panel-default">
+    <div class="panel-heading">
+      <center><h3>Cấp Phát Văn Bằng</h3></center>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body" style="line-height: 20px;">
+      <form class="form-horizontal" action="" method="post" role="form" id="form_chondotcap">
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+            <select class="form-control" id="tenvb" style="width: 90%">
+              <option>-- Chọn Tên Chứng Chỉ --</option>
+              @foreach($chungchi as $chungchi)
+              <option value="{{$chungchi->ID}}">{{$chungchi->TenChungChi}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <div class="form-group">
+            <select id="dotvb" class="form-control" style="width: 90%">
+              <option>-- Chọn Đợt Cấp --</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body table-responsive">
+    <div id="body_banghocvien">
+
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<!--Kết thúc body-->
 <script type="text/javascript">
         $(document).ready(function(){
             $("#table_hocvien").DataTable({
@@ -93,17 +93,17 @@
                     $("#body_banghocvien").html(data);
 
                   });
-                         
+
                 });
-              
-                         
+
+
               });
-             
+
         });
     </script>
     <script type="text/javascript">
       $("#thongbao").fadeOut(10000);
     </script>
-   
+
 @endsection
 @endif

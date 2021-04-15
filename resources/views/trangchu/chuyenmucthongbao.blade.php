@@ -15,7 +15,7 @@
 				<time style="color: #aaa" datetime="{{date('d/m/Y', strtotime($chuyenmucthongbao->NgayDang))}}">Ngày Đăng: {{date('d/m/Y', strtotime($chuyenmucthongbao->NgayDang))}}</time>
 			</div>
 			<div class="xemthem"style="float: right">
-			<a class="btn btn-default btn-xs" href="{{route('chi-tiet-thong-bao',$chuyenmucthongbao->ID)}}">Chi tiết</a>           
+				<a class="btn btn-default btn-xs" href="{{route('chi-tiet-thong-bao',$chuyenmucthongbao->ID)}}">Chi tiết</a>
 			</div>
 			<br>
 			<hr/>
