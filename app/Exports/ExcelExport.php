@@ -18,7 +18,7 @@ class ExcelExport implements FromView, ShouldAutoSize, WithEvents, WithTitle {
 		$idvb = Request()->tenvb;
 		$idkh = Request()->khoahoc;
 		if ($idvb == "" && $idkh == "") {
-			$hocvien = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai,  hocviendangky.XetDuyet as XetDuyet, NgayKy,SoHieu,SoVaoSo, khoahoc.TenKhoa as Ten
+			$hocvien = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai,  hocviendangky.XetDuyet as XetDuyet, NgayKy,SoHieu,SoVaoSo
                                 FROM hocviendangky, hocvien, lop, ketquathi,khoahoc
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
                                     AND hocviendangky.ID = lop.ID_HocVienDK
@@ -28,8 +28,8 @@ class ExcelExport implements FromView, ShouldAutoSize, WithEvents, WithTitle {
                                     AND hocviendangky.XetDuyet = "Chờ duyệt"
                                 ORDER BY ketquathi.ThoiGian DESC');
 		} else if ($idkh == "") {
-			$hocvien = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai, hocviendangky.XetDuyet as XetDuyet, NgayKy,SoHieu,SoVaoSo,lophoc.TenLop as Ten
-                                FROM hocviendangky, hocvien, lop, ketquathi,khoahoc,chungchi,lophoc
+			$hocvien = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai, hocviendangky.XetDuyet as XetDuyet, NgayKy,SoHieu,SoVaoSo
+                                FROM hocviendangky, hocvien, lop, ketquathi,khoahoc,chungchi
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
                                     AND hocviendangky.ID = lop.ID_HocVienDK
                                     AND lop.ID = ketquathi.ID_Lop
@@ -41,7 +41,7 @@ class ExcelExport implements FromView, ShouldAutoSize, WithEvents, WithTitle {
                                     AND chungchi.ID = ?
                                 ORDER BY ketquathi.ThoiGian DESC', [$idvb]);
 		} else {
-			$hocvien = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai, hocviendangky.XetDuyet as XetDuyet, NgayKy,SoHieu,SoVaoSo, khoahoc.TenKhoa as Ten
+			$hocvien = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai, hocviendangky.XetDuyet as XetDuyet, NgayKy,SoHieu,SoVaoSo
                                 FROM hocviendangky, hocvien, lop, ketquathi,khoahoc,chungchi
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
                                     AND hocviendangky.ID = lop.ID_HocVienDK
