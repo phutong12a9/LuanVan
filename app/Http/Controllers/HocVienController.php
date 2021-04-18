@@ -8,8 +8,8 @@ use DB;
 use Hash;
 use App\User;
 use App\hocvien;
-use App\lophocphan;
 use App\lophoc;
+use App\lop;
 use App\ketquathi;
 use Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -121,8 +121,8 @@ class HocVienController extends Controller
         
     }
     public function getNhapdiem(){
-        $lophocphan = lophocphan::all();
-        return view('hocvien.nhapdiem',compact('lophocphan'));
+        $lophoc = lophoc::all();
+        return view('hocvien.nhapdiem',compact('lophoc'));
     }
     public function NhapDiemImport(Request $req){
 
@@ -145,7 +145,7 @@ class HocVienController extends Controller
         $TBAV = ($req->diemnghe + $req->diemnoi + $req->diemdoc + $req->diemviet)/4;
         $TBTH = ($req->diemlythuyet+ $req->diemthuchanh);
         $ketquathi = new ketquathi;
-        $ketquathi->ID_LopHoc       = $req->sbd;
+        $ketquathi->ID_Lop          = $req->sbd;
         $ketquathi->DiemNghe        = $req->diemnghe;
         $ketquathi->DiemNoi         = $req->diemnoi;
         $ketquathi->DiemDoc         = $req->diemdoc;
@@ -172,7 +172,7 @@ class HocVienController extends Controller
         $ketquathi->ThoiGian = date('Y-m-d');
         $ketquathi->save();
 
-        $TrangThai = new lophoc;
+        $TrangThai = new lop;
         $arr['TrangThai']       = 'Đã Nhập Điểm';
         $TrangThai::where('ID',$req->sbd)->update($arr);
 
