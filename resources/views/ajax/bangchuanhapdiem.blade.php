@@ -66,7 +66,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td><button class="btn btn-success btnSelect">Nhập Điểm</button></td>
+      <td><button class="btn btn-success" data-toggle="modal" data-target="#modalNhapDiem">Nhập Điểm</button></td>
     </tr>
     @endforeach
   </tbody>
@@ -92,8 +92,8 @@
                 <div class="col-lg-10">
                   <select class="form-control" name="lophoc" id="lophoc">
                     <option value="null">--Chọn lớp học--</option>
-                    @foreach($lophocphan as $lhp)
-                    <option value="{{$lhp->ID}}">{{$lhp->TenLop}}</option>
+                    @foreach($lophoc as $lh)
+                    <option value="{{$lh->ID}}">{{$lh->TenLop}}</option>
                     @endforeach
                   </select>
                 </div>

@@ -73,7 +73,7 @@
                   <ul class="nav navbar-nav" id="navTuyChon">
                     <li>
                       <div class="dropdown">
-                        <a data-toggle="dropdown" href="" title="Văn Bằng">Văn Bằng <span class="caret"></span></a>
+                        <a data-toggle="dropdown" href="" title="Văn Bằng">Văn bằng <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li>
                             <a href="{{route('tra-cuu-van-bang')}}" title="Tra cứu văn bằng">Tra cứu văn bằng</a>
@@ -95,7 +95,7 @@
                     @if(session()->has('canbo'))
                     <li>
                       <div class="dropdown">
-                        <a data-toggle="dropdown" href="" title="Thông Báo">Thông Báo <span class="caret"></span></a>
+                        <a data-toggle="dropdown" href="" title="Thông Báo">Thông báo <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li>
                             <a href="{{route('dang-thong-bao')}}" title="Đăng Thông Báo">Đăng thông báo</a>
@@ -108,20 +108,20 @@
                     </li>
                     <li>
                       <div class="dropdown">
-                        <a data-toggle="dropdown" href="" title="Tuyển Sinh">Tuyển Sinh <span class="caret"></span></a>
+                        <a data-toggle="dropdown" href="" title="Tuyển sinh">Tuyển sinh <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="{{route('khoa-hoc')}}" title="Mở lớp">Khóa học</a>
+                            <a href="{{route('khoa-hoc')}}" title="Khóa học">Khóa học</a>
                           </li>
                           <li>
-                            <a href="{{route('lop-hoc')}}" title="Lớp chứng chỉ">Lớp học</a>
+                            <a href="{{route('lop-hoc')}}" title="Lớp học">Lớp học</a>
                           </li>
                         </ul>
                       </div>
                     </li>
                     <li>
                       <div class="dropdown">
-                        <a data-toggle="dropdown" href="" title="Học Viên">Học Viên <span class="caret"></span></a>
+                        <a data-toggle="dropdown" href="" title="Học Viên">Học viên <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li>
                             <a href="{{route('nhap-diem')}}" title="Nhập điểm">Nhập điểm</a>
@@ -131,7 +131,7 @@
                     </li>
                     <li>
                       <div class="dropdown">
-                        <a data-toggle="dropdown" href="" title="Thông Báo">Thống Kê <span class="caret"></span></a>
+                        <a data-toggle="dropdown" href="" title="Thông Báo">Thống kê <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li>
                             <a href="{{route('thong-ke-thanh-tich')}}" title="Thống kê thành tích">Thống kê thành tích</a>
@@ -146,7 +146,17 @@
                   </ul>
                   <ul class="nav navbar-nav navbar-right" id="navDangNhap">
                     @if(Session::has('canbo'))
-                    <li><a href="{{route('dang-xuat-can-bo')}}"title="Đăng Xuất"><span class="glyphicon glyphicon-log-in"></span> Đăng Xuất</a></li>
+                    <li>
+                      <div class="dropdown">
+                        <a style="text-transform: capitalize" data-toggle="dropdown" href="" title="{{Session('canbo')->TaiKhoan}}"><span class="glyphicon glyphicon-user"></span> &nbsp {{Session('canbo')->TaiKhoan}} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a href="{{route('dang-xuat-can-bo')}}"title="Đăng Xuất"><span class="glyphicon glyphicon-log-in"></span> Đăng Xuất</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
                     @else
                     <li><a href="{{route('dang-nhap-can-bo')}}" data-toggle="modal" title="Đăng Nhập"><span class="glyphicon glyphicon-user"></span> Đăng Nhập</a></li>
                     @endif
@@ -169,7 +179,8 @@
         </div>
         @endif
         @if(Session::has('themthanhcong'))
-        <div class="alert pull-right" id="thongbao" role="alert" style="color: green;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white; z-index: 2">{{Session::get('themthanhcong')}}
+        <div class="alert pull-right" id="thongbao" role="alert" style="color: green;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white;z-index: 2">
+          <i class="glyphicon glyphicon-ok"></i>{{Session::get('themthanhcong')}}
         </div>
         @endif
         

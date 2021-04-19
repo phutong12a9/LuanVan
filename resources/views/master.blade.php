@@ -51,7 +51,7 @@
                         <a href="{{route('tra-cuu-van-bang')}}" target="_blank" title="Tra Cứu Văn Bằng">Tra cứu văn bằng</a>
                       </li>
                       <li>
-                        <a href="{{route('dang-ky-chung-chi')}}" title="Tra Cứu Văn Bằng">Đăng ký chứng chỉ</a>
+                        <a href="{{route('dang-ky-lop-hoc')}}" title="Đăng ký lớp học">Đăng ký lớp học</a>
                       </li>
                       <li>
                         <a href="{{route('lien-he')}}" title="Liên Hệ">Liên hệ</a>

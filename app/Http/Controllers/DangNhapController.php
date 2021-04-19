@@ -93,7 +93,7 @@ class DangNhapController extends Controller {
 		$thongtin = array('TaiKhoan' => $req->taikhoan, 'password' => $req->matkhau, 'PhanQuyen' => 1);
 		if (Auth::attempt($thongtin)) {
 			Session::put('canbo', Auth::user());
-			return redirect()->route('them-van-bang')->with('dangnhapthanhcong', 'Đăng Nhập Thành Công !');
+			return redirect()->route('tra-cuu-van-bang')->with('dangnhapthanhcong', 'Đăng Nhập Thành Công !');
 			// return view('quantri');
 		} else {
 			return redirect()->back()->with('dangnhapthatbai', 'Đăng Nhập Thất Bại');

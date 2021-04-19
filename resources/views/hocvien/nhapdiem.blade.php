@@ -8,10 +8,10 @@
 		<div class="panel-body" style="line-height: 20px;">
 			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<div class="form-group">
-					<select id="tenlophp" class="form-control" style="width: 90%">
-						<option>-- Chọn Lớp Học Phần --</option>
-						@foreach($lophocphan as $lhp)
-						<option value="{{$lhp->ID}}">{{$lhp->TenLop}}</option>
+					<select id="tenlop" class="form-control" style="width: 90%">
+						<option>-- Chọn Lớp Học --</option>
+						@foreach($lophoc as $lh)
+						<option value="{{$lh->ID}}">{{$lh->TenLop}}</option>
 						@endforeach
 					</select>
 				</div>
@@ -35,13 +35,13 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-      $("#tenlophp").change(function(){
+      $("#tenlop").change(function(){
 
       	$('#trangthai option').prop('selected', function() {
         return this.defaultSelected;
     	});
 
-        let ID = $("#tenlophp").val();
+        let ID = $("#tenlop").val();
         $.get("ajax/hocvienchuanhapdiem/"+ID,function(data){
                     $("#banghocvien").html(data);
                 });
@@ -53,7 +53,7 @@
 	                });
 	        }
 	        if(trangthai == "Đã Nhập Điểm"){
-	        	$.get("ajax/hocvienhocphan/"+ID,function(data){
+	        	$.get("ajax/hocvienlophoc/"+ID,function(data){
 	                    $("#banghocvien").html(data);
 	                });
 	        }

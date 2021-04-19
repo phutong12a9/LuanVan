@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::group(['prefix'=>'trangchu'], function(){
 	//Gọi Route trangchu   domain/trangchu/ 
 	Route::get('/',[
@@ -39,17 +38,21 @@ Route::group(['prefix'=>'trangchu'], function(){
 		'as'=>'chuyen-muc-thong-bao',
 		'uses'=>'TrangChuController@getChuyenmucthongbao'
 	]);
-	Route::get('dangkychungchi',[
-		'as'=>'dang-ky-chung-chi',
-		'uses'=>'TrangChuController@getDangkychungchi'
+	Route::get('dangkylophoc',[
+		'as'=>'dang-ky-lop-hoc',
+		'uses'=>'TrangChuController@getDangkylophoc'
 	]);
-	Route::post('dangkychungchi/{id}',[
-		'as'=>'dang-ky-chung-chi-post',
-		'uses'=>'TrangChuController@postDangkychungchi'
+	Route::post('dangkylophoc',[
+		'as'=>'dang-ky-lop-hoc-post',
+		'uses'=>'TrangChuController@postDangkylophoc'
 	]);
 	Route::get('huydangkychungchi/{id}',[
 		'as'=>'huy-dang-ky-chung-chi',
 		'uses'=>'TrangChuController@getHuydangkychungchi'
+	]);
+	Route::get('dangkylop/{id}',[
+		'as'=>'dang-ky-lop',
+		'uses'=>'TrangChuController@getDangkylop'
 	]);
 });
 Route::group([ 'prefix' => 'vanbang' ] , function(){   
@@ -117,6 +120,10 @@ Route::group([ 'prefix' => 'vanbang' ] , function(){
 		'as'=>'import-van-bang',
 		'uses'=>'VanBangController@postImport'
 	]);
+	Route::post('exportvanbang',[
+		'as'=>'export-van-bang',
+		'uses'=>'VanBangController@Excelexport'
+	]);
 }); 
 Route::group([ 'prefix' => 'thongbao' ] , function(){   
 //Gọi Route dangthongbao:   domain/thongbao/dangthongbao 
@@ -181,25 +188,25 @@ Route::group([ 'prefix' => 'hocvien' ] , function(){
 }); 
 Route::group([ 'prefix' => 'tuyensinh' ] , function(){   
 //Gọi Route dangthongbao:   domain/tuyensinh/molopchungchi
-	Route::get('molopchungchi',[
-		'as'=>'mo-lop-chung-chi',
-		'uses'=>'TuyenSinhController@getMolopchungchi'
+	Route::get('khoahoc',[
+		'as'=>'khoa-hoc',
+		'uses'=>'TuyenSinhController@getKhoahoc'
 	]);
-	Route::post('molop',[
-		'as'=>'mo-lop',
-		'uses'=>'TuyenSinhController@postMolopchungchi'
+	Route::post('mokhoa',[
+		'as'=>'mo-khoa',
+		'uses'=>'TuyenSinhController@postKhoahoc'
 	]);
-	Route::get('lopchungchi',[
-		'as'=>'lop-chung-chi',
-		'uses'=>'TuyenSinhController@getLopchungchi'
+	Route::get('lophoc',[
+		'as'=>'lop-hoc',
+		'uses'=>'TuyenSinhController@getLophoc'
 	]);
-	Route::post('lopchungchi',[
-		'as'=>'lop-hoc-phan',
-		'uses'=>'TuyenSinhController@postLophocphan'
+	Route::post('lophoc',[
+		'as'=>'lop-hoc-post',
+		'uses'=>'TuyenSinhController@postLophoc'
 	]);
-	Route::post('themhocvienhocphan',[
-		'as'=>'them-hoc-vien-hoc-phan',
-		'uses'=>'TuyenSinhController@postThemhocvienlophocphan'
+	Route::post('themhocvienlophoc',[
+		'as'=>'them-hoc-vien-lop-hoc',
+		'uses'=>'TuyenSinhController@postThemhocvienlophoc'
 	]);
 	
 }); 
@@ -265,21 +272,37 @@ Route::group(['prefix'=>'ajax'], function(){
 		'as'=>'cap-phat-van-bang-hoc-vien',
 		'uses'=>'AjaxController@getCapphatvanbang'
 	]);
-	Route::get('lophocphan/{id}',[
-		'as'=>'ajax-lop-hoc-phan',
-		'uses'=>'AjaxController@getLophocphan'
-	]);
 	Route::get('lophoc/{id}',[
 		'as'=>'ajax-lop-hoc',
 		'uses'=>'AjaxController@getLophoc'
 	]);
-	Route::get('hocvienhocphan/{id}',[
-		'as'=>'hoc-vien-hoc-phan',
-		'uses'=>'AjaxController@banghocvienlophocphan'
+	Route::get('khoahoc/{id}',[
+		'as'=>'ajax-khoa-hoc',
+		'uses'=>'AjaxController@getKhoahoc'
+	]);
+	Route::get('hocvienlophoc/{id}',[
+		'as'=>'hoc-vien-lop-hoc',
+		'uses'=>'AjaxController@banghocvienlophoc'
 	]);
 	Route::get('hocvienchuanhapdiem/{id}',[
 		'as'=>'hoc-vien-chua-nhap-diem',
 		'uses'=>'AjaxController@bangchuanhapdiem'
+	]);
+	Route::get('tenlop/{id}',[
+		'as'=>'ten-lop',
+		'uses'=>'AjaxController@getTenlop'
+	]);
+	Route::get('tenkhoa/{id}',[
+		'as'=>'ten-khoa',
+		'uses'=>'AjaxController@getTenkhoa'
+	]);
+	Route::get('tenkhoahoc/{id}',[
+		'as'=>'ten-khoa-hoc',
+		'uses'=>'AjaxController@getTenkhoahoc'
+	]);
+	Route::get('lop/{id}',[
+		'as'=>'ajax-lop',
+		'uses'=>'AjaxController@getLop'
 	]);
 
 });
@@ -317,3 +340,25 @@ Route::group(['prefix'=>'thongke'],function(){
 		'uses'=>'ThongKeController@getThongketxeploai'
 	]);
 });
+
+Route::get('api/get_tenlop', function(Request $req){
+  $input = $req->input('option');
+  $khoahoc = DB::table('khoahoc')->select('TenKhoa')
+  				->where('ID', $input)
+                  ->first();
+  #$courses = DB::table('courses')->lists('level');
+  $TenKhoa = $khoahoc->TenKhoa;    
+  return response($TenKhoa);
+});
+
+Route::get('api/get_lophoc', function(Request $req){
+	$input = $req->input('option');
+	$khoahoc = DB::table('khoahoc')->join('lophoc','lophoc.ID_KhoaHoc','khoahoc.ID')
+					->select('lophoc.ID as ID','TenLop')
+					->where('khoahoc.ID', $input)
+					->get();
+	#$courses = DB::table('courses')->lists('level');
+	dd($khoahoc);     
+	return response($khoahoc);
+  });
+

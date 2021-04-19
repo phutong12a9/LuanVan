@@ -67,14 +67,26 @@ class ThongKeController extends Controller {
 		$TongXepLoai = $TongXS + $TongG + $TongK + $TongTB + $TongY;
 		$TongThanhTich = $TongDat + $TongKhongDat;
 
-		// Tính %
-		$pt_XS = ($TongXS / $TongXepLoai) * 100;
-		$pt_G = ($TongG / $TongXepLoai) * 100;
-		$pt_K = ($TongK / $TongXepLoai) * 100;
-		$pt_TB = ($TongTB / $TongXepLoai) * 100;
-		$pt_Y = ($TongY / $TongXepLoai) * 100;
-		$pt_D = ($TongDat / $TongThanhTich) * 100;
-		$pt_KD = ($TongKhongDat / $TongThanhTich) * 100;
+		if ($TongXepLoai == 0 || $TongThanhTich == 0 ) {
+			$pt_XS = 0;
+			$pt_G = 0;
+			$pt_K =0;
+			$pt_TB = 0;
+			$pt_Y = 0;
+			$pt_D = 0;
+			$pt_KD = 0;
+		}
+		else{
+			// Tính %
+			$pt_XS = ($TongXS / $TongXepLoai) * 100;
+			$pt_G = ($TongG / $TongXepLoai) * 100;
+			$pt_K = ($TongK / $TongXepLoai) * 100;
+			$pt_TB = ($TongTB / $TongXepLoai) * 100;
+			$pt_Y = ($TongY / $TongXepLoai) * 100;
+			$pt_D = ($TongDat / $TongThanhTich) * 100;
+			$pt_KD = ($TongKhongDat / $TongThanhTich) * 100;
+		}
+		
 
 		return view('thongke.thongkexeploai', compact('Dat', 'KhongDat', 'XuatSac', 'Gioi', 'Kha', 'TB', 'Yeu', 'TongXepLoai', 'TongXS', 'TongG', 'TongK', 'TongTB', 'TongY', 'TongThanhTich', 'TongDat', 'TongKhongDat', 'pt_XS', 'pt_G', 'pt_K', 'pt_TB', 'pt_Y', 'pt_D', 'pt_KD', 'ListYear'));
 	}

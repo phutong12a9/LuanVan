@@ -86,7 +86,7 @@
                 url: URL
 
             }).done(function(results){
-                                console.log(results);
+              console.log(results);
               $('#modalchitiet').html(results.html);
               $('#modalchitiet').modal({
                 show: true

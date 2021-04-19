@@ -1,11 +1,7 @@
 @if(session()->has('canbo'))
 @extends('quantri')
 @section('content')
-@if(Session::has('themthanhcong'))
-<div class="alert pull-right" id="thongbao" role="alert" style="color: green;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white;z-index: 2">{{Session::get('themthanhcong')}}
-</div>
-@endif
-<title>Sắp Xếp Khóa Học</title>
+<title>Lớp Học</title>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <center><h3>Mở Lớp Học</h3></center>
   <div class="panel panel-default">
@@ -23,10 +19,7 @@
       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
           <select id="tenlophoc" class="form-control" style="width: 90%">
-            <option>-- Chọn Lớp Học --</option>
-            @foreach($lophoc as $lop)
-            <option value="{{$lop->ID}}">{{$lop->TenLop}}</option>
-            @endforeach
+          
           </select>
         </div>
       </div>
@@ -48,11 +41,8 @@
               <div class="form-group">
                 <label class="col-lg-4 control-label">Chọn Lớp Học</label>
                 <div class="col-lg-6">
-                  <select class="form-control" name="tenlophp" id="hocphan">
-                    <option value="null">-- Chọn Tên Lớp Học --</option>
-                    @foreach($lophoc as $lop)
-                    <option value="{{$lop->ID}}">{{$lop->TenLop}}</option>
-                    @endforeach
+                  <select class="form-control" name="tenlophp" id="tenlophp">
+                   
                   </select>
                 </div>
               </div>
@@ -86,13 +76,65 @@
         <form method="post" action="{{route('lop-hoc-post')}}" class="form-horizontal">
           <input type="hidden" name="_token" value="{{csrf_token()}}">
           <div class="form-group">
-            <label class="col-lg-4 control-label">Khóa</label>
-            <div class="col-lg-6">
-              <select class="form-control" name="lophoc" id="lophoc">
-                <option value="null">-- Chọn Lớp --</option>
-                @foreach($kh as $kh)
-                <option value="{{$kh->ID}}">{{$kh->TenKhoa}}</option>
+            <label class="col-lg-4 control-label">Khóa *</label>
+            <div class="col-lg-2">
+              <select class="form-control" name="khoa" id="khoa">
+                <option value=""></option>
+                @foreach($khoa as $k)
+                <option value="{{$k->ID}}">{{$k->Ten}}</option>
                 @endforeach
+              </select>
+            </div>
+            <label class="col-lg-2 control-label">Khóa Học *</label>
+            <div class="col-lg-2">
+              <select class="form-control" name="tenkhoahoc" id="tenkhoahoc">
+                
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-4 control-label">Ngày Học *</label>
+            <div class="col-lg-6">
+              <select class="form-control" id="ngayhoc" name="ngayhoc">
+                <option value=""></option>
+                <option value="2,4,6">Thứ 2,4,6</option>
+                <option value="3,5,7">Thứ 3,5,7</option>
+                <option value="2,3,4">Thứ 2,3,4</option>
+                <option value="3,4,5">Thứ 3,4,5</option>
+                <option value="4,5,6">Thứ 4,5,6</option>
+                <option value="5,6,7">Thứ 5,6,7</option>
+                <option value="6,7,CN">Thứ 6,7,CN</option>
+                <option value="2,3">Thứ 2,3</option>
+                <option value="2,4">Thứ 2,4</option>
+                <option value="2,5">Thứ 2,5</option>
+                <option value="2,6">Thứ 2,6</option>
+                <option value="2,7">Thứ 2,7</option>
+                <option value="2,CN">Thứ 2,CN</option>
+                <option value="3,4">Thứ 3,4</option>
+                <option value="3,5">Thứ 3,5</option>
+                <option value="3,6">Thứ 3,6</option>
+                <option value="3,7">Thứ 3,7</option>
+                <option value="3,CN">Thứ 3,CN</option>
+                <option value="4,5">Thứ 4,5</option>
+                <option value="4,6">Thứ 4,6</option>
+                <option value="4,7">Thứ 4,7</option>
+                <option value="4,CN">Thứ 4,CN</option>
+                <option value="5,6">Thứ 5,6</option>
+                <option value="5,7">Thứ 5,7</option>
+                <option value="5,CN">Thứ 5,CN</option>
+                <option value="6,7">Thứ 6,7</option>
+                <option value="6,CN">Thứ 6,CN</option>
+                <option value="7,CN">Thứ 7,CN</option>
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-lg-4 control-label">Buổi Học *</label>
+            <div class="col-lg-6">
+              <select class="form-control" id="buoihoc" name="buoihoc">
+                <option value=""></option>
+                <option value="Sáng">Sáng</option>
+                <option value="Tối">Tối</option>
               </select>
             </div>
           </div>
@@ -103,87 +145,12 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-4 control-label">Giảng Viên</label>
-            <div class="col-lg-6">
-              <select class="form-control" name="giangvien" id="giangvien">
-                <option value="null">-- Chọn Giảng Viên --</option>
-                @foreach($giangvien as $giangvien)
-                <option value="{{$giangvien->ID}}">{{$giangvien->HoTenGV}}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-4 control-label">Buổi Học</label>
-            <div class="col-lg-6">
-              <select class="form-control" id="buoihoc" name="buoihoc">
-                <option value="2 - 4 - 6">Buổi 2 - 4 - 6</option>
-                <option value="3 - 5 - 7">Buổi 3 - 5 - 7</option>
-                <option value="2 - 3 - 4">Buổi 2 - 3 - 4</option>
-                <option value="3 - 4 - 5">Buổi 3 - 4 - 5</option>
-                <option value="4 - 5 - 6">Buổi 4 - 5 - 6</option>
-                <option value="5 - 6 - 7">Buổi 5 - 6 - 7</option>
-                <option value="6 - 7 - CN">Buổi 6 - 7 -CN</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-4 control-label">Thời Gian Học</label>
+            <label class="col-lg-4 control-label">Thời Gian Học *</label>
             <div class="col-lg-6">
               <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input type="text" name="thoigianhoc" class="form-control" placeholder="Thời gian hoc" id="thoigianhoc">
+                <input type="text" name="thoigianhoc" class="form-control" placeholder="Thời gian học" id="thoigianhoc">
               </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-4 control-label">Phòng Học</label>
-            <div class="col-lg-6">
-              <select class="form-control" name="phonghoc" id="phonghoc">
-                <option value="null">-- Chọn Phòng Học --</option>
-                <option value="C.1.1">C.1.1</option>
-                <option value="C.1.2">C.1.2</option>
-                <option value="C.1.3">C.1.3</option>
-                <option value="C.1.4">C.1.4</option>
-                <option value="C.1.5">C.1.5</option>
-                <option value="C.1.6">C.1.6</option>
-                <option value="C.2.1">C.2.1</option>
-                <option value="C.2.2">C.2.2</option>
-                <option value="C.2.3">C.2.3</option>
-                <option value="C.2.4">C.2.4</option>
-                <option value="C.2.5">C.2.5</option>
-                <option value="C.2.6">C.2.6</option>
-                <option value="C.3.1">C.3.1</option>
-                <option value="C.3.2">C.3.2</option>
-                <option value="C.3.3">C.3.3</option>
-                <option value="C.3.4">C.3.4</option>
-                <option value="C.3.5">C.3.5</option>
-                <option value="C.3.6">C.3.6</option>
-                <option value="C.4.1">C.4.1</option>
-                <option value="C.4.2">C.4.2</option>
-                <option value="C.4.3">C.4.3</option>
-                <option value="C.4.4">C.4.4</option>
-                <option value="C.4.5">C.4.5</option>
-                <option value="C.4.6">C.4.6</option>
-                <option value="C.5.1">C.5.1</option>
-                <option value="C.5.2">C.5.2</option>
-                <option value="C.5.3">C.5.3</option>
-                <option value="C.5.4">C.5.4</option>
-                <option value="C.5.5">C.5.5</option>
-                <option value="C.5.6">C.5.6</option>
-                <option value="C.6.1">C.6.1</option>
-                <option value="C.6.2">C.6.2</option>
-                <option value="C.6.3">C.6.3</option>
-                <option value="C.6.4">C.6.4</option>
-                <option value="C.6.5">C.6.5</option>
-                <option value="C.6.6">C.6.6</option>
-                <option value="Phòng Máy 1">Phòng Máy 1</option>
-                <option value="Phòng Máy 2">Phòng Máy 2</option>
-                <option value="Phòng Máy 3">Phòng Máy 3</option>
-                <option value="Phòng Máy 4">Phòng Máy 4</option>
-                <option value="Phòng Máy 5">Phòng Máy 5</option>
-                <option value="Phòng Máy 6">Phòng Máy 6</option>
-              </select>
             </div>
           </div>
           <div class="form-group">
@@ -192,6 +159,7 @@
               <input type="submit" name="btn_Them" class="btn btn-success pull-right" id="btn_ThemLop" value="Thêm">
             </div>
           </div>
+          <p><b>* Các trường bắt buộc</b></p>
         </form>
       </div>
       
@@ -269,29 +237,99 @@
     });
 </script>
 <script type="text/javascript">
+  $('#btn_ThemLop').click(function(){
+    var khoa = $('#khoa').val();
+    var tenkhoa = $('#tenkhoahoc').val();
+    var ngayhoc = $('#ngayhoc').val();
+    var buoihoc = $('#buoihoc').val();
+    var thoigianhoc = $('#thoigianhoc').val();
+
+    if (khoa == "") {
+      $('#khoa').css("border","2px solid red");
+      event.preventDefault()
+    }
+    else {
+      $('#khoa').css("border","0px solid #ccc;");
+    }
+
+    if (tenkhoa == "") {
+      $('#tenkhoahoc').css("border","2px solid red");
+      event.preventDefault()
+    }
+    else {
+      $('#tenkhoahoc').css("border","0px solid #ccc;");
+    }
+
+    if (ngayhoc == "") {
+      $('#ngayhoc').css("border","2px solid red");
+      event.preventDefault()
+    }
+    else {
+       $('#ngayhoc').css("border","1px solid #ccc;");
+    }
+
+    if (buoihoc == "") {
+      $('#buoihoc').css("border","2px solid red");
+      event.preventDefault()
+    }
+    else {
+       $('#buoihoc').css("border","1px solid #ccc;");
+    }
+
+    if (thoigianhoc == "") {
+      $('#thoigianhoc').css("border","2px solid red");
+      event.preventDefault()
+    }
+    else{
+       $('#thoigianhoc').css("border","1px solid #ccc;");
+    }
+  });
+</script>
+<script type="text/javascript">
   $(document).ready(function(){
+
+      $("#khoa").change(function(){
+        let ID = $(this).val();
+        $.get("ajax/tenkhoahoc/"+ID, function(data){
+          console.log(data);
+          $('#tenkhoahoc').html(data);
+
+        });
+      });
 
       $("#tenlophoc").change(function(){
         let ID = $("#tenlophoc").val();
-        $.get("ajax/lophocphan/"+ID,function(data){
-                    $("#bang_lophoc").html(data);
-                });
-      });
-      $("#tenkhoa").change(function(){
-        let ID = $("#tenkhoa").val();
         $.get("ajax/lophoc/"+ID,function(data){
                     $("#bang_lophoc").html(data);
-                });
-      });
-      $("#lophoc").change(function(){
-        $.get("{{ url('api/get_tenlop')}}", 
-         { option: $(this).val() },  
-          function(data) { 
-            var tenlop = data.split('~');
-             $('#tenlop').val(tenlop[0] + " lớp " + tenlop[1]);
           });
       });
 
+      $("#tenkhoa").change(function(){
+        let ID = $("#tenkhoa").val();
+        $.get("ajax/khoahoc/"+ID,function(data){
+                    $("#bang_lophoc").html(data);
+          });
+
+        $.get("ajax/tenlop/"+ID,   
+          function(data) { 
+            $('#tenlophoc').html(data);
+             $('#tenlophp').html(data);
+          });
+      });
+
+      $("#tenkhoahoc").change(function(){
+        $("#ngayhoc").change(function(){
+          var ngayhoc = $(this).val();
+          $("#buoihoc").change(function(){
+             var buoihoc = $(this).val();
+             $.get("{{ url('api/get_tenlop')}}", 
+             { option: $("#tenkhoahoc").val() },  
+              function(data) { 
+                 $('#tenlop').val(data +" " + buoihoc + " " + ngayhoc);
+              });
+          });
+        });
+      });
   });
 </script>
 @endsection

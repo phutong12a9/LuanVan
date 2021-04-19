@@ -1,15 +1,11 @@
 @if(session()->has('canbo'))
 @extends('quantri')
 @section('content')
-<title>Mở Lớp Chứng Chỉ</title>
-@if(Session::has('themthanhcong'))
-<div class="alert pull-right" id="thongbao" role="alert" style="color: green;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white">{{Session::get('themthanhcong')}}
-</div>
-@endif
-@if(Session::has('thanhcong'))
-<div class="alert pull-right" id="thongbao" role="alert" style="color: green;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white;z-index: 2">
-  <i class="glyphicon glyphicon-ok"></i>{{Session::get('thanhcong')}}
-</div>
+<title>Khóa Học</title>
+@if (Session::has('error'))
+    <div class="alert pull-right" id="thongbao" role="alert" style="color: red;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white;z-index: 2">
+      <i class="glyphicon glyphicon-remove"></i>{{Session::get('error')}}
+    </div>
 @endif
 <style type="text/css">
 #bang_lophoc {
@@ -51,6 +47,20 @@ content: counter(row-num);
                       <option value="{{$chungchi->ID}}">{{$chungchi->TenChungChi}}</option>
                       @endforeach
                     </select>
+                  </div>
+                </div>
+                 <div class="form-group" id="tt">
+                  <label class="col-lg-4 control-label">Khoá</label>
+                  <div class="col-lg-2" id="khoa">
+                    <select class="form-control" name="khoa" required style="width: 70%">
+                      @foreach($khoa as  $khoa)
+                      <option value="{{$khoa->ID}}">{{$khoa->Ten}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <label class="col-lg-2 control-label">Cấp độ</label>
+                  <div class="col-lg-2" id="capdo">
+    
                   </div>
                 </div>
                 <div class="form-group">
@@ -106,9 +116,10 @@ content: counter(row-num);
           <thead >
             <tr>
               <th>STT</th>
-              <th>Tên Khóa</th>
+              <th>Khóa</th>
+              <th>Tên Khóa Học</th>
               <th>Khai Giảng</th>
-              <th>Thời Gian Thi</th>
+              <th>Thi (dự kiến)</th>
               <th>Học Phí</th>
               <th>Trạng Thái</th>
               <th>Thao Tác</th>
@@ -118,7 +129,8 @@ content: counter(row-num);
             @foreach ($khoahoc as $khoahoc)
             <tr>
               <td></td>
-              <td>{{$khoahoc->TenLop}}</td>
+              <td>{{$khoahoc->Ten}}</td>
+              <td>{{$khoahoc->TenKhoa}}</td>
               <td>{{date('d/m/Y', strtotime($khoahoc->NgayKhaiGiang))}}</td>
               <td>{{date('d/m/Y', strtotime($khoahoc->ThoiGianThi))}}</td>
               <td>{{number_format($khoahoc->HocPhi)}} VND</td>
@@ -137,6 +149,47 @@ content: counter(row-num);
     </div>
   </div>
 </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $("#bang_lophoc").DataTable({
+          "language": {
+             "lengthMenu": "Xem _MENU_ mục",
+            "zeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "info": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sSearch":       "Tìm kiếm :",
+            "infoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "infoFiltered": "(được lọc từ _MAX_ mục)",
+            "oPaginate":{
+                  "sFirst":    "Đầu",
+                  "sPrevious": "Trước",
+                  "sNext":     "Tiếp",
+                  "sLast":     "Cuối",
+            }
+                      },
+            "pagingType": "full_numbers",
+            "displayLength": 25,
+            "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "Tất cả"]]
+        });
+        $('.chitiethocvien').click(function(event){
+            event.preventDefault();
+            let $this = $(this);
+            let URL = $this.attr('href');
+            $.ajax({
+                url: URL
+
+            }).done(function(results){
+                                console.log(results);
+              $('#modalchitiet').html(results.html);
+              $('#modalchitiet').modal({
+                show: true
+               });
+
+            });
+
+        });
+
+    });
+</script>
 <script type="text/javascript">
   $('#ngaythi').datepicker({format: 'dd/mm/yyyy'});
   $('#ngaykhaigiang').datepicker({format: 'dd/mm/yyyy'});
@@ -173,6 +226,50 @@ content: counter(row-num);
             }
         });
     });
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#tt').hide();
+    $('#tenchungchi').change(function(){
+       $('#tt').show();
+       var tencc = $(this).val();
+      if (tencc == "1") {
+        $('#capdo').html('<select class="form-control"  name="capdo">'
+                      +'<option value="350">350</option>'
+                      +'<option value="450">450</option>'
+                      +'<option value="650">650</option>'
+                      +'<option value="850">850</option>'
+                    +'</select>');
+      }
+      else if(tencc == "2"){
+         $('#capdo').html('<select class="form-control" name="capdo">'
+                      +'<option value="3.5">3.5</option>'
+                      +'<option value="4.5">4.5</option>'
+                      +'<option value="5.5">5.5</option>'
+                      +'<option value="6.5">6.5</option>'
+                      +'<option value="6.5+">6.5+</option>'
+                    +'</select>');
+      }
+      else if(tencc == "3"){
+         $('#capdo').html('<select class="form-control" name="capdo">'
+                      +'<option value="căn bản">Căn bản</option>'
+                      +'<option value="nâng cao">Nâng cao</option>'
+                    +'</select>');
+      }
+      else{
+         $('#capdo').html('<p></p>');
+         $('#tt').hide();
+      }
+
+    })
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var str = "Khóa 1"
+    var tenkhoa = str.slice(str.indexOf('Khóa')+1);
+    console.log(tenkhoa);
   });
 </script>
 @endsection

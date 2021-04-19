@@ -36,12 +36,12 @@
   <center><h3>Thêm Văn Bằng</h3></center>
   <div class="panel panel-default">
     <div class="panel-body" style="line-height: 20px;">
-      <form class="form-horizontal" action="" method="post" role="form" id="form_chondotcap">
+      <form class="form-horizontal" action="{{route('export-van-bang')}}" method="post" role="form" id="form_chondotcap">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
-            <select class="form-control" id="tenvb" style="width: 90%">
-              <option value="all">-- Chọn Tên Chứng Chỉ --</option>
+            <select class="form-control" id="tenvb" style="width: 90%" name="tenvb">
+              <option value="">-- Chọn Tên Chứng Chỉ --</option>
               @foreach($chungchi as $chungchi)
               <option value="{{$chungchi->ID}}">{{$chungchi->TenChungChi}}</option>
               @endforeach
@@ -50,20 +50,17 @@
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
-            <select id="dotvb" class="form-control" style="width: 90%">
-              <option>-- Chọn Đợt Cấp --</option>
+            <select id="khoahoc" class="form-control" style="width: 90%" name="khoahoc">
             </select>
           </div>
         </div>
+        <button type="button" class="btn btn-success" style="width: 120px;" data-toggle="modal" data-target="#import" id="btn_import">
+        <i class="glyphicon glyphicon-upload"></i> Import
+        </button>
+        <button type="submit" class="btn btn-info" id="export" style="width: 120px;" >
+        <i class="glyphicon glyphicon-download"></i> Export
+        </button>
       </form>
-    </div>
-    <div style="margin: 0px 20px 10px 30px;">
-      <button type="button" class="btn btn-success" style="width: 120px;" data-toggle="modal" data-target="#import" id="btn_import">
-      <i class="glyphicon glyphicon-upload"></i> Import
-      </button>
-      <button type="button" class="btn btn-info" id="btn_export" style="width: 120px;" >
-      <i class="glyphicon glyphicon-download"></i> Export
-      </button>
     </div>
   </div>
 </div>
@@ -106,15 +103,6 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-4 control-label">Đợt cấp văn bằng</label>
-                <div class="col-lg-8">
-                  <select id="md_dotcapvanbang" class="form-control" placeholder="Chọn đợt cấp văn bằng" name="import_dotcap">
-                    <option value="">-- Chọn Đợt Cấp --</option>
-                  </select>
-                  <p id="err_dotvb" hidden="true"></p>
-                </div>
-              </div>
-              <div class="form-group">
                 <div class="col-lg-4"></div>
                 <div class="col-lg-8">
                   <input type="file" name="file" accept=".xlsx" required="true" id="file-excel">
@@ -140,20 +128,6 @@
 <!--Kết thúc body-->
 <script type="text/javascript">
     $(document).ready(function(){
-         $("#btn_export").click(function () {
-          let today = new Date();
-          let time = today.getDate()+'_'+(today.getMonth()+1)+'_'+today.getFullYear() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
-          let tenfile = "Hocvien_"+time ;
-             $("#table_hocvien").table2excel({
-                exclude: ".chitiet",
-                exclude: ".tt",
-                fileext:".xlsx",
-                preserveColors:true,
-                filename: tenfile,
-                columns: [1,2,3,4,5,6,7,8,9,10,11],
-
-             });
-        });
 
          $("#tenvb").change(function(){
             let ID = $("#tenvb").val();
@@ -165,13 +139,6 @@
          $("#thongbao").fadeOut(10000);
          $("#thongbaoloi").fadeOut(10000);
     });
-</script>
-<script type="text/javascript">
-  $('#themnoisinh').editableSelect();
-  $('#chitietnoisinh').editableSelect();
-  $('#themngaysinh').datepicker({format: 'dd/mm/yyyy'});
-  $('#themngaykt').datepicker({format: 'dd/mm/yyyy'});
-  $('#themngayky').datepicker({format: 'dd/mm/yyyy'});
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -205,11 +172,26 @@
 <script type="text/javascript">
   $(document).ready(function(){
     let tenvb = $("#tenvb").val();
-    if ( tenvb ="all") {
+    if ( tenvb==="") {
       $.get("ajax/banghocvien/",function(data){
                 $("#body_banghocvien").html(data);
             });
     }
+    $('#tenvb').change(function(){
+      var ID = $(this).val();
+      $.get("ajax/tenkhoa/"+ID,   
+          function(data) { 
+            $('#khoahoc').html(data);
+          });
+    });
+
+    $('#khoahoc').change(function(){
+      var ID = $(this).val();
+      $.get("ajax/khoahoc/"+ID,   
+          function(data) { 
+            $('#body_banghocvien').html(data);
+          });
+    });
   });
 </script>
 <script lang="javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>

@@ -88,8 +88,8 @@
                 <div class="col-lg-10">
                   <select class="form-control" name="lophoc" id="lophoc">
                     <option value="null">--Chọn lớp học--</option>
-                    @foreach($lophocphan as $lhp)
-                    <option value="{{$lhp->ID}}">{{$lhp->TenLop}}</option>
+                    @foreach($lophoc as $lh)
+                    <option value="{{$lh->ID}}">{{$lh->TenLop}}</option>
                     @endforeach
                   </select>
                 </div>

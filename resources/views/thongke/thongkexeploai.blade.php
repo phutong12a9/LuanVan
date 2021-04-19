@@ -311,8 +311,8 @@
         backgroundColor: {
                linearGradient: [0, 0, 500, 500],
                stops: [
-                 [0, 'rgba(255, 128, 53, 0.7)'],
-                 [1, 'rgb(106, 90, 255)']
+                 [0, 'rgb(169, 255, 150)'],
+                 [1, 'rgba(20, 230, 245, 0.82)']
                ]
              },
         polar: true,
@@ -369,8 +369,8 @@
             backgroundColor: {
                linearGradient: [0, 0, 500, 500],
                stops: [
-                 [0, 'rgba(255, 128, 53, 0.7)'],
-                 [1, 'rgb(106, 90, 255)']
+                 [0, 'rgb(169, 255, 150'],
+                 [1, 'rgb(124, 181, 236)']
                ]
              },
             polar: true,
@@ -417,8 +417,8 @@
               backgroundColor: {
                linearGradient: [0, 0, 500, 500],
                stops: [
-                 [0, 'rgba(255, 128, 53, 0.7)'],
-                 [1, 'rgb(106, 90, 255)']
+                 [0, 'rgba(230, 235, 86, 0.88)'],
+                 [1, 'rgba(88, 218, 170, 0.88)']
                ]
              },
               polar: true,

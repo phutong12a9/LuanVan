@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\hocviendangky;
+use App\hocvien;
+use App\lop;
 use App\thongbao;
 use DB;
 use Session;
-use Request;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TrangChuController extends Controller {
 	public function getTrangchu() {
@@ -43,24 +46,31 @@ class TrangChuController extends Controller {
 		return view('trangchu.dangkychungchi', compact('khoahoc'));
 	}
 
-	public function postDangkychungchi($id) {
+	public function postDangkylophoc(Request $req) {
 
-		if (Session::has('users')) {
-			$iduser = Session('users')->ID;
-			$hocvien = DB::table('hocvien')->join('users', 'users.ID', 'hocvien.ID_User')->select('hocvien.ID as ID')->where('users.ID', $iduser)->get();
-			$idhocvien = $hocvien[0]->ID;
+			$hocvien = new hocvien;
+			$hocvien->HoTenHV = $req->hoten;
+			$hocvien->GioiTinh = $req->gioitinh;
+			$hocvien->NgaySinh = Carbon::createFromFormat('d/m/Y', $req->ngaysinh)->format('Y-m-d');
+			$hocvien->NoiSinh = $req->noisinh;
+			$hocvien->SDT = $req->sdt;
+			$hocvien->Email = $req->email;
+			$hocvien->save();
 
 			$hocviendangky = new hocviendangky;
-			$hocviendangky->ID_HocVien = $idhocvien;
-			$hocviendangky->ID_Lop = $id;
+			$hocviendangky->ID_HocVien = $hocvien->id;
 			$hocviendangky->TrangThai = "Chưa Đóng Học Phí";
+			$hocviendangky->ThoiGian = date('Y-m-d');
 			$hocviendangky->save();
-			return redirect()->back()->with('dangkythanhcong', 'Đã đăng ký thành công.');
 
-		} else {
-			return redirect()->back()->with('dangkythatbai', 'Vui lòng đăng nhập.');
-		}
+			$lop = new lop;
+			$lop->ID_LopHoc = $req ->lop;
+			$lop->ID_HocVienDK = $hocviendangky->id;
+			$lop->TrangThai = "Chưa nhập điểm";
+			$lop->save();
+			return redirect()->route('dang-ky-lop-hoc')->with('dangkythanhcong', 'Đã đăng ký thành công.');
 	}
+
 	public function getHuydangkychungchi($id) {
 		$delete = DB::delete('DELETE FROM hocviendangky WHERE ID =?', [$id]);
 		return redirect()->back();
