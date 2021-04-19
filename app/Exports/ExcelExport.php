@@ -23,7 +23,6 @@ class ExcelExport implements FromView, ShouldAutoSize, WithEvents, WithTitle {
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
                                     AND hocviendangky.ID = lop.ID_HocVienDK
                                     AND lop.ID = ketquathi.ID_Lop
-                                    AND hocviendangky.ID_Khoa = khoahoc.ID
                                     AND lop.TrangThai = "Đã Nhập Điểm"
                                     AND hocviendangky.XetDuyet = "Chờ duyệt"
                                 ORDER BY ketquathi.ThoiGian DESC');
@@ -33,7 +32,6 @@ class ExcelExport implements FromView, ShouldAutoSize, WithEvents, WithTitle {
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
                                     AND hocviendangky.ID = lop.ID_HocVienDK
                                     AND lop.ID = ketquathi.ID_Lop
-                                    AND hocviendangky.ID_Khoa = khoahoc.ID
                                     AND chungchi.ID = khoahoc.ID_ChungChi
                                     AND lop.TrangThai = "Đã Nhập Điểm"
                                     AND hocviendangky.XetDuyet = "Chờ duyệt"
@@ -46,7 +44,6 @@ class ExcelExport implements FromView, ShouldAutoSize, WithEvents, WithTitle {
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
                                     AND hocviendangky.ID = lop.ID_HocVienDK
                                     AND lop.ID = ketquathi.ID_Lop
-                                    AND hocviendangky.ID_Khoa = khoahoc.ID
                                     AND chungchi.ID = khoahoc.ID_ChungChi
                                     AND lop.TrangThai = "Đã Nhập Điểm"
                                     AND hocviendangky.XetDuyet = "Chờ duyệt"
