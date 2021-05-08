@@ -6,19 +6,33 @@
   <center><h3>Mở Lớp Học</h3></center>
   <div class="panel panel-default">
     <div class="panel-body" style="line-height: 20px;">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div class="form-group">
-          <select class="form-control" id="tenkhoa" style="width: 90%">
-            <option>-- Chọn Tên Khoá --</option>
-            @foreach($khoahoc as $khoahoc)
-            <option value="{{$khoahoc->ID}}">{{$khoahoc->TenKhoa}}</option>
+          <select id="khoahoc" class="form-control" style="width: 90%">
+            <option>--Chọn Khóa --</option>
+            @foreach($khoa as $kh)
+            <option value="{{$kh->ID}}">{{$kh->Ten}}</option>
             @endforeach
           </select>
         </div>
       </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="form-group">
+          <select class="form-control" id="tenkhoa" style="width: 90%">
+
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div class="form-group">
           <select id="tenlophoc" class="form-control" style="width: 90%">
+          
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="form-group">
+          <select id="tenlophocphan" class="form-control" style="width: 90%">
           
           </select>
         </div>
@@ -33,7 +47,8 @@
       <div id="body_banglophoc">
         <div class="btnChucNang" style="padding-bottom: 20px;">
           <button type="button"class="btn btn-primary" id="btn_MoLop" data-toggle="modal" data-target="#Modal_LopHP">Mở Lớp Học</button>
-          <button type="button" class="btn btn-warning" id="btn_ADD"><i class="glyphicon glyphicon-plus"></i> Học Phần Học Viên</button>
+          <button type="button" class="btn btn-info" id="btn_lophp"><i class="glyphicon glyphicon-plus"></i>Thêm Lớp Học Phần</button>
+          <button type="button" class="btn btn-warning" id="btn_ADD"><i class="glyphicon glyphicon-plus"></i>Thêm Học Viên Lớp Học Phần</button>
         </div>
         <div class="col-lg-12" id="ThemVaoLop" hidden="true">
           <div class="panel panel-default">
@@ -249,7 +264,7 @@
       event.preventDefault()
     }
     else {
-      $('#khoa').css("border","0px solid #ccc;");
+      $('#khoa').css("border","none");
     }
 
     if (tenkhoa == "") {
@@ -257,7 +272,7 @@
       event.preventDefault()
     }
     else {
-      $('#tenkhoahoc').css("border","0px solid #ccc;");
+      $('#tenkhoahoc').css("border","none");
     }
 
     if (ngayhoc == "") {
@@ -265,7 +280,7 @@
       event.preventDefault()
     }
     else {
-       $('#ngayhoc').css("border","1px solid #ccc;");
+       $('#ngayhoc').css("border","none");
     }
 
     if (buoihoc == "") {
@@ -273,7 +288,7 @@
       event.preventDefault()
     }
     else {
-       $('#buoihoc').css("border","1px solid #ccc;");
+       $('#buoihoc').css("border","none");
     }
 
     if (thoigianhoc == "") {
@@ -281,17 +296,24 @@
       event.preventDefault()
     }
     else{
-       $('#thoigianhoc').css("border","1px solid #ccc;");
+       $('#thoigianhoc').css("border","none");
     }
   });
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
 
+       $("#khoahoc").change(function(){
+        let ID = $(this).val();
+        $.get("ajax/tenkhoahoc/"+ID, function(data){
+          $('#tenkhoa').html(data);
+
+        });
+        $('#tenlophoc').empty();
+      });
       $("#khoa").change(function(){
         let ID = $(this).val();
         $.get("ajax/tenkhoahoc/"+ID, function(data){
-          console.log(data);
           $('#tenkhoahoc').html(data);
 
         });
