@@ -1,7 +1,7 @@
 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalImportDiem" style="margin-bottom: 20px;">Nhập Điểm</button>
 <button type="button" class="btn btn-success" style="margin-bottom: 20px;" id="btn_export">Export</button>
 @foreach($loailophoc as $loailophoc)
-@if($loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Anh" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Nhật" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Pháp")
+@if($loailophoc->TenChungChi=="IELTS")
 <table class="table table-striped" id="myTable">
   <thead>
     <tr>
@@ -38,7 +38,40 @@
     @endforeach
   </tbody>
 </table>
-@elseif($loailophoc->TenDanhMuc=="Chứng Chỉ Tin Học Căn Bản" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tin Học Nâng Cao")
+@elseif($loailophoc->TenChungChi=="TOEIC")
+<table class="table table-striped" id="myTable">
+  <thead>
+    <tr>
+      <th>SBD</th>
+      <th>Họ Tên</th>
+      <th>Giới Tính</th>
+      <th>Ngày Sinh</th>
+      <th>Nơi Sinh</th>
+      <th>Điểm Nghe</th>
+      <th>Điểm Đọc</th>
+      <th>Kết Quả</th>
+      <th>Ghi Chú</th>
+      <th>Thao Tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach($hocvien as $hocvien)
+    <tr>
+      <td class="sbd">{{$hocvien->ID}}</td>
+      <td class="hoten">{{$hocvien->HoTenHV}}</td>
+      <td class="gioitinh">{{$hocvien->GioiTinh}}</td>
+      <td class="ngaysinh">{{date('d/m/Y', strtotime($hocvien->NgaySinh))}}</td>
+      <td class="noisinh">{{$hocvien->NoiSinh}}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><button class="btn btn-success btnSelect">Nhập Điểm</button></td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+@elseif($loailophoc->TenChungChi=="Tin Học")
 <table class="table table-striped">
   <thead>
     <tr>
@@ -66,7 +99,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td><button class="btn btn-success" data-toggle="modal" data-target="#modalNhapDiem">Nhập Điểm</button></td>
+      <td><button class="btn btn-success btnSelect" data-toggle="modal" data-target="#modalNhapDiem">Nhập Điểm</button></td>
     </tr>
     @endforeach
   </tbody>
@@ -92,8 +125,8 @@
                 <div class="col-lg-10">
                   <select class="form-control" name="lophoc" id="lophoc">
                     <option value="null">--Chọn lớp học--</option>
-                    @foreach($lophoc as $lh)
-                    <option value="{{$lh->ID}}">{{$lh->TenLop}}</option>
+                    @foreach($lopthi as $lt)
+                    <option value="{{$lt->ID}}">{{$lt->TenLopThi}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -132,37 +165,63 @@
           <div class="panel-body">
             <form method="post" action="{{route('post-nhap-diem')}}" enctype="multipart/form-data" class="form-horizontal" id="form-nhapdiem">
               <input type="hidden" name="_token" value="{{csrf_token()}}">
-              <div class="form-group" hidden="true">
+              <div class="form-group">
                 <label class="col-lg-4 control-label">SBD</label>
                 <div class="col-lg-6">
-                  <input type="text" name="sbd" class="form-control md_sbd">
+                  <input type="text" name="sbd" class="form-control md_sbd" readonly>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-4 control-label">Họ Tên</label>
                 <div class="col-lg-6">
-                  <input type="text" name="hoten" class="form-control md_hoten" disabled="true">
+                  <input type="text" name="hoten" class="form-control md_hoten" readonly>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-4 control-label">Giới Tính</label>
                 <div class="col-lg-6">
-                  <input type="text" name="gioitinh" class="form-control md_gioitinh" disabled="true">
+                  <input type="text" name="gioitinh" class="form-control md_gioitinh" readonly>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-4 control-label">Ngày Sinh</label>
                 <div class="col-lg-6">
-                  <input type="text" name="ngaysinh" class="form-control md_ngaysinh" disabled="true">
+                  <input type="text" name="ngaysinh" class="form-control md_ngaysinh" readonly>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-4 control-label">Nơi Sinh</label>
                 <div class="col-lg-6">
-                  <input type="text" name="noisinh" class="form-control md_noisinh" disabled="true">
+                  <input type="text" name="noisinh" class="form-control md_noisinh" readonly>
                 </div>
               </div>
-              @if($loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Anh" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Nhật" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Pháp")
+              @if($loailophoc->TenChungChi=="TOEIC")
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Điểm Nghe</label>
+                <div class="col-lg-6">
+                  <input type="text" name="diemnghe" class="form-control md_diemnghe" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Điểm Đọc</label>
+                <div class="col-lg-6">
+                  <input type="text" name="diemdoc" class="form-control md_diemdoc" required>
+                </div>
+              </div>
+              @elseif($loailophoc->TenChungChi=="Tin Học")
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Điểm Lý Thuyết</label>
+                <div class="col-lg-6">
+                  <input type="text" name="diemlythuyet" class="form-control md_diemlythuyet" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-4 control-label">Điểm Thực Hành</label>
+                <div class="col-lg-6">
+                  <input type="text" name="diemthuchanh" class="form-control md_diemthuchanh" required>
+                </div>
+              </div>
+               @elseif($loailophoc->TenChungChi=="IELTS")
               <div class="form-group">
                 <label class="col-lg-4 control-label">Điểm Nghe</label>
                 <div class="col-lg-6">
@@ -187,7 +246,7 @@
                   <input type="text" name="diemviet" class="form-control md_diemviet" required>
                 </div>
               </div>
-              @elseif($loailophoc->TenDanhMuc=="Chứng Chỉ Tin Học Căn Bản" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tin Học Nâng Cao")
+              @elseif($loailophoc->TenChungChi=="Tin Học")
               <div class="form-group">
                 <label class="col-lg-4 control-label">Điểm Lý Thuyết</label>
                 <div class="col-lg-6">
@@ -217,3 +276,134 @@
     </div>
   </div>
 </div>
+<script lang="javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+<script type="text/javascript" charset="UTF-8" >
+
+
+      $("#file-excel").change(function(e){
+
+       var reader = new FileReader();
+        reader.readAsArrayBuffer(e.target.files[0]);
+        reader.onload = function(e) {
+        var data = new Uint8Array(reader.result);
+        var wb = XLSX.read(data,{type:'array'});
+        var htmlstr = XLSX.write(wb,{sheet:"Sheet1", type:'string',bookType:'html'});
+        console.log(htmlstr);
+        $('#table').empty();
+        $('#table')[0].innerHTML += htmlstr;
+        console.log($('#table')[0]);
+        }
+      });
+</script>
+<script type="text/javascript">
+   $(document).ready(function(){
+
+    $("#btnImportDiem").click(function(e){
+      let lophoc = $("#lophoc").val();
+      if (lophoc == "null") {
+        alert("Bạn chưa chọn lớp học.");
+        e.preventDefault();
+      }    
+      });          
+    });
+</script>
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+
+      $('.btnSelect').click(function(){
+          $('.md_sbd').val($(this).parents("tr").find(".sbd").text()); 
+          $('.md_hoten').val($(this).parents("tr").find(".hoten").text());
+          $('.md_gioitinh').val($(this).parents("tr").find(".gioitinh").text());
+          $('.md_ngaysinh').val($(this).parents("tr").find(".ngaysinh").text());
+          $('.md_noisinh').val($(this).parents("tr").find(".noisinh").text());  
+          $('#modalNhapDiem').modal();
+
+      });
+
+    });
+</script>
+<script>
+  $(document).ready(function() {
+    $("#form-nhapdiem").validate({
+      rules: {
+        diemnghe: {   
+          required: true, 
+          number : true, 
+        },
+        diemnoi: {
+          required: true, 
+          number : true, 
+        },
+        diemdoc: { 
+         required: true, 
+          number : true, 
+        },
+        diemviet : { 
+          required: true, 
+          number : true, 
+        },
+        diemlythuyet : {
+          required: true, 
+          number : true, 
+          min :  0,
+          max : 10
+
+        },
+        diemthuchanh : {
+          required: true, 
+          number : true, 
+          min :  0,
+          max : 10
+
+        },
+      },
+      messages: {
+        diemnghe: {
+          required: "Xin vui lòng nhập điểm nghe ",
+          number: "Điểm nghe phải là kiểu số"
+          },
+        diemnoi: {
+          required: "Xin vui lòng nhập điểm nói ",
+          number: "Điểm nói phải là kiểu số"
+          },
+        diemdoc: {
+          required: "Xin vui lòng nhập điểm đọc ",
+          number: "Điểm đọc phải là kiểu số"
+          },
+        diemviet: {
+          required: "Xin vui lòng nhập điểm viết",
+          number: "Điểm viết phải là kiểu số",
+          },
+        diemlythuyet: {
+          required: "Xin vui lòng nhập điểm lý thuyết ",
+          number: "Điểm lý thuyết phải là kiểu số",
+          min: "Điểm lý thuyết phải lớn hơn 0",
+          max: "Điểm lý thuyết phải nhỏ hơn 10"
+          },
+        diemthuchanh: {
+          required: "Xin vui lòng nhập điểm thực hành ",
+          number: "Điểm thực hành phải là kiểu số",
+          min: "Điểm thực hành phải lớn hơn 0",
+          max: "Điểm thực hành phải nhỏ hơn 10"
+          },
+      }
+    });
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+     $("#btn_export").click(function () {
+              let today = new Date();
+              let time = today.getDate()+'_'+(today.getMonth()+1)+'_'+today.getFullYear() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
+              let tenfile = "NhapDiemHocVien_"+time ;
+                 $("#myTable").table2excel({
+                    fileext:".xlsx",
+                    preserveColors:true,
+                    filename: tenfile,
+                 });
+            });
+
+  });
+</script>

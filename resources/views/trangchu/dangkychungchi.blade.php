@@ -18,7 +18,7 @@
       <br/>
       <form action="" method="post" role="form">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
-        <table class="table table-striped" style="font-size: 18px">
+        <table class="table table-striped" style="font-size: 18px;">
           <thead >
             <tr style="background-color:#337ab7;color: white; font-size: 12px">
               <th hidden="true">ID</th>
@@ -32,7 +32,7 @@
           </thead>
           <tbody id="myTable">
             @foreach ($khoahoc as $khoahoc)
-            <tr for="{{$khoahoc->IDKhoa}}">
+            <tr for="{{$khoahoc->IDKhoa}}" style="font-size: 12px">
               <td style="border: 2px solid rgba(192,192,192,0.8)" hidden="true">{{$khoahoc->IDKhoa}}</td>
               <td style="border: 2px solid rgba(192,192,192,0.8)">{{$khoahoc->Ten}}</td>
               <td style="border: 2px solid rgba(192,192,192,0.8)">{{$khoahoc->TenKhoa}}</td>
@@ -41,7 +41,7 @@
               <td style="border: 2px solid rgba(192,192,192,0.8);font-weight: bold; color: red">{{number_format($khoahoc->HocPhi)}} VND</td>
               <td style="border: 2px solid rgba(192,192,192,0.8)">
                 <center>
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target=".{{$khoahoc->IDKhoa}}" id="{{$khoahoc->IDKhoa}}">Xem Lớp</button>
+                <button style="font-size: 12px" type="button" class="btn btn-info" data-toggle="collapse" data-target=".{{$khoahoc->IDKhoa}}" id="{{$khoahoc->IDKhoa}}">Xem Lớp</button>
                 </center>
               </td>
             </tr>
@@ -56,7 +56,7 @@
             <tr class="collapse alert alert-info {{$khoahoc->IDKhoa}}">
               <td colspan="7">
                 <table width="100%" class="table" style="font-size: 16px">
-                  {{--  <thead>
+                   <thead>
                     <tr>
                       <th hidden="true">ID</th>
                       <th colspan="3">Tên lớp</th>
@@ -65,34 +65,56 @@
                       <th>Thời gian học</th>
                       <th></th>
                     </tr>
-                  </thead> --}}
+                  </thead>
                   <tbody id="tt{{$khoahoc->IDKhoa}}" style="color: black">
-                   
+                    @foreach($lophoc as $lh)
+                      @if($khoahoc->IDKhoa == $lh->ID_KhoaHoc)
+                        <tr>
+                          <td hidden="true">{{$lh->ID}}</td>
+                          <td colspan=3>{{$lh->TenLop}}</td>
+                          <td>{{$lh->BuoiHoc}}</td>
+                          <td>Thứ {{$lh->NgayHoc}}</td>
+                          <td>{{$lh->ThoiGianHoc}}</td>
+                          <td> <a href="{{route('dang-ky-lop',$lh->ID)}}" class="dangkylop">Đăng ký</a></td>
+                        </tr>
+                      @endif
+                    @endforeach
                   </tbody>
                 </table>
               </td>
             </tr>
-            <script type="text/javascript">
-              $(document).ready(function(){
-
-                  $('#{{$khoahoc->IDKhoa}}').click(function(){
-                  var ID = {{$khoahoc->IDKhoa}};
-                    $.get("ajax/lop/"+ID,function(data){
-
-                      $('#tt{{$khoahoc->IDKhoa}}').html(data);
-                
-                  });
-                });
-              });
-            </script>
 
             @endforeach
           </tbody>
         </table>
+        <!-- Bắt đầu Modal chi tiết học viên-->
+<div class="modal " id="modallophoc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <!-- Kết Thúc Modal Chi tiết học viên-->
+</div>
       </form>
     </div>
   </div>
-
 </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+     $('.dangkylop').click(function(event){
+            event.preventDefault();
+            let $this = $(this);
+            let URL = $this.attr('href');
+            $.ajax({
+                url: URL
 
+            }).done(function(results){
+              console.log(results);
+              $('#modallophoc').html(results.html);
+              $('#modallophoc').modal({
+                show: true
+               });
+
+            });
+
+        });
+  });
+</script>
 @endsection

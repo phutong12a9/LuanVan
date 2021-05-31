@@ -1,25 +1,25 @@
-<link rel="stylesheet" type="text/css" href="source/css/sttTable.css">
-<div class="filler" style="margin-bottom: 20px;">
-  <select class="filler-table" id="filler-table">
+{{-- 
+<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin-bottom: 20px;">
+  <select class="form-control" id="filler-table">
     <option value="all">Tất cả</option>
     <option value="Đã duyệt">Đã Duyệt</option>
     <option value="Chờ duyệt">Chờ Duyệt</option>
     <option value="Không duyệt">Không Duyệt</option>
   </select>
-</div>
+</div> --}}
 <table class="table table-striped table-responsive" id="table_hocvien">
 
   <thead >
     <tr>
       <th></th>
-      <th>TT</th>
+      <th>SBD</th>
       <th>Trạng Thái</th>
       <th>Họ Tên</th>
       <th>Giới Tính</th>
       <th>Ngày Sinh</th>
       <th>Nơi Sinh</th>
       <th>Ngày Kiểm Tra</th>
-      <th>Xếp Loại</th>
+      <th>Kết Quả</th>
     </tr>
   </thead>
   <tbody id="myTable">
@@ -30,12 +30,12 @@
           <i class="glyphicon glyphicon-eye-open"></i>
         </a>
       </td>
-      <td></td>
+      <td>{{$xetduyet->SBD}}</td>
       <td id="tt" style="font-weight: bold"><br>
         @if($xetduyet->XetDuyet == 'Chờ duyệt')
         <span class="fa fa-circle" style="color: yellow"></span> &nbsp {{$xetduyet->XetDuyet}}
         @elseif($xetduyet->XetDuyet == 'Đã duyệt')
-        <span class="fa fa-circle" style="color: green"></span> $nbsp {{$xetduyet->XetDuyet}}
+        <span class="fa fa-circle" style="color: green"></span> &nbsp {{$xetduyet->XetDuyet}}
         @elseif($xetduyet->XetDuyet == 'Không duyệt')
         <span class="fa fa-circle" style="color: red"></span>&nbsp {{$xetduyet->XetDuyet}}
         @endif
@@ -45,7 +45,7 @@
       <td>{{date('d/m/Y', strtotime($xetduyet->NgaySinh))}}</td>
       <td>{{$xetduyet->NoiSinh}}</td>
       <td>{{date('d/m/Y', strtotime($xetduyet->ThoiGianThi))}}</td>
-      <td>{{$xetduyet->XepLoai}}</td>
+      <td>{{$xetduyet->KetQua}}</td>
     </tr>
     @endforeach
   </tbody>
@@ -98,7 +98,7 @@
 
     });
 </script>
-<script type="text/javascript">
+{{-- <script type="text/javascript">
 $(document).ready(function($) {
   //Lọc bảng lớp học
     $("#filler-table").on("change", function () {
@@ -122,3 +122,4 @@ $(document).ready(function($) {
   });
 });
     </script>
+ --}}

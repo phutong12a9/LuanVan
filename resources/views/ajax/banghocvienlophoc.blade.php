@@ -1,158 +1,98 @@
-<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalNhapDiem" style="margin-bottom: 20px;">Nhập Điểm</button>
-<button type="button" class="btn btn-success" style="margin-bottom: 20px;" id="btn_export">Export</button>
-@foreach($loailophoc as $loailophoc)
-@if($loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Anh" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Nhật" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tiếng Pháp")
-<table class="table table-striped" id="myTable">
-  <thead>
-    <tr>
-      <th>SBD</th>
-      <th>Họ Tên</th>
-      <th>Giới Tính</th>
-      <th>Ngày Sinh</th>
-      <th>Nơi Sinh</th>
-      <th>Điểm Nghe</th>
-      <th>Điểm Nói</th>
-      <th>Điểm Đọc</th>
-      <th>Điểm Viết</th>
-      <th>Kết Quả</th>
-      <th>Ghi Chú</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach($hocvien as $hocvien)
-    <tr>
-      <td>{{$hocvien->ID}}</td>
-      <td>{{$hocvien->HoTenHV}}</td>
-      <td>{{$hocvien->GioiTinh}}</td>
-      <td>{{date('d/m/Y', strtotime($hocvien->NgaySinh))}}</td>
-      <td>{{$hocvien->NoiSinh}}</td>
-      <td>{{$hocvien->DiemNghe}}</td>
-      <td>{{$hocvien->DiemNoi}}</td>
-      <td>{{$hocvien->DiemDoc}}</td>
-      <td>{{$hocvien->DiemViet}}</td>
-      <td>{{$hocvien->KetQua}}</td>
-      <td>{{$hocvien->GhiChu}}</td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-@elseif($loailophoc->TenDanhMuc=="Chứng Chỉ Tin Học Căn Bản" || $loailophoc->TenDanhMuc=="Chứng Chỉ Tin Học Nâng Cao")
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>SBD</th>
-      <th>Họ Tên</th>
-      <th>Giới Tính</th>
-      <th>Ngày Sinh</th>
-      <th>Nơi Sinh</th>
-      <th>Điểm Lý Thuyết</th>
-      <th>Điểm Thực Hành</th>
-      <th>Kết Quả</th>
-      <th>Ghi Chú</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach($hocvien as $hocvien)
-    <tr>
-      <td>{{$hocvien->ID}}</td>
-      <td>{{$hocvien->HoTenHV}}</td>
-      <td>{{$hocvien->GioiTinh}}</td>
-      <td>{{date('d/m/Y', strtotime($hocvien->NgaySinh))}}</td>
-      <td>{{$hocvien->NoiSinh}}</td>
-      <td>{{$hocvien->DiemLyThuyet}}</td>
-      <td>{{$hocvien->DiemThucHanh}}</td>
-      <td>{{$hocvien->KetQua}}</td>
-      <td>{{$hocvien->GhiChu}}</td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-@endif
-@endforeach
-<!-- Modal -->
-<div id="modalNhapDiem" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <center><h4 class="modal-title">Nhập Điểm</h4></center>
-      </div>
-      <div class="modal-body">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <form method="post" action="{{route('nhap-diem-import')}}" enctype="multipart/form-data" class="form-horizontal">
-              <input type="hidden" name="_token" value="{{csrf_token()}}">
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Lớp Học</label>
-                <div class="col-lg-10">
-                  <select class="form-control" name="lophoc" id="lophoc">
-                    <option value="null">--Chọn lớp học--</option>
-                    @foreach($lophoc as $lh)
-                    <option value="{{$lh->ID}}">{{$lh->TenLop}}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label"></label>
-                <div class="col-lg-10">
-                  <input type="file" name="file" class="form-control" accept=".xlsx" id="file-excel" required>
-                </div>
-              </div>
-              <div id="table">
+<style type="text/css">
+  table {
+  counter-reset: row-num;
+}
+  table tbody tr {
+  counter-increment: row-num;
+}
+  table tr td:nth-child(2)::before {
+    content: counter(row-num);
+}
 
-              </div>
-              <hr>
-              <div class="form-group">
-                <button type="submit" class="btn btn-success pull-right" id="btnNhapDiem">Nhập Điểm</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+</style>
+<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 " style="margin-bottom: 20px;">
+  <select class="form-control" id="filler-table">
+    <option value="all">Tất cả</option>
+    <option value="Đã Đóng Học Phí">Đã Đóng Học Phí</option>
+    <option value="Chưa Đóng Học Phí">Chưa Đóng Học Phí</option>
+  </select>
 </div>
-<script lang="javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
-<script type="text/javascript" charset="UTF-8" >
-      $("#file-excel").change(function(e){
-
-       var reader = new FileReader();
-        reader.readAsArrayBuffer(e.target.files[0]);
-        reader.onload = function(e) {
-        var data = new Uint8Array(reader.result);
-        var wb = XLSX.read(data,{type:'array'});
-        var htmlstr = XLSX.write(wb,{sheet:"Sheet1", type:'binary',bookType:'html'});
-        $('#table')[0].innerHTML += htmlstr;
-        }
-      });
-</script>
+<table class="table table-striped" id="banghocvien">
+  <thead >
+    <th width="40">Tất Cả<br><input type="checkbox" name="CheckBoxAll" id="CheckBoxAll"></th>
+    <th>STT</th>
+    <th>Tên Lớp</th>
+    <th>Họ Tên</th>
+    <th>Giới Tính</th>
+    <th>Ngày Sinh</th>
+    <th>Nơi Sinh</th>
+    <th>SĐT</th>
+    <th>Trạng Thái</th>
+  </thead>
+  <tbody>
+    @foreach($lophoc as $lh)
+    <tr>
+      <td>@if($lh->TrangThai == "Chưa Đóng Học Phí")
+        <input type="checkbox" name="hocvien[]" class="checkbox" value="{{$lh->ID}}">
+        @endif
+      </td>
+      <td></td>
+      <td>{{$lh->TenLop}}</td>
+      <td>{{$lh->HoTenHV}}</td>
+      <td>{{$lh->GioiTinh}}</td>
+      <td>{{date('d/m/Y', strtotime($lh->NgaySinh))}}</td>
+      <td>{{$lh->NoiSinh}}</td>
+      <td>{{$lh->SDT}}</td>
+      <td>{{$lh->TrangThai}}</td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
 <script type="text/javascript">
-   $(document).ready(function(){
+        $(document).ready(function(){
+  
+             // thay dổi trạng thái checkbox all
+             $("#CheckBoxAll").change(function(){
+                  var status = this.checked;
+                  $('.checkbox').each(function(){ 
+                    this.checked = status; 
+                });
 
-    $("#btnNhapDiem").click(function(e){
-      let lophoc = $("#lophoc").val();
-      if (lophoc == "null") {
-        alert("Bạn chưa chọn lớp học.");
-        e.preventDefault();
-      }
-      });
-    });
-</script>
+             });
+             // kết thúc thay đổi trạng thái check all
+             // checkbox lớp thay đổi thì checkbox all thay đổi
+             $(".checkbox").change(function(){
+                  if (this.checked == false) {
+                    $("#CheckBoxAll")[0].checked = false;
+                  }
+                  // so sánh chiều dài check box để thay dổi trạng thái check box all
+                  if ($('.checkbox:checked').length == $('.checkbox').length ){ 
+                    $("#CheckBoxAll")[0].checked = true;  
+                  }
+             });
+        });
+    </script>
 <script type="text/javascript">
-  $(document).ready(function(){
-
-     $("#btn_export").click(function () {
-              let today = new Date();
-              let time = today.getDate()+'_'+(today.getMonth()+1)+'_'+today.getFullYear() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
-              let tenfile = "NhapDiemHocVien_"+time ;
-                 $("#myTable").table2excel({
-                    fileext:".xlsx",
-                    preserveColors:true,
-                    filename: tenfile,
-                 });
-            });
-
+$(document).ready(function($) {
+  //Lọc bảng lớp học
+    $("#filler-table").on("change", function () {
+      searchterm = $(this).val();
+      $('#banghocvien tbody tr').each(function () {
+          var sel = $(this);
+          var txt = sel.find('td:eq(8)').text();
+          if (searchterm != 'all') {
+              if (txt.indexOf(searchterm) === -1) {
+                  $(this).hide();
+              }
+              else {
+                  $(this).show();
+              }
+          }
+          else
+          {
+              $('#banghocvien tbody tr').show();
+          }
+      });
   });
-</script>
+});
+    </script>

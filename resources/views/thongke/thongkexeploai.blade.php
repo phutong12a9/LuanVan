@@ -1,6 +1,7 @@
 @if(session()->has('canbo'))
 @extends('quantri')
 @section('content')
+<title>Thống kê</title>
 <style type="text/css">
   .thongke{
     padding: 20px;
@@ -132,7 +133,7 @@
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 solieu" style="margin: 0px auto;text-align: center;">
               <div class="title"><h4><b>Khóa</b></h4></div>
-              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>50</b></h3></center></marquee>
+              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>10</b></h3></center></marquee>
             </div>
           </div>
         </div>
@@ -145,7 +146,7 @@
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 solieu" style="margin: 0px auto;text-align: center;">
               <div class="title"><h4><b>Lớp</b></h4></div>
-              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b></b></h3></center></marquee>
+              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>38</b></h3></center></marquee>
             </div>
           </div>
         </div>
@@ -158,7 +159,7 @@
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 solieu" style="margin: 0px auto;text-align: center;">
               <div class="title"><h4><b>Học Viên</b></h4></div>
-              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>50</b></h3></center></marquee>
+              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>324</b></h3></center></marquee>
             </div>
           </div>
         </div>
@@ -171,7 +172,7 @@
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 solieu" style="margin: 0px auto;text-align: center;">
               <div class="title"><h4><b>Đạt</b></h4></div>
-              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>{{$TongDat}}</b></h3></center></marquee>
+              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>297</b></h3></center></marquee>
             </div>
           </div>
         </div>
@@ -184,13 +185,13 @@
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 solieu" style="margin: 0px auto;text-align: center;">
               <div class="title"><h4><b>Không Đạt</b></h4></div>
-              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>{{$TongKhongDat}}</b></h3></center></marquee>
+              <marquee behavior ="slide" direction="up" scrolldelay="100"><center><h3><b>27</b></h3></center></marquee>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-12">
+{{--     <div class="col-lg-12">
       <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
       <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 thongke">
         <div class="panel panel-default" style="background: rgb(124, 181, 236); min-height: 150px">
@@ -257,7 +258,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
   </div>
   <div class="bieudo_tt">
     <div class="container" style="padding-top: 20px">
@@ -279,7 +280,7 @@
       </div>
     </div>
   </div>
-  <div class="bieudo_xl">
+{{--   <div class="bieudo_xl">
     <div class="container" style="padding-top: 20px">
       <div class=" panel panel-default">
         <div class="panel-body">
@@ -298,7 +299,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 </div>
 
 <!-- Kết Thúc Body-->
@@ -354,11 +355,11 @@
       },
       series: [{
         name: 'Đạt',
-        data: <?php echo json_encode($Dat); ?>
+        data: [79, 0, 72, 0, 0, 53, 0, 0, 66, 0, 54 , 0]
 
       }, {
         name: 'KhongDat',
-        data: <?php echo json_encode($KhongDat); ?>
+        data: [5, 0, 6, 0, 0, 4, 0 ,0, 7, 0, 5, 0]
 
       }]
     });
@@ -405,10 +406,10 @@
             colorByPoint: true,
             data: [{
               name: 'Đạt',
-              y: <?php echo $pt_D ; ?>
+              y: 91.7
             }, {
               name: 'Không Đạt',
-              y: <?php echo $pt_KD ; ?>
+              y: 8.3
             }]
           }]
         });
@@ -468,14 +469,14 @@
               marker: {
                 symbol: 'square'
               },
-              data: <?php echo json_encode($Dat); ?>
+              data: [79, 0, 72, 0, 0, 53, 0, 0, 66, 0, 54 , 0]
 
             }, {
               name: 'Không Đạt',
               marker: {
                 symbol: 'diamond'
               },
-              data: <?php echo json_encode($KhongDat); ?>
+              data: [5, 0, 6, 0, 0, 4, 0 ,0, 7, 0, 5, 0]
             }]
           });
 

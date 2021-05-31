@@ -12,12 +12,11 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/',[
+	'as'=>'trang-chu',
+	'uses'=>'TrangChuController@getTrangchu'
+]);
 Route::group(['prefix'=>'trangchu'], function(){
-	//Gọi Route trangchu   domain/trangchu/ 
-	Route::get('/',[
-		'as'=>'trang-chu',
-		'uses'=>'TrangChuController@getTrangchu'
-	]);
 	//Gọi Route tracuuketquathi   domain/trangchu/tracuuketquathi
 	Route::get('tracuuketquathi',[
 		'as'=>'tra-cuu-ket-qua-thi',
@@ -49,10 +48,6 @@ Route::group(['prefix'=>'trangchu'], function(){
 	Route::get('huydangkychungchi/{id}',[
 		'as'=>'huy-dang-ky-chung-chi',
 		'uses'=>'TrangChuController@getHuydangkychungchi'
-	]);
-	Route::get('dangkylop/{id}',[
-		'as'=>'dang-ky-lop',
-		'uses'=>'TrangChuController@getDangkylop'
 	]);
 });
 Route::group([ 'prefix' => 'vanbang' ] , function(){   
@@ -180,9 +175,25 @@ Route::group([ 'prefix' => 'hocvien' ] , function(){
 		'as'=>'post-nhap-diem',
 		'uses'=>'HocvienController@postNhapDiem'
 	]);
-	Route::get('giangvien',[
-		'as'=>'giang-vien',
-		'uses'=>'HocvienController@getTaogiangvien'
+	Route::get('hocvienlophoc',[
+		'as'=>'hoc-vien',
+		'uses'=>'HocvienController@getHocvienlophoc'
+	]);
+	Route::post('themhocvienlophoc',[
+		'as'=>'them-hoc-vien-lop-hoc',
+		'uses'=>'HocvienController@postThemhocvienlophoc'
+	]);
+	Route::get('danhsachthi',[
+		'as'=>'danh-sach-thi',
+		'uses'=>'HocvienController@getDanhsachthi'
+	]);
+	Route::get('lophoc',[
+		'as'=>'lophoc',
+		'uses'=>'HocvienController@getLophoc'
+	]);
+	Route::post('themhocvienlopthi',[
+		'as'=>'them-hoc-vien-lop-thi',
+		'uses'=>'HocvienController@postThemhocvienlopthi'
 	]);
 	
 }); 
@@ -196,6 +207,10 @@ Route::group([ 'prefix' => 'tuyensinh' ] , function(){
 		'as'=>'mo-khoa',
 		'uses'=>'TuyenSinhController@postKhoahoc'
 	]);
+	Route::post('khoa',[
+		'as'=>'khoa',
+		'uses'=>'TuyenSinhController@postKhoa'
+	]);
 	Route::get('lophoc',[
 		'as'=>'lop-hoc',
 		'uses'=>'TuyenSinhController@getLophoc'
@@ -204,9 +219,29 @@ Route::group([ 'prefix' => 'tuyensinh' ] , function(){
 		'as'=>'lop-hoc-post',
 		'uses'=>'TuyenSinhController@postLophoc'
 	]);
-	Route::post('themhocvienlophoc',[
-		'as'=>'them-hoc-vien-lop-hoc',
-		'uses'=>'TuyenSinhController@postThemhocvienlophoc'
+	Route::get('lophocphan',[
+		'as'=>'lop-hoc-phan',
+		'uses'=>'TuyenSinhController@getLophocphan'
+	]);
+	Route::post('lophocphan',[
+		'as'=>'post-lop-hoc-phan',
+		'uses'=>'TuyenSinhController@postLophocphan'
+	]);
+	Route::get('sapxeplop/{id}',[
+		'as'=>'sap-xep-lop',
+		'uses'=>'TuyenSinhController@getSapxeplop'
+	]);
+	Route::post('themdong',[
+		'as'=>'them-dong',
+		'uses'=>'TuyenSinhController@postThemdong'
+	]);
+	Route::get('xoadong/{id}',[
+		'as'=>'xoa-dong',
+		'uses'=>'TuyenSinhController@getXoadong'
+	]);
+	Route::post('sapxeplop',[
+		'as'=>'sap-xep-lop-post',
+		'uses'=>'TuyenSinhController@postSapxeplop'
 	]);
 	
 }); 
@@ -244,10 +279,10 @@ Route::group(['prefix'=>'ajax'], function(){
 		'as'=>'chi-tiet-dot-thi',
 		'uses'=>'AjaxController@getChitietdotthi'
 	]);
-	// Route::get('banglophoc/{id}',[
-	// 	'as'=>'bang-lop-hoc',
-	// 	'uses'=>'AjaxController@getBanglophoc'
-	// ]);
+	Route::get('banglophoc/{id}',[
+		'as'=>'bang-lop-hoc',
+		'uses'=>'AjaxController@getBanglophoc'
+	]);
 	// Route::get('bangdotcaplophoc/{idcc}/{iddc}',[
 	// 	'as'=>'bang-dot-cap-lop-hoc',
 	// 	'uses'=>'AjaxController@getBangdotcaplophoc'
@@ -274,15 +309,15 @@ Route::group(['prefix'=>'ajax'], function(){
 	]);
 	Route::get('lophoc/{id}',[
 		'as'=>'ajax-lop-hoc',
-		'uses'=>'AjaxController@getLophoc'
+		'uses'=>'AjaxController@getHocvienlophoc'
 	]);
 	Route::get('khoahoc/{id}',[
 		'as'=>'ajax-khoa-hoc',
-		'uses'=>'AjaxController@getKhoahoc'
+		'uses'=>'AjaxController@getHocvienkhoahoc'
 	]);
-	Route::get('hocvienlophoc/{id}',[
+	Route::get('hocviendanhapdiem/{id}',[
 		'as'=>'hoc-vien-lop-hoc',
-		'uses'=>'AjaxController@banghocvienlophoc'
+		'uses'=>'AjaxController@bangdanhapdiem'
 	]);
 	Route::get('hocvienchuanhapdiem/{id}',[
 		'as'=>'hoc-vien-chua-nhap-diem',
@@ -304,7 +339,28 @@ Route::group(['prefix'=>'ajax'], function(){
 		'as'=>'ajax-lop',
 		'uses'=>'AjaxController@getLop'
 	]);
+	Route::get('dangkylop/{id}',[
+		'as'=>'dang-ky-lop',
+		'uses'=>'AjaxController@getDangkylophoc'
+	]);
 
+	Route::get('tenlophp/{id}',[
+		'as'=>'ten-lop-hp',
+		'uses'=>'AjaxController@getTenlophp'
+	]);
+
+	Route::get('lophocchinhthuc/{id}',[
+		'as'=>'lop-hoc-chinh-thuc',
+		'uses'=>'AjaxController@getBanglopchinhthuc'
+	]);
+	Route::get('tenlopthi/{id}',[
+		'as'=>'ten-lop-thi',
+		'uses'=>'AjaxController@getTenlopthi'
+	]);
+	Route::get('lopthi/{id}',[
+		'as'=>'lop-thi',
+		'uses'=>'AjaxController@getLopthi'
+	]);
 });
 Route::group(['prefix'=>'dangnhap'], function(){
 	//Gọi Route dangnhap   domain/dangnhap/ 
@@ -340,15 +396,61 @@ Route::group(['prefix'=>'thongke'],function(){
 		'uses'=>'ThongKeController@getThongketxeploai'
 	]);
 });
+Route::group(['prefix'=>'quantri'],function(){
 
+	Route::get('giangvien',[
+		'as'=>'giang-vien',
+		'uses'=>'QuanTriController@getTaogiangvien'
+	]);
+	Route::post('postgiangvien',[
+		'as'=>'post-giang-vien',
+		'uses'=>'QuanTriController@postTaogiangvien'
+	]);
+	Route::get('danhmuc',[
+		'as'=>'danh-muc',
+		'uses'=>'QuanTriController@getDanhmuc'
+	]);
+	Route::post('danhmuc',[
+		'as'=>'post-danh-muc',
+		'uses'=>'QuanTriController@postDanhmuc'
+	]);
+	Route::get('chungchi',[
+		'as'=>'chung-chi',
+		'uses'=>'QuanTriController@getChungchi'
+	]);
+	Route::post('chungchi',[
+		'as'=>'post-chung-chi',
+		'uses'=>'QuanTriController@postChungchi'
+	]);
+	Route::get('phong',[
+		'as'=>'phong',
+		'uses'=>'QuanTriController@getPhong'
+	]);
+	Route::post('phong',[
+		'as'=>'post-phong',
+		'uses'=>'QuanTriController@postPhong'
+	]);
+
+	Route::get('nguoidung',[
+		'as'=>'nguoi-dung',
+		'uses'=>'QuanTriController@getNguoidung'
+	]);
+
+	Route::post('nguoidung',[
+		'as'=>'post-nguoi-dung',
+		'uses'=>'QuanTriController@postNguoidung'
+	]);
+
+});
 Route::get('api/get_tenlop', function(Request $req){
   $input = $req->input('option');
   $khoahoc = DB::table('khoahoc')->select('TenKhoa')
   				->where('ID', $input)
                   ->first();
   #$courses = DB::table('courses')->lists('level');
-  $TenKhoa = $khoahoc->TenKhoa;    
-  return response($TenKhoa);
+  $TenKhoa = $khoahoc->TenKhoa;  
+  $K = str_replace("Khóa ", "K",$TenKhoa );
+  return response($K);
 });
 
 Route::get('api/get_lophoc', function(Request $req){
@@ -361,4 +463,5 @@ Route::get('api/get_lophoc', function(Request $req){
 	dd($khoahoc);     
 	return response($khoahoc);
   });
+
 

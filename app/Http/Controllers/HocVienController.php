@@ -8,9 +8,15 @@ use DB;
 use Hash;
 use App\User;
 use App\hocvien;
+use App\lophocchinhthuc;
+use App\hocviendangky;
 use App\lophoc;
 use App\lop;
 use App\ketquathi;
+use App\danhsachthi;
+use App\giangvien;
+use App\chungchi;
+use App\khoa;
 use Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\NhapDiemImport;
@@ -69,6 +75,20 @@ class HocVienController extends Controller
     	$hocvien->save();
     	return redirect()->back()->with('themthanhcong','Đã tạo thành công một tài khoản.');
     }
+     public function postThemhocvienlophoc(Request $req){
+         $length = count($req->hocvien);
+        for($i=0; $i<$length; $i++){
+            $lop                 = new lophocchinhthuc;
+            $lop->ID_HocVienDK   = $req->hocvien[$i];
+            $lop->ID_LopHP       = $req->tenlophp;
+            $lop->save();
+            $hocvien                = new hocviendangky;
+            $arr['TrangThai']       = 'Đã Đóng Học Phí';
+            $hocvien::where('ID',$req->hocvien[$i])->update($arr);
+            
+        }
+        return redirect()->back()->with('themthanhcong','Đã thêm thành công.');
+    }
     public function getThoikhoabieu(){
         if (Session::has('users')) {
             $iduser = Session('users')->ID;
@@ -121,8 +141,8 @@ class HocVienController extends Controller
         
     }
     public function getNhapdiem(){
-        $lophoc = lophoc::all();
-        return view('hocvien.nhapdiem',compact('lophoc'));
+        $chungchi = chungchi::all();
+        return view('hocvien.nhapdiem',compact('chungchi'));
     }
     public function NhapDiemImport(Request $req){
 
@@ -142,49 +162,130 @@ class HocVienController extends Controller
     
     }
     public function postNhapDiem(Request $req){
-        $TBAV = ($req->diemnghe + $req->diemnoi + $req->diemdoc + $req->diemviet)/4;
-        $TBTH = ($req->diemlythuyet+ $req->diemthuchanh);
+        $SBD = $req->sbd;
+        $lopchungchi = DB::table('lopthi')
+                                        ->join('danhsachthi','danhsachthi.ID_LopThi','lopthi.ID')
+                                        ->join('chungchi','chungchi.ID','lopthi.ID_ChungChi')
+                                        ->select('TenChungChi')
+                                        ->where('danhsachthi.ID',$SBD)
+                                        ->first();
+        $tenchungchi = $lopchungchi->TenChungChi;
         $ketquathi = new ketquathi;
-        $ketquathi->ID_Lop          = $req->sbd;
+        if ($tenchungchi == "TOEIC") {
+            $KetQua = $req->diemnghe + $req->diemdoc;
+        }
+        elseif($tenchungchi=="IELST"){
+            $KetQua = $req->diemnghe + $req->diemnoi + $req->diemdoc + $req->diemviet;
+        }
+        elseif($tenchungchi=="Tin Học"){
+            $DTB = ($req->diemlythuyet + $req->diemthuchanh)/2;
+            if(($DTB < 5 && $DTB > 0)){
+                $KetQua = "Không Đạt";
+                $ketquathi->XepLoai = "Yếu";
+            }else if( $DTB <= 6.5){
+                $KetQua = "Đạt";
+                $ketquathi->XepLoai = "Trung Bình";
+            }else if( $DTB <= 8){
+                $KetQua = "Đạt";
+                $ketquathi->XepLoai = "Khá";
+            }else if($DTB <= 9.5){
+                $KetQua = "Đạt";
+                $ketquathi->XepLoai = "Giỏi";
+            }else if($DTB <= 10){
+                $KetQua = "Đạt";
+                $ketquathi->XepLoai = "Xuất Sắc";
+            }
+            else{
+                return redirect()->back()->with('errors','Điểm bạn nhập đã xảy ra lỗi.');
+            }
+        }
+        $ketquathi->ID_DanhSachThi  = $req->sbd;
         $ketquathi->DiemNghe        = $req->diemnghe;
         $ketquathi->DiemNoi         = $req->diemnoi;
         $ketquathi->DiemDoc         = $req->diemdoc;
         $ketquathi->DiemViet        = $req->diemviet;
         $ketquathi->DiemLyThuyet    = $req->diemlythuyet;
         $ketquathi->DiemThucHanh    = $req->diemthuchanh;
-        if ($TBAV>=5 || $TBTH >=5) {
-           $ketquathi->KetQua = "Đạt";
-        }else{
-            $ketquathi->KetQua = "Không Đạt";
-        }
+        $ketquathi->KetQua = $KetQua;
         $ketquathi->GhiChu          = $req->ghichu;
-        if(($TBAV < 5 && $TBAV > 0)|| ($TBTH < 5 && $TBTH > 0)){
-            $ketquathi->XepLoai = "Yếu";
-        }else if($TBAV <= 6.5 || $TBTH <= 6.5){
-            $ketquathi->XepLoai = "Trung Bình";
-        }else if($TBAV <= 8 || $TBTH <= 8){
-            $ketquathi->XepLoai = "Khá";
-        }else if($TBAV <= 9.5  || $TBTH <= 9.5){
-            $ketquathi->XepLoai = "Giỏi";
-        }else if($TBAV <= 10 || $TBTH <= 10){
-            $ketquathi->XepLoai = "Xuất Sắc";
-        }
         $ketquathi->ThoiGian = date('Y-m-d');
         $ketquathi->save();
 
-        $TrangThai = new lop;
+        $TrangThai = new danhsachthi;
         $arr['TrangThai']       = 'Đã Nhập Điểm';
         $TrangThai::where('ID',$req->sbd)->update($arr);
 
-        return redirect()->back()->with('themthanhcong','Đã thêm mới thành công.');
+        return redirect()->back()->with('themthanhcong','Đã nhập điểm thành công.');
 
     }
 
-    public function getTaogiangvien(){
-        $giangvien = DB::table('giangvien')->join('hocvi','hocvi.ID','giangvien.ID_HocVi')->select('giangvien.*','TenHocVi')->get();
-        return view('vanbang.giangvien',compact('giangvien'));
+    public function getHocvienlophoc(){
+        $khoa = khoa::all();
+        return view('hocvien.hocvienlophoc', compact('khoa'));
     }
-    public function postTaogiangvien(){
-        
+    public function getDanhsachthi(){
+        $khoa = khoa::all();
+        return view('hocvien.danhsachthi', compact('khoa'));
+    }
+     public function getLophoc(){
+        $khoa = khoa::all();
+        return view('hocvien.lophoc', compact('khoa'));
+    }
+    public function postThemhocvienlopthi(Request $req){
+        $length = count($req->hocvien);
+        $id = $req ->tenkhoa;
+        $tenchungchi = DB::table('khoahoc')->join('chungchi','khoahoc.ID_ChungChi','chungchi.ID')
+                                            ->join('khoa','khoa.ID','khoahoc.ID_Khoa')
+                                            ->select('TenChungChi','Ten')
+                                            ->where('khoahoc.ID',$id)
+                                            ->first();
+        $tenkhoa = $tenchungchi->Ten;
+        $TenChungChi = $tenchungchi->TenChungChi;
+        $K = str_replace("Khóa ", "",$tenkhoa ); 
+        if($K<10){
+            $Khoa = "0".$K;
+        }
+        elseif ($K>=10) {
+            $Khoa = $K;
+        } 
+        if ($TenChungChi == "TOEIC") {
+            $ChungChi = "TE";
+           }   
+        elseif ($TenChungChi == "IELST") {
+            $ChungChi = "IE";
+        }
+        elseif ($TenChungChi == "Tin Học") {
+            $ChungChi = "TH";
+        }
+
+        for ($i=0; $i <$length ; $i++) { 
+            $hocvien = new danhsachthi;
+            for ($j=1; $j <1000 ; $j++) { 
+                if ($j<10) {
+                    $STT = "00".$j;
+                }
+                elseif ($j<100) {
+                    $STT = "0".$j;
+                }
+                elseif($j<1000){
+                    $STT = $j;
+                }
+
+                $SBD = $ChungChi.$Khoa.$STT;
+                if(danhsachthi::where('ID',$SBD)->exists()){
+                }
+                else{
+                    $hocvien->ID = $SBD;
+                    $hocvien->ID_LopThi = $req->tenlopthi;
+                    $hocvien->ID_HocVienDK = $req->hocvien[$i];
+                    $hocvien->TrangThai = "Chưa Nhập Điểm";
+                    $hocvien->save();
+                    break;
+                }
+               
+            }
+        }
+
+        return redirect()->back()->with('themthanhcong', 'Thêm thành công');
     }
 }

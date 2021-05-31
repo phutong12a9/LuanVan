@@ -17,7 +17,6 @@
 <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
   <div class="panel panel-default">
     <div class="panel-heading"><center><h2>Thời Khóa Biểu</h2></center></div>
-    @if(session()->has('users'))
     <div class="panel-body">
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-14">
         <select style="margin-bottom: 20px;" class="form-control">
@@ -30,9 +29,7 @@
         <thead>
           <tr>
             <th>Thứ</th>
-            <th>Lớp</th>
             <th>Phòng Học</th>
-            <th>Giờ Học</th>
             <th>Giảng Viên</th>
             <th>Ngày Học</th>
           </tr>
@@ -40,7 +37,6 @@
         <tbody>
           <tr>
             <td>Thứ 2</td>
-            <td id="tenlop1"></td>
             <td id="phong1"></td>
             <td id="gio1"></td>
             <td id="giangvien1"></td>
@@ -48,7 +44,6 @@
           </tr>
           <tr>
             <td>Thứ 3</td>
-            <td id="tenlop2"></td>
             <td id="phong2"></td>
             <td id="gio2"></td>
             <td id="giangvien2"></td>
@@ -56,7 +51,6 @@
           </tr>
           <tr>
             <td>Thứ 4</td>
-            <td id="tenlop3"></td>
             <td id="phong3"></td>
             <td id="gio3"></td>
             <td id="giangvien3"></td>
@@ -64,7 +58,6 @@
           </tr>
           <tr>
             <td>Thứ 5</td>
-            <td id="tenlop4"></td>
             <td id="phong4"></td>
             <td id="gio4"></td>
             <td id="giangvien4"></td>
@@ -80,7 +73,6 @@
           </tr>
           <tr>
             <td>Thứ 7</td>
-            <td id="tenlop6"></td>
             <td id="phong6"></td>
             <td id="gio6"></td>
             <td id="giangvien6"></td>
@@ -88,7 +80,6 @@
           </tr>
           <tr>
             <td>Chủ Nhật</td>
-            <td id="tenlop0"></td>
             <td id="phong0"></td>
             <td id="gio0"></td>
             <td id="giangvien0"></td>
@@ -97,7 +88,6 @@
         </tbody>
       </table>
     </div>
-    @endif
   </div>
 </div>
 <script type="text/javascript">
@@ -108,7 +98,6 @@
       var arrBuoiHoc =[];
       var arr = <?php echo json_encode($arr) ?>;
       var arr2 ='{ '
-  + ' "TenLop": "Tiếng Anh Trình Độ A", '
   + ' "PhongHoc" : "C.3.1", '
   + ' "GioHoc" : "7h - 9h30",'
   + ' "GiangVien" : "Nguyễn Xuân Hà Giang"'

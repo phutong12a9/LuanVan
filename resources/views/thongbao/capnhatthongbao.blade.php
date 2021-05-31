@@ -30,7 +30,10 @@
             <div class="col-lg-10">
               <select id="chuyenmuc" name="chuyenmuc" class="form-control">
                 @foreach($chuyenmuc as $chuyenmuc)
-                <option value="{{$chuyenmuc->ID}}">{{$chuyenmuc->TenCM}}
+                <option value="{{$chuyenmuc->ID}}"
+                  @if($chuyenmucthongbao->ID_CM == $chuyenmuc->ID)
+                    selected
+                  @endif>{{$chuyenmuc->TenCM}}
                 </option>
                 @endforeach
               </select>

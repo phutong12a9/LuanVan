@@ -15,7 +15,6 @@
   <thead>
     <th width="40">Tất Cả<br><input type="checkbox" name="CheckBoxAll" id="CheckBoxAll"></th>
     <th>STT</th>
-    <th>Tên Lớp</th>
     <th>Họ Tên</th>
     <th>Giới Tính</th>
     <th>Ngày Sinh</th>
@@ -28,7 +27,6 @@
     <tr>
       <td><input type="checkbox" name="hocvien[]" class="checkbox" value="{{$kh->ID}}"></td>
       <td></td>
-      <td>{{$kh->TenLop}}</td>
       <td>{{$kh->HoTenHV}}</td>
       <td>{{$kh->GioiTinh}}</td>
       <td>{{date('d/m/Y', strtotime($kh->NgaySinh))}}</td>

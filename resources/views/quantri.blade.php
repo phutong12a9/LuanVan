@@ -116,6 +116,9 @@
                           <li>
                             <a href="{{route('lop-hoc')}}" title="Lớp học">Lớp học</a>
                           </li>
+                          <li>
+                            <a href="{{route('lop-hoc-phan')}}" title="Lớp học phần">Lớp học phần</a>
+                          </li>
                         </ul>
                       </div>
                     </li>
@@ -123,6 +126,15 @@
                       <div class="dropdown">
                         <a data-toggle="dropdown" href="" title="Học Viên">Học viên <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                           <li>
+                            <a href="{{route('hoc-vien')}}" title="Sắp xếp học viên">Sắp xếp học viên</a>
+                          </li>
+                          <li>
+                            <a href="{{route('danh-sach-thi')}}" title="Danh sách thi">Danh sách thi</a>
+                          </li>
+                          <li>
+                            <a href="{{route('lophoc')}}" title="Lớp học">Lớp học</a>
+                          </li>
                           <li>
                             <a href="{{route('nhap-diem')}}" title="Nhập điểm">Nhập điểm</a>
                           </li>
@@ -131,13 +143,27 @@
                     </li>
                     <li>
                       <div class="dropdown">
-                        <a data-toggle="dropdown" href="" title="Thông Báo">Thống kê <span class="caret"></span></a>
+                        <a href="{{route('thong-ke-xep-loai')}}" title="Thông kê">Thống kê</a>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown">
+                        <a data-toggle="dropdown" href="" title="Quản trị">Quản trị <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="{{route('thong-ke-thanh-tich')}}" title="Thống kê thành tích">Thống kê thành tích</a>
+                            <a href="{{route('danh-muc')}}" title="Danh nục">Danh mục</a>
                           </li>
                           <li>
-                            <a href="{{route('thong-ke-xep-loai')}}" title="Thông kê xếp loại">Thông kê xếp loại</a>
+                            <a href="{{route('chung-chi')}}" title="Chứng chỉ">Chứng chỉ</a>
+                          </li>
+                          <li>
+                            <a href="{{route('phong')}}" title="Phòng học">Phòng Học</a>
+                          </li>
+                          <li>
+                            <a href="{{route('giang-vien')}}" title="Giảng viên">Giảng viên</a>
+                          </li>
+                          <li>
+                            <a href="{{route('nguoi-dung')}}" title="Quản lý người dùng">Quản lý người dùng</a>
                           </li>
                         </ul>
                       </div>
@@ -151,6 +177,9 @@
                         <a style="text-transform: capitalize" data-toggle="dropdown" href="" title="{{Session('canbo')->TaiKhoan}}"><span class="glyphicon glyphicon-user"></span> &nbsp {{Session('canbo')->TaiKhoan}} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
+                          <li>
+                            <a href="{{route('dang-xuat-can-bo')}}"title="Đổi mật khẩu"><span class="glyphicon glyphicon-refresh"></span> Đổi mật khẩu</a>
+                          </li>
                           <li>
                             <a href="{{route('dang-xuat-can-bo')}}"title="Đăng Xuất"><span class="glyphicon glyphicon-log-in"></span> Đăng Xuất</a>
                           </li>

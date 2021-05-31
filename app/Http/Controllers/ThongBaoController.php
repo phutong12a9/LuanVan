@@ -40,8 +40,7 @@ class ThongBaoController extends Controller {
 	public function getCapnhatthongbao($id) {
 		$chuyenmuc = chuyenmuc::all();
 		$thongbao = thongbao::where("ID", $id)->get();
-		$chuyenmucthongbao = thongbao::join('chuyenmuc', 'ID_CM', 'chuyenmuc.ID')->where('thongbao.ID', $id)->select('ID_CM')->get();
-
+		$chuyenmucthongbao = thongbao::join('chuyenmuc', 'ID_CM', 'chuyenmuc.ID')->where('thongbao.ID', $id)->select('ID_CM')->first();
 		return view('thongbao.capnhatthongbao', compact('chuyenmuc', 'thongbao', 'chuyenmucthongbao'));
 	}
 	public function postCapnhatthongbao(Request $req) {

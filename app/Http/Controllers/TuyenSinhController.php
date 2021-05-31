@@ -12,9 +12,12 @@ use App\giangvien;
 use App\khoahoc;
 use App\lophoc;
 use App\lop;
+use App\lophocphan;
+use App\lophocchinhthuc;
 use App\thongbao;
 use App\khoa;
 use App\hocviendangky;
+use App\sapxeplophp;
 use DB;
 use Excel;
 class TuyenSinhController extends Controller
@@ -48,8 +51,9 @@ class TuyenSinhController extends Controller
 
         $tenchungchi = chungchi::select('TenChungChi')->where('ID',$req->tenchungchi)->first();
         $tenkhoa = khoa::select('Ten')->where('ID',$req->khoa)->first();
+        $k = str_replace("Khóa ", "K", $tenkhoa["Ten"]);
 
-        $Tenkhoahoc = $tenchungchi->TenChungChi ." ".$req->capdo;
+        $Tenkhoahoc = $tenchungchi->TenChungChi ." ".$req->capdo ." ".$k;
         if(khoahoc::where('TenKhoa',$Tenkhoahoc)->exists()){
            return redirect()->back()->with('error','Tên khóa học đã tồn tại');  
         }
@@ -72,9 +76,9 @@ class TuyenSinhController extends Controller
     public function getLophoc(){
         $khoa = khoa::select('*')->orderBy('Ten','DESC')->get();
         $khoahoc = khoahoc::all();
-        $giangvien = giangvien::all();
         $kh = khoahoc::all();
-        return view('tuyensinh.lophoc',compact('khoa','khoahoc','giangvien','kh'));
+        $lophoc = lophoc::all();
+        return view('tuyensinh.lophoc',compact('khoa','khoahoc','kh','lophoc'));
     }
     public function postLophoc(Request $req){
 
@@ -89,18 +93,91 @@ class TuyenSinhController extends Controller
         return redirect()->back()->with('themthanhcong','Đã thêm mới thành công.');
     }
 
-    public function postThemhocvienlophoc(Request $req){
-         $length = count($req->hocvien);
-        for($i=0; $i<$length; $i++){
-            $lop                 = new lop;
-            $lop->ID_HocVienDK   = $req->hocvien[$i];
-            $lop->ID_LopHP       = $req->tenlophp;
-            $lop->save();
-            $hocvien                = new hocviendangky;
-            $arr['TrangThai']       = 'Đã Đóng Học Phí';
-            $hocvien::where('ID',$req->hocvien[$i])->update($arr);
-            
-        }
-        return redirect()->back()->with('themthanhcong','Đã thêm thành công.');
+    public function getLophocphan(){
+        $khoa = khoa::select('*')->orderBy('Ten','DESC')->get();
+        $khoahoc = khoahoc::all();
+        $giangvien = giangvien::all();
+        $phonghoc = phonghoc::all();
+        $lophocphan = DB::table('lophocphan')->join('giangvien','giangvien.ID','lophocphan.ID_GiangVien')
+                                                ->select('lophocphan.ID as ID','TenLop','HoTenGV')
+                                                ->get();
+
+        return view('tuyensinh.lophocphan',compact('khoa','khoahoc','giangvien','phonghoc','lophocphan'));
     }
+
+     public function postLophocphan(Request $req){
+
+            
+            $lophocphan                 = new lophocphan;
+            $lophocphan->ID_LopHoc      = $req->tenlop;
+            $lophocphan->TenLop         = $req->tenlophp;
+            $lophocphan->ID_GiangVien   = $req->giangvien;
+            $lophocphan->save();
+            $sapxeplop                  = new sapxeplophp;
+            $sapxeplop->ID_LopHP = $lophocphan->id;
+            $sapxeplop->Buoi = "1";
+            $sapxeplop->save(); 
+        return redirect()->back()->with('themthanhcong','Đã thêm mới thành công.');
+    }
+
+    public function getSapxeplop($id){
+        $lhp = DB::table('lophocphan')->join('sapxeplophp','lophocphan.ID','sapxeplophp.ID_LopHP')
+                                        ->where('lophocphan.ID',$id)
+                                        ->orderBy('Buoi')
+                                        ->get();
+        $phonghoc = phonghoc::all();
+        $giangvien = giangvien::all();
+        $ID_LHP = $id;
+        
+
+        return view('tuyensinh.sapxeplop',compact('lhp','phonghoc','giangvien','ID_LHP'));
+    }
+    public function postThemdong(Request $req){
+        $dong = $req->Themdong;
+        $IDLHP = $req->IDLHP;
+        for ($i=1; $i <=$dong ; $i++) { 
+
+             for ($j=1; $j <=100; $j++) { 
+                if(sapxeplophp::where('ID_LopHP',$IDLHP)->where('Buoi',$j)->exists()){
+                }
+                else{
+                   $sapxeplop = new sapxeplophp;
+                    $sapxeplop->ID_LopHP = $IDLHP;
+                    $sapxeplop->Buoi = $j;
+                    $sapxeplop->save();
+                    break; 
+                     
+                }
+             }
+        }
+        return redirect()->back()->with('themthanhcong','Thêm thành công');
+    }
+    public function getXoadong($id){
+        sapxeplophp::where('ID', $id)->delete();
+         return redirect()->back();
+    }
+
+    public function postSapxeplop(Request $req){
+        $length = count($req->lhp);
+        for($i=0; $i<$length; $i++){
+           
+            $sapxeplop = new sapxeplophp;
+            $arr['ID_Phong'] = $req->p[$i];
+            $arr['ID_GiangVien'] = $req->gv[$i];
+            $arr['ID_TroGiang'] = $req->tg[$i];
+            $sapxeplop::where('ID', $req->lhp[$i])->update($arr);
+
+        }
+        return redirect()->back()->with('capnhatthanhcong', 'Đã cập nhật thành công');
+    }
+     public function postKhoa(Request $req){
+        $count = Khoa::count('Ten');
+        $TenKhoa = "Khóa"." ".($count+1);
+        $khoa = new khoa;
+        $khoa->Ten =$TenKhoa;
+        $khoa->ThoiGian = date('Y-m-d');
+        $khoa->save();
+        return redirect()->back()->with('themthanhcong', 'Đã thêm'." ".$TenKhoa);
+    }
+
 }

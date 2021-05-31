@@ -50,15 +50,15 @@
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
-            <select id="khoahoc" class="form-control" style="width: 90%" name="khoahoc">
+            <select id="lopthi" class="form-control" style="width: 90%" name="lopthi">
             </select>
           </div>
         </div>
         <button type="button" class="btn btn-success" style="width: 120px;" data-toggle="modal" data-target="#import" id="btn_import">
-        <i class="glyphicon glyphicon-upload"></i> Import
+        <i class="glyphicon glyphicon-upload"></i> Nhập Excel
         </button>
         <button type="submit" class="btn btn-info" id="export" style="width: 120px;" >
-        <i class="glyphicon glyphicon-download"></i> Export
+        <i class="glyphicon glyphicon-download"></i> Xuất Excel
         </button>
       </form>
     </div>
@@ -128,14 +128,6 @@
 <!--Kết thúc body-->
 <script type="text/javascript">
     $(document).ready(function(){
-
-         $("#tenvb").change(function(){
-            let ID = $("#tenvb").val();
-             $("#body_banghocvien").html('<img src="http://www.cit.ctu.edu.vn/chungchitinhoc/public/images/loading46.gif" width="5%" style="margin-left: 50%;">');
-             $.get("ajax/banghocvien/"+ID,function(data){
-                $("#body_banghocvien").html(data);
-            });           
-          });
          $("#thongbao").fadeOut(10000);
          $("#thongbaoloi").fadeOut(10000);
     });
@@ -171,23 +163,17 @@
 </script>
 <script type="text/javascript">
   $(document).ready(function(){
-    let tenvb = $("#tenvb").val();
-    if ( tenvb==="") {
-      $.get("ajax/banghocvien/",function(data){
-                $("#body_banghocvien").html(data);
-            });
-    }
     $('#tenvb').change(function(){
       var ID = $(this).val();
-      $.get("ajax/tenkhoa/"+ID,   
+      $.get("ajax/tenlopthi/"+ID,   
           function(data) { 
-            $('#khoahoc').html(data);
+            $('#lopthi').html(data);
           });
     });
 
-    $('#khoahoc').change(function(){
+    $('#lopthi').change(function(){
       var ID = $(this).val();
-      $.get("ajax/khoahoc/"+ID,   
+      $.get("ajax/banghocvien/"+ID,   
           function(data) { 
             $('#body_banghocvien').html(data);
           });

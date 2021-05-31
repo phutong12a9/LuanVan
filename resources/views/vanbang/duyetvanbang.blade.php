@@ -12,8 +12,6 @@
   <div class="pannel panel-default">
     <div class="panel-heading">
       <center><h3>Duyệt Văn Bằng</h3></center>
-      <iframe id="txtArea1" style="display:none"></iframe>
-      <button id="btnExport" onclick="fnExcelReport('myTable');"> EXPORT </button>
     </div>
   </div>
   <div class="panel panel-default">
@@ -22,8 +20,8 @@
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
-            <select class="form-control" id="tenvb" style="width: 90%">
-              <option value="all">-- Chọn Tên Chứng Chỉ --</option>
+            <select class="form-control" id="tenvb" style="width: 90%" name="tenvb">
+              <option value="">-- Chọn Tên Chứng Chỉ --</option>
               @foreach($chungchi as $chungchi)
               <option value="{{$chungchi->ID}}">{{$chungchi->TenChungChi}}</option>
               @endforeach
@@ -32,8 +30,7 @@
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
           <div class="form-group">
-            <select id="dotvb" class="form-control" style="width: 90%">
-              <option>-- Chọn Đợt Cấp --</option>
+            <select id="lopthi" class="form-control" style="width: 90%" name="lopthi">
             </select>
           </div>
         </div>
@@ -52,71 +49,61 @@
 <!--Kết thúc body-->
 <script type="text/javascript">
     $(document).ready(function(){
-        // $("#table_hocvien").DataTable({
-        //   "language": {
-        //      "lengthMenu": "Xem _MENU_ mục",
-        //     "zeroRecords": "Không tìm thấy dòng nào phù hợp",
-        //     "info": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
-        //     "sSearch":       "Tìm kiếm :",
-        //     "infoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
-        //     "infoFiltered": "(được lọc từ _MAX_ mục)",
-        //     "oPaginate":{
-        //           "sFirst":    "Đầu",
-        //           "sPrevious": "Trước",
-        //           "sNext":     "Tiếp",
-        //           "sLast":     "Cuối",
-        //     }
-        //               },
-        //     "pagingType": "full_numbers",
-        //     "scrollX": true,
-        //     "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "Tất cả"]]
-        // });
-        $("#tenvb").change(function(){
-            let ID = $("#tenvb").val();
-             $("#body_banghocvien").html('<img src="http://www.cit.ctu.edu.vn/chungchitinhoc/public/images/loading46.gif" width="5%" style="margin-left: 50%;">');
-
-            $.get("ajax/dotcap/"+ID,function(data){
-                $("#dotvb").html(data);
-            });
-
-             $.get("ajax/bangxetduyethocvien/"+ID,function(data){
-                $("#body_banghocvien").html(data);
-            });
-
-             $("#dotvb").change(function(){
-
-               $("#body_banghocvien").html('<img src="http://www.cit.ctu.edu.vn/chungchitinhoc/public/images/loading46.gif" width="5%" style="margin-left: 50%;">');
-
-            let IDdotcap = $("#dotvb").val();
-
-             $.get("ajax/bangxetduyethocvien/"+ID +"/"+IDdotcap,function(data){
-
-                $("#body_banghocvien").html(data);
-
-              });
-
-            });
-
-
-          });
-
+        $("#table_hocvien").DataTable({
+          "language": {
+             "lengthMenu": "Xem _MENU_ mục",
+            "zeroRecords": "Không tìm thấy dòng nào phù hợp",
+            "info": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+            "sSearch":       "Tìm kiếm :",
+            "infoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+            "infoFiltered": "(được lọc từ _MAX_ mục)",
+            "oPaginate":{
+                  "sFirst":    "Đầu",
+                  "sPrevious": "Trước",
+                  "sNext":     "Tiếp",
+                  "sLast":     "Cuối",
+            }
+                      },
+            "pagingType": "full_numbers",
+            "scrollX": true,
+            "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "Tất cả"]]
         });
-    </script>
-  <script type="text/javascript">
-    //$('#tenvb').editableSelect();
-    //$('#dotvb').editableSelect();
-    $('#loctrangthai').editableSelect();
-    $('#tenvanbang').editableSelect();
-    $('#dotcapvanbang').editableSelect();
-    $('#gioitinh').editableSelect();
-    $('#ngaysinh').datepicker({format: 'dd/mm/yyyy'});
-    $('#ngaykt').datepicker({format: 'dd/mm/yyyy'});
-    $('#ngayky').datepicker({format: 'dd/mm/yyyy'});
-    $('#ct_ngaysinh').datepicker({format: 'dd/mm/yyyy'});
-    $('#ct_ngaykt').datepicker({format: 'dd/mm/yyyy'});
-    $('#ct_ngayky').datepicker({format: 'dd/mm/yyyy'});
-    $("#thongbao").fadeOut(10000);
-  </script>
+});
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#tenvb').change(function(){
+      var ID = $(this).val();
+      $.get("ajax/tenlopthi/"+ID,   
+          function(data) { 
+            $('#lopthi').html(data);
+          });
+    });
+
+    $('#lopthi').change(function(){
+      var ID = $(this).val();
+      $.get("ajax/bangxetduyethocvien/"+ID,   
+          function(data) { 
+            $('#body_banghocvien').html(data);
+          });
+    });
+  });
+</script>
+<script type="text/javascript">
+//$('#tenvb').editableSelect();
+//$('#dotvb').editableSelect();
+  $('#loctrangthai').editableSelect();
+  $('#tenvanbang').editableSelect();
+  $('#dotcapvanbang').editableSelect();
+  $('#gioitinh').editableSelect();
+  $('#ngaysinh').datepicker({format: 'dd/mm/yyyy'});
+  $('#ngaykt').datepicker({format: 'dd/mm/yyyy'});
+  $('#ngayky').datepicker({format: 'dd/mm/yyyy'});
+  $('#ct_ngaysinh').datepicker({format: 'dd/mm/yyyy'});
+  $('#ct_ngaykt').datepicker({format: 'dd/mm/yyyy'});
+  $('#ct_ngayky').datepicker({format: 'dd/mm/yyyy'});
+  $("#thongbao").fadeOut(10000);
+</script>
   <script type="text/javascript">
     $(document).ready(function(){
       let tenvb = $("#tenvb").val();

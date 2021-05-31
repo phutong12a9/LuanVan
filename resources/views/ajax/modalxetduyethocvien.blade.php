@@ -19,7 +19,7 @@
             <div class="form-group">
               <label class="col-lg-4 control-label">Tên Lớp</label>
               <div class="col-lg-8">
-                <select id="xd_tenvanbang" name="xd_tenvanbang" class="form-control" disabled="true">
+                <select id="xd_tenvanbang" name="xd_tenvanbang" class="form-control" readonly>
                   @foreach($chitiethocvien as $chitiethocvien)
                   <option value="{{$chitiethocvien->ID}}">{{$chitiethocvien->TenLop}}</option>
                   @endforeach
@@ -37,13 +37,13 @@
             <div class="form-group">
               <label class="col-lg-4 control-label">Họ tên người được cấp</label>
               <div class="col-lg-8">
-                <input type="text" name="xd_hoten" class="form-control" placeholder="Nhập họ tên" value="{{$chitiethocvien->HoTenHV}}" disabled="true">
+                <input type="text" name="xd_hoten" class="form-control" placeholder="Nhập họ tên" value="{{$chitiethocvien->HoTenHV}}" readonly>
               </div>
             </div>
             <div class="form-group">
               <label class="col-lg-4 control-label">Giới tính</label>
               <div class="col-lg-8">
-                <select id="xd_gioitinh" name="xd_gioitinh" class="form-control" style="width: 40%" disabled="true">
+                <select id="xd_gioitinh" name="xd_gioitinh" class="form-control" style="width: 40%" readonly>
                   <option value="{{$chitiethocvien->GioiTinh}}">{{$chitiethocvien->GioiTinh}}</option>
                 </select>
               </div>
@@ -53,7 +53,7 @@
               <div class="col-lg-8">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" for="xd_ngaysinh"></i></span>
-                  <input type="text" name="xd_ngaysinh" id="xd_ngaysinh" class="form-control" style="width: 40%" placeholder="Nhập ngày sinh" value="{{date('d/m/Y', strtotime($chitiethocvien->NgaySinh))}}" disabled="true">
+                  <input type="text" name="xd_ngaysinh" id="xd_ngaysinh" class="form-control" style="width: 40%" placeholder="Nhập ngày sinh" value="{{date('d/m/Y', strtotime($chitiethocvien->NgaySinh))}}" readonly>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@
               <div class="col-lg-8 ">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                  <select name= "xd_noisinh" class="form-control" id="chitietnoisinh" disabled="true">
+                  <select name= "xd_noisinh" class="form-control" id="chitietnoisinh" readonly>
                     <option value="{{$chitiethocvien->NoiSinh}}" >{{$chitiethocvien->NoiSinh}}</option>
                   </select>
                 </div>
@@ -73,14 +73,14 @@
               <div class="col-lg-8">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" for="xd_ngaykt"></i></span>
-                  <input type="text" name="xd_ngaykt" id="xd_ngaykt" class="form-control" style="width: 40%"value="{{date('d/m/Y', strtotime($chitiethocvien->ThoiGianThi))}}" disabled="true">
+                  <input type="text" name="xd_ngaykt" id="xd_ngaykt" class="form-control" style="width: 40%"value="{{date('d/m/Y', strtotime($chitiethocvien->ThoiGianThi))}}" readonly>
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-lg-4 control-label">Xếp loại</label>
+              <label class="col-lg-4 control-label">Kết Quả</label>
               <div class="col-lg-8">
-                <input type="text" name="xd_xeploai" class="form-control" placeholder="Xếp loại" value="{{$chitiethocvien->XepLoai}}" disabled="true">
+                <input type="text" name="xd_xeploai" class="form-control" placeholder="Kết Quả" value="{{$chitiethocvien->KetQua}}" readonly>
               </div>
             </div>
             <div class="form-group">
@@ -88,7 +88,7 @@
               <div class="col-lg-8">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" for="xd_ngayky"></i></span>
-                  <input type="text" name="xd_ngayky" id="xd_ngayky" class="form-control"style="width: 40%"value="{{date('d/m/Y', strtotime($chitiethocvien->NgayKy))}}" disabled="true">
+                  <input type="text" name="xd_ngayky" id="xd_ngayky" class="form-control"style="width: 40%"value="{{date('d/m/Y', strtotime($chitiethocvien->NgayKy))}}" readonly>
                 </div>
               </div>
             </div>

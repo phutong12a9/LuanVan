@@ -46,7 +46,7 @@ class VanBangController extends Controller {
 		$arr['NgayKy'] = Carbon::createFromFormat('d/m/Y', $req->ct_ngayky)->format('Y-m-d');
 		$arr['SoHieu'] = $req->ct_sohieu;
 		$arr['SoVaoSo'] = $req->ct_sovaoso;
-		$arr['TrangThai'] = "Chờ duyệt";
+		$arr['XetDuyet'] = "Chờ duyệt";
 		$arr['ThoiGian'] = date('Y-m-d');
 		$xetduyet::where("ID", $id)->update($arr);
 		return redirect()->back()->with('themthanhcong', 'Đã cập nhật thành công.');

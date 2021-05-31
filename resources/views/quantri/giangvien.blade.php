@@ -50,7 +50,12 @@
             <td style="border: 2px solid rgba(192,192,192,0.8)">{{$gv->DiaChi}}</td>
             <td style="border: 2px solid rgba(192,192,192,0.8)">{{$gv->SDT}}</td>
             <td style="border: 2px solid rgba(192,192,192,0.8)">{{$gv->Email}}</td>
-            <td style="border: 2px solid rgba(192,192,192,0.8)"></td>
+            <td style="border: 2px solid rgba(192,192,192,0.8)">
+              <center>
+                <a href=""><i class="glyphicon glyphicon-edit"></i>&nbsp;</a> &nbsp
+                <a href="" onclick="return confirm ('Bạn chắc chắn muốn xóa?')"><i class="glyphicon glyphicon-trash"></i>&nbsp;</a>
+                </center>
+            </td>
           </tr>
           @endforeach
         </tbody>

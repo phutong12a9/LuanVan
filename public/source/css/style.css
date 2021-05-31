@@ -66,6 +66,7 @@ a:hover {
 }
 
 .footer {
+	padding: 30px 0px;
 	border-top: 2px solid blue;
 	border-bottom: 1px solid;
 	text-align: center;
@@ -140,4 +141,10 @@ a:hover {
 .navbar-inverse-collapse .navbar-nav .dropdown a {
 	text-decoration: none;
 	background: none;
+}
+table thead tr{
+	font-size: 12px;
+}
+table tbody tr td {
+	font-size: 12px;
 }

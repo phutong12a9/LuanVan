@@ -1,19 +1,20 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\hocviendangky;
 use App\hocvien;
 use App\lop;
+use App\lophoc;
 use App\thongbao;
 use DB;
 use Session;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Mail;
 
 class TrangChuController extends Controller {
 	public function getTrangchu() {
-		$thongbao = DB::table('thongbao')->orderBy('ID', 'DESC')->get();
+		$thongbao = DB::table('thongbao')->orderBy('ID', 'DESC')->paginate(6);
 		return view('trangchu.trangchu', compact('thongbao'));
 	}
 
@@ -43,11 +44,16 @@ class TrangChuController extends Controller {
                                 WHERE khoahoc.ID_Khoa = khoa.ID
                                 		AND khoahoc.TrangThai   = "Đang Mở"
                                 ');
-		return view('trangchu.dangkychungchi', compact('khoahoc'));
+			$lophoc = lophoc::select('*')->orderBy('TenLop')->get();
+		return view('trangchu.dangkychungchi', compact('khoahoc','lophoc'));
 	}
 
 	public function postDangkylophoc(Request $req) {
 
+			$khoahoc = DB::select('SELECT *
+								FROM khoahoc,lophoc
+								WHERE khoahoc.ID = lophoc.ID_KhoaHoc
+									AND lophoc.ID =?',[$req ->lop]);
 			$hocvien = new hocvien;
 			$hocvien->HoTenHV = $req->hoten;
 			$hocvien->GioiTinh = $req->gioitinh;
@@ -66,9 +72,28 @@ class TrangChuController extends Controller {
 			$lop = new lop;
 			$lop->ID_LopHoc = $req ->lop;
 			$lop->ID_HocVienDK = $hocviendangky->id;
-			$lop->TrangThai = "Chưa nhập điểm";
 			$lop->save();
-			return redirect()->route('dang-ky-lop-hoc')->with('dangkythanhcong', 'Đã đăng ký thành công.');
+
+			 $data = array(
+	            'HoTenHV' => $req->hoten,
+	            'GioiTinh' => $req->gioitinh,
+	            'NgaySinh' =>Carbon::createFromFormat('d/m/Y', $req->ngaysinh)->format('Y-m-d'),
+	            'NoiSinh' => $req->noisinh, 
+	            'SDT' => $req->sdt, 
+	            'Email' => $req->email, 
+	            'Lop' => $khoahoc[0]->TenLop, 
+	            'Khoa' => $khoahoc[0]->TenKhoa,
+	            'HocPhi' => $khoahoc[0]->HocPhi,
+	            'KhaiGiang' => $khoahoc[0]->NgayKhaiGiang,    
+
+	            );
+
+			//  Mail::send('email.email', ['data' => $data], function ($m) use ($data) {            
+   //          $m->from('phutong12a9@gmail.com', 'TRUNG TÂM NGOẠI NGỮ TIN HỌC CTUT')->subject('TRUNG TÂM NGOẠI NGỮ TIN HỌC CTUT');
+   //          $m->to($data['Email'],$data['HoTenHV']);
+   //      	});
+			// return view('email.email',compact('data'));
+			 return redirect()->back()->with('themthanhcong','Đăng ký thành công');
 	}
 
 	public function getHuydangkychungchi($id) {

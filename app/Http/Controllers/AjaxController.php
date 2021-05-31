@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\lophoc;
 use App\lop;
 use App\hocviendangky;
+use App\lopthi;
 class AjaxController extends Controller
 {
     public function getTenKhoahoc($id){
@@ -24,16 +25,13 @@ class AjaxController extends Controller
     }
 
     public function getBanghocvien($id){
-    	$xetduyet = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai, hocviendangky.XetDuyet as XetDuyet
-                                FROM hocviendangky, hocvien, lop, ketquathi,khoahoc,chungchi
+    	$xetduyet = DB::select('SELECT  hocvien.* , ketquathi.KetQua, danhsachthi.ID as SBD,lopthi.ThoiGianThi,XetDuyet ,hocviendangky.ID as ID
+                                FROM hocviendangky, hocvien, lopthi, ketquathi,danhsachthi
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
-                                    AND hocviendangky.ID = lop.ID_HocVienDK
-                                    AND lop.ID = ketquathi.ID_Lop
-                                    AND hocviendangky.ID_Khoa = khoahoc.ID
-                                    AND chungchi.ID = khoahoc.ID_ChungChi
-                                    AND lop.TrangThai = "Đã Nhập Điểm"
-                                    AND hocviendangky.XetDuyet = "Chờ duyệt"
-                                    AND chungchi.ID = ?
+                                    AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                    AND danhsachthi.ID_LopThi = lopthi.ID
+                                    AND danhsachthi.TrangThai = "Đã Nhập Điểm"
+                                    AND lopthi.ID = ?
                                 ORDER BY ketquathi.ThoiGian DESC',[$id]);
     	return view('ajax.banghocvien',compact('xetduyet'));
     }
@@ -48,22 +46,25 @@ class AjaxController extends Controller
                                     AND lop.TrangThai = "Đã Nhập Điểm"
                                     AND hocviendangky.XetDuyet = "Chờ duyệt"
                                 ORDER BY ketquathi.ThoiGian DESC');
-        return view('ajax.banghocvien',compact('xetduyet'));
+        return view('ajax.banghocvienchungchi',compact('xetduyet'));
     }
 
     public function getChitiethocvien(Request $req,$id){
         
-            $chitiethocvien = DB::select('SELECT hocviendangky.ID as ID ,hocviendangky.SoHieu as SoHieu, hocviendangky.SoVaoSo as SoVaoSo, hocviendangky.NgayKy as NgayKy, hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai,lophoc.TenLop as TenLop
-                                        FROM hocvien, hocviendangky,khoahoc,lop,ketquathi,lophoc
+            $chitiethocvien = DB::select('SELECT hocviendangky.*, hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh, hocvien.NoiSinh, lopthi.ThoiGianThi as ThoiGianThi, ketquathi.KetQua as KetQua,lophoc.TenLop
+                                        FROM hocvien, hocviendangky,lopthi,ketquathi,lophoc,lop,danhsachthi
                                         WHERE   hocvien.ID = hocviendangky.ID_HocVien
-                                            AND khoahoc.ID = hocviendangky.ID_Khoa
-                                            AND hocviendangky.ID = lop.ID_HocVienDK
-                                            AND lop.ID = KetQuaThi.ID_Lop
-                                            AND lop.ID_LopHoc = lophoc.ID
-                                            AND hocviendangky.ID =?',[$id]);
+                                           AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                           AND danhsachthi.ID_LopThi = lopthi.ID
+                                           AND danhsachthi.ID = ketquathi.ID_DanhSachThi
+                                           AND hocviendangky.ID = lop.ID_HocVienDK
+                                           AND lop.ID_LopHoc = lophoc.ID
+                                           AND hocviendangky.ID =?',[$id]);
             $chungchi = chungchi::all();
             $idhocvien = hocviendangky::where("ID",$id)->get();
-            $html= view('ajax.modalchitiethocvien',compact('chitiethocvien','chungchi','idhocvien'))->render();            return response([
+            $kiemtraduyet = hocviendangky::where("ID",$id)->first();
+            $html= view('ajax.modalchitiethocvien',compact('chitiethocvien','chungchi','idhocvien','kiemtraduyet'))->render();            
+            return response([
                 'html'=>$html
             ]);        
         
@@ -71,15 +72,13 @@ class AjaxController extends Controller
     }
 
     public function getBangxetduyethocvien($id){
-        $xetduyet = DB::select('SELECT hocviendangky.ID as ID , hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai, hocviendangky.XetDuyet as XetDuyet
-                                FROM hocviendangky, hocvien, lop, ketquathi,khoahoc,chungchi
+        $xetduyet = DB::select('SELECT  hocvien.* , ketquathi.KetQua, danhsachthi.ID as SBD,lopthi.ThoiGianThi,XetDuyet ,hocviendangky.ID as ID
+                                FROM hocviendangky, hocvien, lopthi, ketquathi,danhsachthi
                                 WHERE   hocviendangky.ID_HocVien = hocvien.ID
-                                    AND hocviendangky.ID = lop.ID_HocVienDK
-                                    AND lop.ID = ketquathi.ID_Lop
-                                    AND hocviendangky.ID_Khoa = khoahoc.ID
-                                    AND chungchi.ID = khoahoc.ID_ChungChi
-                                    AND lop.TrangThai = "Đã Nhập Điểm"
-                                    AND chungchi.ID = ?
+                                    AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                    AND danhsachthi.ID_LopThi = lopthi.ID
+                                    AND danhsachthi.TrangThai = "Đã Nhập Điểm"
+                                    AND lopthi.ID = ?
                                 ORDER BY ketquathi.ThoiGian DESC',[$id]);
         return view('ajax.bangxetduyethocvien',compact('xetduyet'));
     }
@@ -97,25 +96,25 @@ class AjaxController extends Controller
 
      public function getXetduyethocvien(Request $req,$id){
         if ($req->ajax()) {
-            $chitiethocvien = DB::select('SELECT hocviendangky.ID as ID ,hocviendangky.SoHieu as SoHieu, hocviendangky.SoVaoSo as SoVaoSo, hocviendangky.NgayKy as NgayKy, hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh as NgaySinh, hocvien.NoiSinh as NoiSinh, khoahoc.ThoiGianThi as ThoiGianThi, ketquathi.XepLoai as XepLoai,lophoc.TenLop as TenLop
-                                        FROM hocvien, hocviendangky,khoahoc,lop,ketquathi,lophoc
+            $chitiethocvien = DB::select('SELECT hocviendangky.*, hocvien.HoTenHV as HoTenHV, hocvien.GioiTinh as GioiTinh, hocvien.NgaySinh, hocvien.NoiSinh, lopthi.ThoiGianThi as ThoiGianThi, ketquathi.KetQua as KetQua,lophoc.TenLop
+                                        FROM hocvien, hocviendangky,lopthi,ketquathi,lophoc,lop,danhsachthi
                                         WHERE   hocvien.ID = hocviendangky.ID_HocVien
-                                            AND khoahoc.ID = hocviendangky.ID_Khoa
-                                            AND hocviendangky.ID = lop.ID_HocVienDK
-                                            AND lop.ID = KetQuaThi.ID_Lop
-                                            AND lop.ID_LopHoc = lophoc.ID
-                                            AND hocviendangky.ID =?
-                                        ORDER BY hocviendangky.ThoiGian DESC',[$id]);
+                                           AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                           AND danhsachthi.ID_LopThi = lopthi.ID
+                                           AND danhsachthi.ID = ketquathi.ID_DanhSachThi
+                                           AND hocviendangky.ID = lop.ID_HocVienDK
+                                           AND lop.ID_LopHoc = lophoc.ID
+                                           AND hocviendangky.ID =?',[$id]);
             $kiemtraduyet = hocviendangky::where("ID",$id)->get();
             $hocvien = DB::select('SELECT hocviendangky.ID as ID
-                                        FROM hocvien, hocviendangky,khoahoc,lop,ketquathi,lophoc
+                                        FROM hocvien, hocviendangky,lopthi,ketquathi,lophoc,lop,danhsachthi
                                         WHERE   hocvien.ID = hocviendangky.ID_HocVien
-                                            AND khoahoc.ID = hocviendangky.ID_Khoa
-                                            AND hocviendangky.ID = lop.ID_HocVienDK
-                                            AND lop.ID = KetQuaThi.ID_Lop
-                                            AND lop.ID_LopHoc = lophoc.ID
-                                            AND hocviendangky.ID =?
-                                        ORDER BY hocviendangky.ThoiGian DESC',[$id]);
+                                           AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                           AND danhsachthi.ID_LopThi = lopthi.ID
+                                           AND danhsachthi.ID = ketquathi.ID_DanhSachThi
+                                           AND hocviendangky.ID = lop.ID_HocVienDK
+                                           AND lop.ID_LopHoc = lophoc.ID
+                                           AND hocviendangky.ID =?',[$id]);
             $html= view('ajax.modalxetduyethocvien',compact('chitiethocvien','kiemtraduyet','hocvien'))->render();
             // dd($html);
             return response([
@@ -187,29 +186,19 @@ class AjaxController extends Controller
         }
         
     }
-    public function getLophoc($id){
+    public function getHocvienlophoc($id){
 
-        $lophoc = DB::select('SELECT HoTenHV,GioiTinh,NgaySinh,NoiSinh,SDT,TenLop
+        $lophoc = DB::select('SELECT HoTenHV,GioiTinh,NgaySinh,NoiSinh,SDT,TenLop,hocviendangky.ID as ID, hocviendangky.TrangThai as TrangThai
                                     FROM hocvien,hocviendangky,lop,lophoc
                                     WHERE   hocvien.ID = hocviendangky.ID_HocVien
                                         AND hocviendangky.ID = lop.ID_HocVienDK
                                         AND lop.ID_LopHoc = lophoc.ID
                                         AND lophoc.ID =?
-                                    ORDER BY HoTenHV',[$id]);
-        return view('ajax.banglophoc',compact('lophoc'));
+                                    ORDER BY TrangThai DESC',[$id]);
+        return view('ajax.banghocvienlophoc',compact('lophoc'));
     }
 
-        public function getLop($id){
-
-        $lop = DB::table('lophoc')->join('khoahoc','khoahoc.ID','lophoc.ID_KhoaHoc')
-                                    ->select('lophoc.*')
-                                    ->where('khoahoc.ID',$id)
-                                    ->get();
-       return view('ajax.lophoc',compact('lop'));
-      
-    }
-
-    public function getKhoahoc($id){
+    public function getHocvienkhoahoc($id){
 
         // $lophoc = DB::select('SELECT lophoc.ID as ID ,HoTenHV,GioiTinh,NgaySinh,NoiSinh,SDT,lopchungchi.TenLop as TenLop, hocviendangky.TrangThai as TrangThai
         //                             FROM hocvien,hocviendangky,lophoc,lopchungchi
@@ -218,47 +207,46 @@ class AjaxController extends Controller
         //                                 AND hocviendangky.ID_Lop = lopchungchi.ID
                                         
         //                                 AND lopchungchi.ID =?',[$id]);
-         $khoahoc = DB::select("SELECT hocvien.*, TenLop, hocviendangky.TrangThai as TrangThai
-                                FROM hocvien,hocviendangky,khoahoc,lophoc 
-                                WHERE 	hocvien.Id = hocviendangky.ID_HocVien
-                                    AND hocviendangky.ID_Khoa = khoahoc.ID
-                                    AND khoahoc.ID = lophoc.ID_KhoaHoc
-                                    AND khoahoc.ID=?",[$id]);
-        return view('ajax.bangkhoahoc',compact('khoahoc'));
-    }
-    public function banghocvienlophoc($id){
-        $loailophoc = DB::select('SELECT  DISTINCT TenDanhMuc
-                                    FROM danhmuc,chungchi,khoahoc,lophoc
-                                    WHERE   danhmuc.ID = chungchi.ID_DanhMuc
-                                        AND chungchi.ID = khoahoc.ID_ChungChi
-                                        AND khoahoc.ID = lophoc.ID_KhoaHoc
-                                        AND lophoc.ID = ?',[$id]);
-        $hocvien = DB::select('SELECT HoTenHV,GioiTinh,NgaySinh,NoiSinh,lop.ID as ID,DiemNghe,DiemNoi,DiemDoc,DiemViet,DiemLyThuyet,DiemThucHanh,KetQua,GhiChu
-                                FROM hocvien,hocviendangky,lop,lophoc,ketquathi
-                                WHERE   hocvien.ID = hocviendangky.ID_HocVien
+         $khoahoc = DB::select("SELECT hocvien.*, hocviendangky.TrangThai as TrangThai, hocviendangky.ID as ID
+                                FROM hocvien,hocviendangky,khoahoc,lop
+                                WHERE 	hocvien.ID = hocviendangky.ID_HocVien
                                     AND hocviendangky.ID = lop.ID_HocVienDK
-                                    AND lop.ID_LopHoc = lophoc.ID
-                                    AND lop.ID = ketquathi.ID_Lop
-                                    AND lophoc.ID = ?',[$id]);
-        $lophoc = lophoc::all();
-        return view('ajax.banghocvienlophoc',compact('hocvien','loailophoc','lophoc'));
+                                    AND hocviendangky.TrangThai = 'Đã Đóng Học Phí'
+                                    AND khoahoc.ID=?
+                                ORDER BY hocvien.HoTenHV",[$id]);
+        return view('ajax.banghocvienkhoahoc',compact('khoahoc'));
+    }
+    public function bangdanhapdiem($id){
+         $loailophoc = DB::select('SELECT  TenChungChi
+                                    FROM lopthi,chungchi
+                                    WHERE lopthi.ID_ChungChi = chungchi.ID
+                                        AND lopthi.ID = ?',[$id]);
+         $hocvien = DB::select("SELECT hocvien.*,ketquathi.*,danhsachthi.ID as ID 
+                                FROM hocvien,hocviendangky,danhsachthi,lopthi,ketquathi
+                                WHERE hocvien.ID = hocviendangky.ID_HocVien
+                                    AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                    AND danhsachthi.ID_LopThi = lopthi.ID
+                                    AND danhsachthi.ID = ketquathi.ID_DanhSachThi
+                                    AND danhsachthi.TrangThai = 'Đã Nhập Điểm'
+                                    AND lopthi.ID =? ",[$id]);
+        $lopthi = lopthi::all();
+        return view('ajax.bangdanhapdiem',compact('hocvien','loailophoc','lopthi'));
     }
      public function bangchuanhapdiem($id){
-        $loailophoc = DB::select('SELECT  DISTINCT TenDanhMuc
-                                    FROM danhmuc,chungchi,khoahoc,lophoc
-                                    WHERE   danhmuc.ID = chungchi.ID_DanhMuc
-                                        AND chungchi.ID = khoahoc.ID_ChungChi
-                                        AND khoahoc.ID = lophoc.ID_KhoaHoc
-                                        AND lophoc.ID = ?',[$id]);
-        $hocvien = DB::select('SELECT HoTenHV,GioiTinh,NgaySinh,NoiSinh,lop.ID as ID
-                                FROM hocvien,hocviendangky,lop,lophoc
-                                WHERE   hocvien.ID = hocviendangky.ID_HocVien
-                                    AND hocviendangky.ID = lop.ID_HocVienDK
-                                    AND lop.ID_LopHoc = lophoc.ID
-                                    AND lop.TrangThai = "Chưa Nhập Điểm"
-                                    AND lophoc.ID = ?',[$id]);
-        $lophoc = lophoc::all();
-        return view('ajax.bangchuanhapdiem',compact('hocvien','loailophoc','lophoc'));
+        
+        $loailophoc = DB::select('SELECT  TenChungChi
+                                    FROM lopthi,chungchi
+                                    WHERE lopthi.ID_ChungChi = chungchi.ID
+                                        AND lopthi.ID = ?',[$id]);
+        $hocvien = DB::select("SELECT hocvien.*,danhsachthi.ID as ID
+                                FROM hocvien,hocviendangky,danhsachthi,lopthi
+                                WHERE hocvien.ID = hocviendangky.ID_HocVien
+                                    AND hocviendangky.ID = danhsachthi.ID_HocVienDK
+                                    AND danhsachthi.ID_LopThi = lopthi.ID
+                                    AND danhsachthi.TrangThai = 'Chưa Nhập Điểm'
+                                    AND lopthi.ID =? ",[$id]); 
+        $lopthi = lopthi::all();
+        return view('ajax.bangchuanhapdiem',compact('hocvien','loailophoc','lopthi'));
     }
     public function getTenlop($id){
         $lophoc = DB::table('khoahoc')->join('lophoc','lophoc.ID_KhoaHoc','khoahoc.ID')
@@ -282,5 +270,68 @@ class AjaxController extends Controller
         }
         
     }
+     public function getTenlophp($id){
+        $lophocphan = DB::table('lophocphan')->join('lophoc','lophoc.ID','lophocphan.ID_LopHoc')
+                    ->select('lophocphan.ID as ID','lophocphan.TenLop as TenLop')
+                    ->where('lophoc.ID', $id)
+                    ->get();
+                    echo "<option value=''>-- Chọn lớp học phần --</option>";
+        foreach ($lophocphan as $lophoc) {
+            echo "<option value='{$lophoc->ID}'>{$lophoc->TenLop}</option>";
+        }
+        
+    }
+
+    public function getTenlopthi($id){
+        $lopthi = DB::table('lopthi')->join('chungchi','chungchi.ID','lopthi.ID_ChungChi')
+                    ->select('lopthi.ID as ID','lopthi.TenLopThi as TenLopThi')
+                    ->where('chungchi.ID', $id)
+                    ->get();
+                    echo "<option value=''>-- Chọn lớp thi --</option>";
+        foreach ($lopthi as $lt) {
+            echo "<option value='{$lt->ID}'>{$lt->TenLopThi}</option>";
+        }
+        
+    }
+    public function getLopthi($id){
+        $lopthi = DB::table('chungchi')->join('khoahoc','chungchi.ID','khoahoc.ID_ChungChi')
+                    ->join('lopthi','chungchi.ID','lopthi.ID_ChungChi')
+                    ->select('lopthi.ID as ID','lopthi.TenLopThi as TenLopThi')
+                    ->where('khoahoc.ID', $id)
+                    ->get();
+                    echo "<option value=''>-- Chọn lớp thi --</option>";
+        foreach ($lopthi as $lt) {
+            echo "<option value='{$lt->ID}'>{$lt->TenLopThi}</option>";
+        }
+        
+    }
+    public function getDangkylophoc(Request $req , $id){
+        if ($req->ajax()) {
+        $lophoc = DB::table('lophoc')->join('khoahoc','khoahoc.ID','lophoc.ID_KhoaHoc')
+                                        ->select('lophoc.ID as ID','TenKhoa','TenLop')
+                                        ->where('lophoc.ID',$id)->get();
+        $html= view('ajax.modaldangkylophoc',compact('lophoc'))->render();
+        return response([
+            'html'=>$html
+        ]);        
+        }
+
+    }
+
+    public function getBanglophoc($id){
+        $lophoc = DB::table('lophoc')->join('khoahoc','khoahoc.ID','lophoc.ID_KhoaHoc')
+                                        ->where('khoahoc.ID',$id)->get();
+        return view('ajax.banglophoc',compact('lophoc'));
+    }
+    public function getBanglopchinhthuc($id){
+        $lophoc = DB::select("SELECT hocvien.*
+                                FROM hocvien, hocviendangky, lophocphan, lophocchinhthuc
+                                WHERE hocvien.ID = hocviendangky.ID_HocVien
+                                    AND hocviendangky.ID = lophocchinhthuc.ID_HocVienDK
+                                    AND lophocchinhthuc.ID_LopHP = lophocphan.ID
+                                    AND lophocphan.ID =? ",[$id]); 
+        return view('ajax.banglopchinhthuc',compact('lophoc'));
+    }
+
 
 }

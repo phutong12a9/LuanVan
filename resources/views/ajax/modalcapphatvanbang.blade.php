@@ -22,7 +22,7 @@
                                 <label class="col-lg-4 control-label">Tên văn bằng</label>
                                 <div class="col-lg-8">
                                   <select id="xd_tenvanbang" name="xd_tenvanbang" class="form-control" disabled="true">
-                                   @foreach($chitiethocvien as $chitiethocvien)
+                                   @foreach($lophoc as $lophoc)
                                    <option value="{{$chitiethocvien->ID}}">{{$chitiethocvien->TenLop}}</option>
                                    @endforeach
                                   </select>

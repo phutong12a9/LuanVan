@@ -26,9 +26,10 @@ content: counter(row-num);
   </div>
   <div class="panel panel-default">
     <div class="panel-body" style="line-height: 20px;">
-      <form class="form-horizontal" action="" method="post" role="form" id="form_lopchungchi">
+      <form class="form-horizontal" action="" method="post" role="form" id="form_khoahoc">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <input type="submit" name="" value="Thêm Khóa" formaction="{{route('khoa')}}" class="btn btn-primary">
           <button type="button" class="btn btn-success" style="width: 120px;" id="btn_themmoi">
           <i class="glyphicon glyphicon-plus-sign"></i> Mở khóa học
           </button>
@@ -137,7 +138,7 @@ content: counter(row-num);
               <td>{{$khoahoc->TrangThai}}</td>
               <td>
                 <center>
-                <a href=""><i class="glyphicon glyphicon-pencil"></i>&nbsp;</a> &nbsp
+                <a href=""><i class="glyphicon glyphicon-edit"></i>&nbsp;</a> &nbsp
                 <a href="" onclick="return confirm ('Bạn chắc chắn muốn xóa?')"><i class="glyphicon glyphicon-trash"></i>&nbsp;</a>
                 </center>
               </td>
@@ -211,7 +212,7 @@ content: counter(row-num);
         searchterm = $(this).val();
         $('#bang_lophoc tbody tr').each(function () {
             var sel = $(this);
-            var txt = sel.find('td:eq(7)').text();
+            var txt = sel.find('td:eq(6)').text();
             if (searchterm != 'all') {
                 if (txt.indexOf(searchterm) === -1) {
                     $(this).hide();
@@ -263,13 +264,6 @@ content: counter(row-num);
       }
 
     })
-  });
-</script>
-<script type="text/javascript">
-  $(document).ready(function(){
-    var str = "Khóa 1"
-    var tenkhoa = str.slice(str.indexOf('Khóa')+1);
-    console.log(tenkhoa);
   });
 </script>
 @endsection

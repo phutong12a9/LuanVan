@@ -1,7 +1,7 @@
 @if(session()->has('canbo'))
 @extends('quantri')
 @section('content')
-<title>Lớp Học</title>
+<title>Lớp Học Phần</title>
 <style type="text/css">
   table {
     counter-reset: row-num;
@@ -16,28 +16,7 @@
   }
 </style>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <center><h3>Mở Lớp Học</h3></center>
-  <div class="panel panel-default">
-    <div class="panel-body" style="line-height: 20px;">
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-        <div class="form-group">
-          <select id="khoahoc" class="form-control" style="width: 90%">
-            <option value="all">Tất Cả</option>
-            @foreach($khoa as $kh)
-            <option value="{{$kh->ID}}">{{$kh->Ten}}</option>
-            @endforeach
-          </select>
-        </div>
-      </div>
-      <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-        <div class="form-group">
-          <select class="form-control" id="tenkhoa" style="width: 90%">
-
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
+  <center><h3>Lớp Học Phần</h3></center>
 </div>
 <div class="panel panel-default">
   <form class="form-horizontal" action="" method="post">
@@ -45,31 +24,28 @@
     <div class="panel-body">
       <div id="body_banglophoc">
         <div class="btnChucNang" style="padding-bottom: 20px;">
-          <button type="button"class="btn btn-primary" id="btn_MoLop" data-toggle="modal" data-target="#Modal_Lop">Mở Lớp Học</button>
+          <button type="button"class="btn btn-primary" id="btn_MoLop" data-toggle="modal" data-target="#Modal_LopHP">Mở Lớp Học Phần</button>
         </div>
-        <table class="table table-striped" id="bang_lophoc">  
+        <table class="table table-striped" id="bang_lophocphan">
           <thead >
             <tr>
               <th></th>
               <th>Tên Lớp</th>
-              <th>Ngày Học</th>
-              <th>Buổi Học</th>
-              <th>Thời Gian Học</th>
+              <th>Giảng Viên</th>
               <th>Thao Tác</th>
             </tr>
           </thead>
           <tbody id="myTable">
-            @foreach($lophoc as $lh)
+            @foreach($lophocphan as $lhp)
             <tr>
               <td></td>
-              <td>{{$lh->TenLop}}</td>
-              <td>Thứ {{$lh->NgayHoc}}</td>
-              <td>{{$lh->BuoiHoc}}</td>
-              <td>{{$lh->ThoiGianHoc}}</td>
-              <td>
+              <td>{{$lhp->TenLop}}</td>
+              <td>{{$lhp->HoTenGV}}</td>
+             <td>
                 <center>
-                <a href=""><i class="glyphicon glyphicon-edit"></i>&nbsp;</a> &nbsp
-                <a href="" onclick="return confirm ('Bạn chắc chắn muốn xóa?')"><i class="glyphicon glyphicon-trash"></i>&nbsp;</a>
+                <a href="{{route('sap-xep-lop',$lhp->ID)}}" title="Chi tiết"><i class="glyphicon glyphicon-list"></i>&nbsp;</a> &nbsp
+                <a href="" title="Chỉnh sửa"><i class="glyphicon glyphicon-edit"></i>&nbsp;</a> &nbsp
+                <a href="" title="Xóa" onclick="return confirm ('Bạn chắc chắn muốn xóa?')"><i class="glyphicon glyphicon-trash"></i>&nbsp;</a>
                 </center>
               </td>
             </tr>
@@ -80,18 +56,19 @@
     </div>
   </form>
 </div>
+
 <!--Kết thúc body-->
 <!-- Modal -->
-<div id="Modal_Lop" class="modal fade" role="dialog">
+<div id="Modal_LopHP" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <center><h3 class="modal-title">Lớp Học</h3><center>
+        <center><h3 class="modal-title">Mở Lớp Học Phần</h3><center>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{route('lop-hoc-post')}}" class="form-horizontal">
+        <form method="post" action="{{route('post-lop-hoc-phan')}}" class="form-horizontal">
           <input type="hidden" name="_token" value="{{csrf_token()}}">
           <div class="form-group">
             <label class="col-lg-4 control-label">Khóa *</label>
@@ -111,64 +88,27 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-4 control-label">Ngày Học *</label>
-            <div class="col-lg-6">
-              <select class="form-control" id="ngayhoc" name="ngayhoc">
-                <option value=""></option>
-                <option value="2,4,6">Thứ 2,4,6</option>
-                <option value="3,5,7">Thứ 3,5,7</option>
-                <option value="2,3,4">Thứ 2,3,4</option>
-                <option value="3,4,5">Thứ 3,4,5</option>
-                <option value="4,5,6">Thứ 4,5,6</option>
-                <option value="5,6,7">Thứ 5,6,7</option>
-                <option value="6,7,CN">Thứ 6,7,CN</option>
-                <option value="2,3">Thứ 2,3</option>
-                <option value="2,4">Thứ 2,4</option>
-                <option value="2,5">Thứ 2,5</option>
-                <option value="2,6">Thứ 2,6</option>
-                <option value="2,7">Thứ 2,7</option>
-                <option value="2,CN">Thứ 2,CN</option>
-                <option value="3,4">Thứ 3,4</option>
-                <option value="3,5">Thứ 3,5</option>
-                <option value="3,6">Thứ 3,6</option>
-                <option value="3,7">Thứ 3,7</option>
-                <option value="3,CN">Thứ 3,CN</option>
-                <option value="4,5">Thứ 4,5</option>
-                <option value="4,6">Thứ 4,6</option>
-                <option value="4,7">Thứ 4,7</option>
-                <option value="4,CN">Thứ 4,CN</option>
-                <option value="5,6">Thứ 5,6</option>
-                <option value="5,7">Thứ 5,7</option>
-                <option value="5,CN">Thứ 5,CN</option>
-                <option value="6,7">Thứ 6,7</option>
-                <option value="6,CN">Thứ 6,CN</option>
-                <option value="7,CN">Thứ 7,CN</option>
-              </select>
-            </div>
-          </div>
-           <div class="form-group">
-            <label class="col-lg-4 control-label">Buổi Học *</label>
-            <div class="col-lg-6">
-              <select class="form-control" id="buoihoc" name="buoihoc">
-                <option value=""></option>
-                <option value="Sáng">Sáng</option>
-                <option value="Tối">Tối</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
             <label class="col-lg-4 control-label">Tên Lớp</label>
             <div class="col-lg-6">
-              <input type="text" name="tenlop" class="form-control" id="tenlop" readonly>
+              <select class="form-control" name="tenlop" id="tenlop">
+                <option></option>
+              </select>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-4 control-label">Thời Gian Học *</label>
+            <label class="col-lg-4 control-label">Tên Lớp Phần</label>
             <div class="col-lg-6">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                <input type="text" name="thoigianhoc" class="form-control" placeholder="Thời gian học" id="thoigianhoc">
-              </div>
+              <input type="text" name="tenlophp" class="form-control" id="tenlophp">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-4 control-label">Giảng Viên</label>
+            <div class="col-lg-6">
+              <select class="form-control" name="giangvien" id="giangvien">
+                @foreach($giangvien as $gv)
+                <option value="{{$gv->ID}}">{{$gv->HoTenGV}}</option>
+                @endforeach
+              </select>
             </div>
           </div>
           <div class="form-group">
@@ -207,6 +147,52 @@
                 "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "Tất cả"]]
             });
   });
+</script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+            $('#btn_ADD').click(function(){
+              $('#ThemVaoLop').slideToggle("slow");
+            });
+
+             
+        });
+    </script>
+<script type="text/javascript">
+   $(document).ready(function(){
+
+    $("#btn_Them").click(function(e){
+      let lophp = $("#hocphan").val();
+      if (lophp == "null") {
+        alert("Bạn chưa chọn lớp học phần.");
+        e.preventDefault();
+      } 
+      if ($(".checkbox:checked").length == 0) {
+          alert("Bạn chưa chọn học viên nào.");
+          e.preventDefault();
+        }
+       
+      });    
+      $("#btn_ThemLop").click(function(e){
+      let giangvien = $("#giangvien").val();
+      let phonghoc = $("#phonghoc").val();
+      let lophoc = $("#lophoc").val();
+      if (lophoc == "null") {
+        alert("Bạn chưa chọn lớp học.");
+        e.preventDefault();
+      } 
+      if (giangvien == "null") {
+        alert("Bạn chưa chọn giảng viên.");
+        e.preventDefault();
+      } 
+      if (phonghoc == "null") {
+        alert("Bạn chưa chọn phòng học.");
+        e.preventDefault();
+      } 
+      
+       
+      });        
+    });
 </script>
 <script type="text/javascript">
   $('#btn_ThemLop').click(function(){
@@ -260,16 +246,6 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
-       $("#khoahoc").change(function(){
-        let ID = $(this).val();
-         if (ID == "all") {
-          location.reload();
-        }
-        $.get("ajax/tenkhoahoc/"+ID, function(data){
-          $('#tenkhoa').html(data);
-        });
-        $('#tenlophoc').empty();
-      });
       $("#khoa").change(function(){
         let ID = $(this).val();
         $.get("ajax/tenkhoahoc/"+ID, function(data){
@@ -281,24 +257,17 @@
       $("#tenlophoc").change(function(){
         let ID = $("#tenlophoc").val();
         $.get("ajax/lophoc/"+ID,function(data){
-            $("#bang_lophoc").html(data);
-          });
-         $.get("ajax/tenlophp/"+ID,function(data){
-            $("#tenlophp").html(data);
+          $("#bang_lophoc").html(data);
           });
         $("#trangthai").show();
       });
 
-      $("#tenkhoa").change(function(){
-        let ID = $("#tenkhoa").val();
-        // $.get("ajax/khoahoc/"+ID,function(data){
-        //   $("#bang_lophoc").html(data);
-        //   });
+      $("#tenkhoahoc").change(function(){
+        let ID = $("#tenkhoahoc").val();
 
-        $.get("ajax/banglophoc/"+ID,   
+        $.get("ajax/tenlop/"+ID,   
           function(data) { 
-            $('#bang_lophoc').empty();
-            $('#bang_lophoc').html(data);
+            $('#tenlop').html(data);
           });
       });
 
