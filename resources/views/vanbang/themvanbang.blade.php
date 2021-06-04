@@ -2,7 +2,7 @@
 @extends('quantri')
 @section('content')
 <!-- Bắt đầu Body-->
-<title>Thêm Văn Bằng</title>
+<title>Nhập Văn Bằng</title>
 @if(Session::has('themthanhcong'))
 <div class="alert pull-right" id="thongbao" role="alert" style="color: green;font-size: 25px;right: 0px;top:0px;display: block;position: fixed; background: white">
 {{Session::get('themthanhcong')}}
@@ -33,7 +33,7 @@
   }
 </style>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <center><h3>Thêm Văn Bằng</h3></center>
+  <center><h3>Nhập Văn Bằng</h3></center>
   <div class="panel panel-default">
     <div class="panel-body" style="line-height: 20px;">
       <form class="form-horizontal" action="{{route('export-van-bang')}}" method="post" role="form" id="form_chondotcap">
@@ -87,23 +87,13 @@
             <form class="form-horizontal" action="{{route('import-van-bang')}}" method="POST" role="form" id="form_import" enctype="multipart/form-data">
               <input type="hidden" name="_token" value="{{csrf_token()}}">
               <div class="form-group">
-                <label class="col-lg-4 control-label">Tên đơn vị quản lý</label>
+                <label class=" col-lg-4 control-label">Tên đơn vị quản lý</label>
                 <label class="col-lg-8 "> Trung Tâm Ngoại Ngữ - Tin Học CTUT</label>
               </div>
               <div class="form-group">
-                <label class="col-lg-4 control-label">Tên văn bằng</label>
-                <div class="col-lg-8">
-                  <select id="md_tenvanbang" class="form-control" placeholder="Chọn tên văn bằng" name="import_tenvanbang">
-                    <option value="">-- Chọn Tên Văn Bằng --</option>
-                    @foreach($themchungchi as $tenvanbang)
-                    <option value="{{$tenvanbang->ID}}">{{$tenvanbang->TenChungChi}}</option>
-                    @endforeach
-                  </select>
-                  <p id="err_tenvb" hidden="true"></p>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-4"></div>
+                  <label class="col-lg-4 control-label">
+                    File Excel
+                  </label>
                 <div class="col-lg-8">
                   <input type="file" name="file" accept=".xlsx" required="true" id="file-excel">
                 </div>
@@ -112,7 +102,7 @@
                 
               </div>
               <button type="{{route('import-van-bang')}}" class="btn btn-success pull-right" style="width: 120px;" id="btn_import_vb">
-              <i class="glyphicon glyphicon-upload"></i> Import
+              <i class="glyphicon glyphicon-upload"></i> Nhập
               </button>
             </form>
           </div>
@@ -189,7 +179,6 @@
         var data = new Uint8Array(reader.result);
         var wb = XLSX.read(data,{type:'array'});
         var htmlstr = XLSX.write(wb,{sheet:"Sheet1", type:'string',bookType:'html'});
-        console.log(htmlstr);
         $('#table').empty();
         $('#table')[0].innerHTML += htmlstr;
         }

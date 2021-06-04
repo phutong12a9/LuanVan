@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/',[
 	'as'=>'trang-chu',
 	'uses'=>'TrangChuController@getTrangchu'
@@ -194,6 +195,10 @@ Route::group([ 'prefix' => 'hocvien' ] , function(){
 	Route::post('themhocvienlopthi',[
 		'as'=>'them-hoc-vien-lop-thi',
 		'uses'=>'HocvienController@postThemhocvienlopthi'
+	]);
+	Route::post('nhapdiemexport',[
+		'as'=>'nhap-diem-export',
+		'uses'=>'HocvienController@NhapDiemExport'
 	]);
 	
 }); 

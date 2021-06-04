@@ -30,7 +30,7 @@
           </div>
           <!-- Kết thúc banner-->
           <!-- Bắt đầu Navbar-->
-          <div class="col-lg-12"  style="background: #e5e5e5;margin-top:-20px;">
+          <div class="col-lg-12"  style="background: #e5e5e5;margin-top:-20px; z-index: 1;">
             <div class="panel panel-default ">
               <div class="panel-body" style="padding: 4px !important;font-size: 16px; height: 60px;">
                 <div class="navbar navbar-inverse">

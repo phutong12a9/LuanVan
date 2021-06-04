@@ -229,8 +229,8 @@ class AjaxController extends Controller
                                     AND danhsachthi.ID = ketquathi.ID_DanhSachThi
                                     AND danhsachthi.TrangThai = 'Đã Nhập Điểm'
                                     AND lopthi.ID =? ",[$id]);
-        $lopthi = lopthi::all();
-        return view('ajax.bangdanhapdiem',compact('hocvien','loailophoc','lopthi'));
+        $chungchi = chungchi::all();
+        return view('ajax.bangdanhapdiem',compact('hocvien','loailophoc','chungchi'));
     }
      public function bangchuanhapdiem($id){
         
@@ -245,8 +245,8 @@ class AjaxController extends Controller
                                     AND danhsachthi.ID_LopThi = lopthi.ID
                                     AND danhsachthi.TrangThai = 'Chưa Nhập Điểm'
                                     AND lopthi.ID =? ",[$id]); 
-        $lopthi = lopthi::all();
-        return view('ajax.bangchuanhapdiem',compact('hocvien','loailophoc','lopthi'));
+        $chungchi = chungchi::all();
+        return view('ajax.bangchuanhapdiem',compact('hocvien','loailophoc','chungchi'));
     }
     public function getTenlop($id){
         $lophoc = DB::table('khoahoc')->join('lophoc','lophoc.ID_KhoaHoc','khoahoc.ID')

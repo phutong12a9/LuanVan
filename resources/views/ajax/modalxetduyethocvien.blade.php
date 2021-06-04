@@ -128,14 +128,3 @@
   </div>
 </div>
 <!-- Kết Thúc Modal Chi tiết học viên-->
-<!-- <script type="text/javascript">
-$(document).ready(function(){
-$("#xd_tenvanbang").change(function(){
-let ID = $("#xd_tenvanbang").val();
-$.get("ajax/dotcap/"+ID,function(data){
-$("#xd_dotcapvanbang").html(data);
-});
-
-});
-});
-</script> -->

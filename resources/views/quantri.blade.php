@@ -50,7 +50,7 @@
             </div>
             <div class="col-xs-9 col-sm-9 col-md-11 col-lg-11" style="color: white">
               <h4>TRƯỜNG ĐẠI HỌC KỸ THUẬT CÔNG NGHỆ CẦN THƠ</h4>
-              <h5>Hệ Thống Tra Cứu Văn Bằng Chứng Chỉ</h5>
+              <h5>Quản Trị Hệ Thống Trung Tâm</h5>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
                           </li>
                           @if(session()->has('canbo'))
                           <li>
-                            <a href="{{route('them-van-bang')}}" title="Thêm văn bằng">Thêm văn bằng</a>
+                            <a href="{{route('them-van-bang')}}" title="Nhập văn bằng">Nhập văn bằng</a>
                           </li>
                           <li>
                             <a href="{{route('duyet-van-bang')}}" title="Duyệt văn bằng">Duyệt văn bằng</a>

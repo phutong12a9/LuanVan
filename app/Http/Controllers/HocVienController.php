@@ -20,6 +20,7 @@ use App\khoa;
 use Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\NhapDiemImport;
+use App\Exports\NhapDiemExport;
 
 class HocVienController extends Controller
 {
@@ -287,5 +288,9 @@ class HocVienController extends Controller
         }
 
         return redirect()->back()->with('themthanhcong', 'Thêm thành công');
+    }
+    public function NhapDiemExport(Request $req){
+        $type = $req->type;
+        return Excel::download(new NhapDiemExport, 'users.xlsx');
     }
 }
